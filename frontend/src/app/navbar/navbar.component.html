@@ -1,11 +1,21 @@
-<div class="flex items-center justify-around p-8 mobile_nav:justify-between mobile_nav:p-5">
+<div class="absolute w-60 -left-14 -top-14 mobile_nav:hidden"><img class="opacity-25" src="decoration/muruga_vel.jpg"></div>
+
+
+<div class="flex items-center justify-evenly p-8 mobile_nav:justify-between mobile_nav:p-5">
   <h1 class="text-4xl font-arvo font-semibold">SMT.</h1>
+  <div class="mobile_nav:hidden">&nbsp;</div>
+  <div class="mobile_nav:hidden">&nbsp;</div>
+  <div class="mobile_nav:hidden">&nbsp;</div>
   <ul class="flex items-center justify-center gap-x-7 text-xl cursor-pointer mobile_nav:hidden">
     <li routerLink="home" routerLinkActive="border-b-4 border-h-t-color ">Home</li>
     <li routerLink="products"  routerLinkActive="border-b-4 border-h-t-color">Products</li>
     <li routerLink="about"  routerLinkActive="border-b-4 border-h-t-color">About</li>
     <li routerLink="reviews"  routerLinkActive="border-b-4 border-h-t-color">Reviews</li>
   </ul>
+  <div class="mobile_nav:hidden">&nbsp;</div>
+  <div class="mobile_nav:hidden">&nbsp;</div>
+  <div class="mobile_nav:hidden">&nbsp;</div>
+  <div class="mobile_nav:hidden">&nbsp;</div>
   <div *ngIf="isLoggedIn else loginblock" class="text-xl flex items-center  justify-center gap-x-3 cursor-pointer mobile_nav:hidden">
     <img class="w-12 p-2 " src="icons/search.svg">
     <img class="w-12 p-2 rounded-lg bg-h-t-color"  src="icons/cart.svg">
@@ -25,7 +35,7 @@
   </div>
 </div>
 
-<div *ngIf="mobile_menu_view" class="border-2 border-black p-3 w-auto h-auto absolute right-12 rounded-ss-3xl rounded-ee-3xl rounded-es-3xl bg-white transition ease-in-out delay-300" (click)="triggerMenuBtn()">
+<div *ngIf="mobile_menu_view" class="border-2 border-black p-3 w-auto h-auto fixed top-5 right-16 rounded-ss-3xl rounded-ee-3xl rounded-es-3xl bg-white transition ease-in-out delay-300" (click)="triggerMenuBtn()">
   <ul class="flex items-center justify-center gap-y-3 text-xl cursor-pointer flex-col ">
     <li routerLink="home" routerLinkActive="border-b-4 border-h-t-color ">Home</li>
     <li routerLink="products"  routerLinkActive="border-b-4 border-h-t-color">Products</li>

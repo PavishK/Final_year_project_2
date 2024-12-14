@@ -1,0 +1,4 @@
+.responsive_nav_div{
+  @apply border-2 border-black p-3 w-auto h-auto fixed top-5 right-16 rounded-ss-3xl rounded-ee-3xl
+  rounded-es-3xl bg-white transition ease-in-out delay-300
+}
