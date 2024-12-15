@@ -1,4 +1,13 @@
 <div>
   <app-navbar></app-navbar>
-  <router-outlet ></router-outlet>
+
+  <div>
+    <router-outlet ></router-outlet>
+  </div>
 </div>
+
+<button (click)="showSuccess()">Show Success</button>
+<button (click)="showError()">Show Error</button>
+<button (click)="showInfo()">Show Info</button>
+<button (click)="showWarning()">Show Warning</button>
+

@@ -19,6 +19,8 @@ export class NavbarComponent implements OnInit {
         this.mobile_menu_view=false;
     });
 
+    window.addEventListener('scroll',()=>this.mobile_menu_view=false);
+
   }
 
   triggerMenuBtn():void{

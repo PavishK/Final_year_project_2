@@ -1,0 +1,6 @@
+{
+    "editor.autoIndent": "full",
+    "editor.formatOnType": false,
+    "editor.autoClosingBrackets": "languageDefined",
+    "editor.autoClosingOvertype": "always"
+}

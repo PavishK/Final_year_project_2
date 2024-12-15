@@ -4,3 +4,6 @@
 @tailwind utilities;
 
 
+/*Scroll bar hidden*/
+::-webkit-scrollbar{
+display: none;}

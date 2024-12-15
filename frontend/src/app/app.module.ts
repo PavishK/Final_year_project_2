@@ -10,6 +10,9 @@ import { ProductsComponent } from './products/products.component';
 import { AboutComponent } from './about/about.component';
 import { ReviewsComponent } from './reviews/reviews.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +25,13 @@ import { ReviewsComponent } from './reviews/reviews.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+  BrowserAnimationsModule,
+  ToastrModule.forRoot({
+    positionClass: 'toast-top-right',
+    timeOut: 4000,
+    closeButton: false
+ })
   ],
   providers: [],
   bootstrap: [AppComponent]
