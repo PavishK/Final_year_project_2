@@ -12,6 +12,7 @@ import { ReviewsComponent } from './reviews/reviews.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { LoginRegisterComponent } from './login-register/login-register.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { ToastrModule } from 'ngx-toastr';
     HomeComponent,
     ProductsComponent,
     AboutComponent,
-    ReviewsComponent
+    ReviewsComponent,
+    LoginRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -37,3 +39,4 @@ import { ToastrModule } from 'ngx-toastr';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
