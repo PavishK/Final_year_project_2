@@ -14,10 +14,11 @@ module.exports = {
       },
       screens:{
         mobile_nav:{'max':'680px'},
+
       },
       width:{
         landing_img:'750px',
-      }
+      },
     },
   },
   plugins: [],

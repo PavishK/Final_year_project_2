@@ -13,6 +13,12 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { LoginRegisterComponent } from './login-register/login-register.component';
+import { HttpClientModule } from '@angular/common/http';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MatIconModule } from '@angular/material/icon';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { FullScreenLayoutComponent } from './layouts/full-screen-layout/full-screen-layout.component';
+import { CartComponent } from './cart/cart.component';
 
 @NgModule({
   declarations: [
@@ -22,20 +28,28 @@ import { LoginRegisterComponent } from './login-register/login-register.componen
     ProductsComponent,
     AboutComponent,
     ReviewsComponent,
-    LoginRegisterComponent
+    LoginRegisterComponent,
+    MainLayoutComponent,
+    FullScreenLayoutComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-  BrowserAnimationsModule,
-  ToastrModule.forRoot({
+    BrowserAnimationsModule,
+    FormsModule,
+    ToastrModule.forRoot({
     positionClass: 'toast-top-right',
     timeOut: 4000,
     closeButton: false
- })
+ }),
+ HttpClientModule,
+ MatIconModule
   ],
-  providers: [],
+  providers: [
+    provideAnimationsAsync()
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

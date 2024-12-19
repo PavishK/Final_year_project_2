@@ -1,1 +1,56 @@
-<p>login-register works!</p>
+<div class="flex flex-row mobile_nav:flex-col-reverse">
+  <div class="w-96 mobile_nav:hidden flex-1">
+    <img src="decoration/login-register.svg">
+  </div>
+
+  <form *ngIf="loginRegisterVisiability" #loginData="ngForm" (ngSubmit)="loginHandler(loginData)" >
+  <div class="flex-1">
+    <div class="flex items-center justify-center flex-col">
+        <h1 class="font-arvo text-3xl font-semibold uppercase text-h-t-color">sri murugan biscuits</h1>
+        <p class="mt-3">Log in for fresh delights.</p>
+        <div class="grid place-content-center mt-10 mobile_nav:w-auto">
+            <div class="border-2 border-h-t-color flex p-1 items-center rounded-xl">
+                <input type="text" class="border-none p-1 caret-h-t-color text-lg bg-transparent" placeholder="Username or Email" name="identifier" ngModel required>
+                <img class="w-8 mobile_nav:w-5" src="icons/user.svg">
+            </div>
+            <div class="border-2 border-h-t-color flex p-1 items-center rounded-xl mt-7">
+                <input type="password" class="border-none p-1 caret-h-t-color text-lg" placeholder="Password" name="password" ngModel required>
+                <img class="w-8 mobile_nav:w-5" src="icons/password.svg">
+            </div>
+            <button class="p-2 border-none bg-h-t-color text-white font-bold mt-8 text-lg rounded-lg">Login</button>
+        </div>
+        <p class="mt-10 ml-2">Dont't have an account? <span class="text-blue-600 cursor-pointer"(click)="loginRegisterHandler()">register.</span></p>
+    </div>
+  </div>
+</form>
+
+<form *ngIf="!loginRegisterVisiability" #registerData="ngForm"  (ngSubmit)="registerHandler(registerData)">
+  <div  class="flex-1 ">
+    <div class="flex items-center justify-center flex-col">
+        <h1 class="font-arvo text-3xl font-semibold uppercase text-h-t-color">sri murugan biscuits</h1>
+        <p class="mt-3">Register to Explore Our Delights!</p>
+        <div class="grid place-content-center mt-7 mobile_nav:w-auto">
+            <div class="border-2 border-h-t-color flex p-1 items-center rounded-xl">
+                <input type="text" class="border-none p-1 caret-h-t-color text-lg" placeholder="Username" name="name" ngModel required>
+                <img class="w-8 mobile_nav:w-5" src="icons/user.svg">
+            </div>
+        <div class="grid place-content-center mt-7 mobile_nav:w-auto">
+            <div class="border-2 border-h-t-color flex p-1 items-center rounded-xl">
+                <input type="text" class="border-none p-1 caret-h-t-color text-lg" placeholder="E-mail" name="email" ngModel required>
+                <img class="w-8 mobile_nav:w-5" src="icons/email.svg">
+            </div>
+            <div class="border-2 border-h-t-color flex p-1 items-center rounded-xl mt-7">
+                <input type="password" class="border-none p-1 caret-h-t-color text-lg" placeholder="Password" name="password" ngModel required>
+                <img class="w-8 mobile_nav:w-5" src="icons/password.svg">
+            </div>
+            <div class="border-2 border-h-t-color flex p-1 items-center rounded-xl mt-7">
+                <input type="password" class="border-none p-1 caret-h-t-color text-lg" placeholder="Confirm Password" name="confirm_password" ngModel required>
+                <img class="w-8 mobile_nav:w-5" src="icons/password-check.svg">
+            </div>
+            <button class="p-2 border-none bg-h-t-color text-white font-bold mt-7 text-lg rounded-lg">Register</button>
+            <p class="p-2 mt-5 ml-2">Already have an account? <span class="text-blue-600 cursor-pointer" (click)="loginRegisterHandler()">login.</span></p>
+        </div>
+    </div>
+  </div>
+</div>
+</form>

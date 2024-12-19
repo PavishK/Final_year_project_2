@@ -10,10 +10,10 @@ const port=process.env.PORT;
 const mongo_url=process.env.MONGO_URL;
 
 const app=express();
-//http://localhost:4200/
+
 app.use(cors(
     {
-        origin:"*",
+        origin:"http://localhost:4200",
         credentials:true,
 
     }
