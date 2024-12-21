@@ -1,5 +1,7 @@
 import { StorageService } from './../storage.service';
-import { Component,OnInit } from '@angular/core';
+import { Component,OnInit, HostListener } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -7,13 +9,30 @@ import { Component,OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-    constructor(private storage:StorageService){}
+    constructor(private storage:StorageService, private http:HttpClient,private toast:ToastrService){}
 
   public mobile_menu_view:boolean=false;
   public isLoggedIn?:boolean;
   public account_menu_view:boolean=false;
   protected userData?:any;
   public makeLoading:boolean=false;
+
+  //Nav Bar Animation
+  prevScrollPos: number = window.pageYOffset;
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const currentScrollPos = window.pageYOffset;
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
+      if (this.prevScrollPos > currentScrollPos) {
+        navbar.style.top = '0';
+      } else {
+        navbar.style.top = '-70px';
+      }
+    }
+    this.prevScrollPos = currentScrollPos;
+  }
 
   public makeLoaderVisible():void{
     this.makeLoading=true;
@@ -23,6 +42,8 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
 
     //Openening loading...
     this.makeLoaderVisible();
@@ -49,7 +70,32 @@ export class NavbarComponent implements OnInit {
     this.isLoggedIn,this.account_menu_view,this.showModal,this.loginRegisterView=false;
   }
 
+  if(this.isLoggedIn){  this.sessionCheck();}
 
+
+
+  }
+
+  private sessionCheck():void{
+    this.http.get("http://localhost:8080/api/session-protector",{withCredentials:true})
+    .subscribe(
+      (res:any)=>{
+
+        if(res.data.access){
+          // this.toast.success(res.message);
+        }
+        else{
+          this.storage.removeData();
+          this.toast.error(res.message);
+          this.isLoggedIn=false;
+        }
+      },
+      (err)=>{
+        this.storage.removeData();
+        this.toast.error(err.error.message);
+        this.isLoggedIn=false;
+      },
+    )
   }
 
 
