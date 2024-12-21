@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { StorageService } from '../storage.service';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
@@ -10,20 +11,38 @@ import { ToastrService } from 'ngx-toastr';
 export class LoginRegisterComponent {
 
   @Input('loginOrRegister') public loginRegisterVisiability:boolean=true;
-  constructor(private http:HttpClient, private toast:ToastrService){}
+
+  @Output() popupCloser=new EventEmitter<boolean>();
+
+  @Output() userActive=new EventEmitter<boolean>();
+
+  constructor(private http:HttpClient, private toast:ToastrService,private storage:StorageService){}
+
+  public setLoading:boolean=false;
+
+
 
   loginRegisterHandler():void{
     this.loginRegisterVisiability=!this.loginRegisterVisiability;
   }
 
   loginHandler(data:NgForm):void{
+
     if(data.valid){
+      this.setLoading=true;
       this.http.post("http://localhost:8080/api/user/login",data.value,{withCredentials:true})
       .subscribe(
         (res:any)=>{
-          this.toast.success(res.message)
+          this.setLoading=false;
+          this.toast.success(res.message);
+          this.popupCloser.emit(false);
+          this.storage.setData(res.data);
+          this.userActive.emit(true);
         },
-        (err)=>this.toast.error(err.error.message)
+        (err)=>{
+          this.setLoading=false;
+          this.toast.error(err.error.message)
+        }
       )
     }
     else this.toast.error("Please fill out the fields.");
@@ -31,12 +50,20 @@ export class LoginRegisterComponent {
 
   registerHandler(data:NgForm):void{
     if(data.valid){
+      this.setLoading=true;
       this.http.post("http://localhost:8080/api/user/register",data.value,{withCredentials:true})
       .subscribe(
         (res:any)=>{
-          this.toast.success(res.message)
+          this.setLoading=false;
+          this.toast.success(res.message);
+          this.popupCloser.emit(false);
+          this.storage.setData(res.data);
+          this.userActive.emit(true);
         },
-        (err)=>this.toast.error(err.error.message)
+        (err)=>{
+          this.setLoading=false;
+          this.toast.error(err.error.message);
+        }
       )
     }
     else this.toast.error("Please fill out the fields.");

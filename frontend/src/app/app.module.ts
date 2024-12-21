@@ -19,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { FullScreenLayoutComponent } from './layouts/full-screen-layout/full-screen-layout.component';
 import { CartComponent } from './cart/cart.component';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { CartComponent } from './cart/cart.component';
     LoginRegisterComponent,
     MainLayoutComponent,
     FullScreenLayoutComponent,
-    CartComponent
+    CartComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     BrowserModule,
