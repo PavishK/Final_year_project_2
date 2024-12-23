@@ -28,7 +28,7 @@ export class NavbarComponent implements OnInit {
       if (this.prevScrollPos > currentScrollPos) {
         navbar.style.top = '0';
       } else {
-        navbar.style.top = '-70px';
+        navbar.style.top = '-78px';
       }
     }
     this.prevScrollPos = currentScrollPos;
