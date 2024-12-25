@@ -21,7 +21,12 @@ module.exports = {
       },
       width:{
         landing_img:'750px',
+        l_p2:'900px',
+        bsp:'320px'
       },
+      height:{
+        l_p2:'400px',
+      }
     },
   },
   plugins: [],

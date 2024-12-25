@@ -82,7 +82,7 @@ export class NavbarComponent implements OnInit {
       (res:any)=>{
 
         if(res.data.access){
-          // this.toast.success(res.message);
+          this.storage.setData(res.userData);
         }
         else{
           this.storage.removeData();
@@ -111,10 +111,12 @@ export class NavbarComponent implements OnInit {
   public loginRegisterView:boolean=false;
 
   openLoginPopup(){
+    this.makeLoaderVisible();
     this.loginRegisterView=true;
     this.showModal = !this.showModal;
   }
   openRegisterPopup(){
+    this.makeLoaderVisible();
     this.loginRegisterView=false;
     this.showModal = !this.showModal;
   }

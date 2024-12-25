@@ -7,7 +7,7 @@
   <div class="mobile_nav:hidden">&nbsp;</div>
   <div class="mobile_nav:hidden">&nbsp;</div>
   <ul class="flex items-center justify-center gap-x-7 text-xl cursor-pointer mobile_nav:hidden">
-    <li routerLink="home" routerLinkActive="border-b-4 border-h-t-color ">Home</li>
+    <li routerLink="home" routerLinkActive="border-b-4 border-h-t-color">Home</li>
     <li routerLink="products"  routerLinkActive="border-b-4 border-h-t-color">Products</li>
     <li routerLink="about"  routerLinkActive="border-b-4 border-h-t-color">About</li>
     <li routerLink="reviews"  routerLinkActive="border-b-4 border-h-t-color">Reviews</li>
@@ -61,7 +61,7 @@
   <div *ngIf="account_menu_view && isLoggedIn" class=" mt-3  flex items-start justify-start flex-col text-lg gap-y-2 invisible mobile_nav:visible">
     <hr class="w-full bg-black h-1">
     <div class="text-xl">
-      <p class="capitalize">Hello, {{userData.name}}</p>
+      <p class="capitalize">こんにちは, {{userData.name}}</p>
     </div>
     <div class="flex items-center justify-start gap-x-4 ">
       <img class="w-7" src="icons/edit-profile.svg"><span class="hover:scale-110 transition ease-in-out delay-100 hover:underline">Edit Profile</span>
@@ -108,7 +108,7 @@
 
 <div *ngIf="account_menu_view && isLoggedIn" class="mobile_nav:hidden absolute w-auto h-auto bg-white right-5 top-24 text-lg border-2 border-black p-3 rounded-3xl flex items-start justify-start flex-col gap-y-3 cursor-pointer mobile_nav:top-64 mobile_nav:mt-3 mobile_nav: mobile_nav:right-16">
   <div class="text-xl">
-    <p class="capitalize">Hello, {{userData.name}}</p>
+    <p class="capitalize">こんにちは, {{userData.name}}</p>
   </div>
   <div class="flex items-center justify-start gap-x-4 ">
     <img class="w-7" src="icons/edit-profile.svg"><span class="hover:scale-110 transition ease-in-out delay-100 hover:underline">Edit Profile</span>

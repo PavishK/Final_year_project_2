@@ -75,8 +75,12 @@ export const SessionCheck=expressasynchandler(async(req,res)=>{
         if(!jwttoken)
             return res.status(401).json({message:"Please login to continue.",access:false});
         const data=Verify_Token(jwttoken);
-        if(data.access)
-            return res.status(200).json({message:"Session active!",data});
+        if(data.access){
+            const {_id,name,email}=await User.findOne(data._id);
+            return res.status(200).json({message:"Session active!",data,userData:{_id:_id,name:name,email:email}});
+        }
+            
+
         res.clearCookie('jwttoken');
         return res.status(401).json({message:"Session expired!",data});
     }catch(err){

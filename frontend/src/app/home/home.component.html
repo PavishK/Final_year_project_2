@@ -6,10 +6,10 @@
     <div class="w-landing_img mobile_nav:w-auto ">
       <h1 class="text-7xl font-arvo font-semibold text-h-t-color mobile_nav:text-5xl">Sri Murugan<br>Biscuits</h1>
       <p class="font-medium text-lg mt-6 break-words text-justify">At Sri Murugan Biscuit Bakery, our biscuits are crafted to be enjoyed at any time of the day. Designed to suit all climates, they retain their delightful taste and crunch wherever you are. Made with a blend of natural and artificial ingredients, every bite delivers the perfect balance of flavor and freshness!</p>
-      <button class="bg-black h-14 w-52 text-white text-lg mt-6 rounded-lg text-center font-medium">View More</button>
+      <button class="bg-black h-14 w-52 text-white text-lg mt-6 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" (click)="handleMoreBtn()">View More</button>
     </div>
     <div class="w-landing_img mobile_nav:w-auto">
-      <img class="mobile_nav:w-auto h-auto" loading="eager" src="decoration/landing_page_1.jpg" >
+      <img class="w-auto h-auto" loading="eager" src="decoration/landing_page_1.jpg" >
     </div>
   </div>
 
@@ -17,14 +17,62 @@
     <div class="w-full rounded-xl p-3 mobile_nav:p-2 self-center mobile_nav:self-stretch">
       <img src="decoration/bakery_items.jpg" class="rounded-2xl w-full">
     </div>
-    <div class="flex items-start justify-center flex-col gap-y-3 p-3 mobile_nav:p-2">
+    <div class="flex items-start justify-center flex-col gap-y-4 p-3 mobile_nav:p-2">
       <h1 class="text-4xl font-bold font-arvo text-">Fresh & Flavorful: Real and Carefully Selected Ingredients</h1>
       <p class="text-lg font-medium text-justify">
         Welcome to Sri Murugan Biscuits Bakery, where every treat is crafted with real, carefully selected ingredients. We use the finest flours, rich chocolates, and fresh, locally-sourced produce to deliver pure, wholesome flavors. From cookies to cakes, enjoy delightful treats made with freshness you can taste. Indulge in the perfect blend of tradition and quality in every bite.
       </p>
-      <button class="bg-black h-14 w-52 text-white text-lg mt-0 rounded-lg text-center font-medium">View Products</button>
+      <button class="bg-black h-14 w-52 text-white text-lg mt-0 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" (click)="handleProductsBtn()">View Products</button>
     </div>
   </div>
 
+  <div class="p-3 mt-20 flex items-center flex-row justify-between gap-x-5 mobile_nav:flex-col mobile_nav:gap-y-5 mobile_nav:mt-8">
+    <div class="flex items-start justify-start gap-y-5 flex-col ">
+      <h1 class="text-5xl font-medium mobile_nav:text-4xl">Why Choose Us?</h1>
+      <p class="text-lg text-justify font-medium">We deliver freshly baked, handcrafted desserts made with the finest ingredients and care. Our wide range of treats caters to every taste, all at affordable prices. With strict hygiene standards, exceptional customer service, and a convenient online shopping experience, we make every moment sweeter.</p>
+      <button class="bg-black h-14 w-52 text-white text-lg mt-0 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" (click)="handleReviewsBtn()">See Reviews</button>
+    </div>
+
+    <div class="w-auto">
+      <img src="decoration/landing_page_wcu.png" class="w-l_p2 mobile_nav:w-auto mobile_nav:h-auto h-l_p2 object-cover rounded-2xl">
+    </div>
+
+    <div class="flex items-center justify-center flex-col gap-y-5 w-full">
+      <div class="flex items-center justify-center flex-col gap-y-3 border-4 rounded-2xl border-gray-200 shadow-gray-100 shadow-xl ">
+        <img src="icons/coffee.svg" class="w-14 p-2">
+        <h1 class="text-xl font-semibold">Perfectly Paired</h1>
+        <p class="p-2 text-center">Crafted to complement your coffee, delivering a delightful experience with every bite.</p>
+      </div>
+      <div class="flex items-center justify-center flex-col gap-y-3 border-4 rounded-2xl border-gray-200 shadow-gray-100 shadow-xl">
+        <img src="icons/quality.svg" class="w-14 p-2">
+        <h1 class="text-xl font-semibold">Quality Assured</h1>
+        <p class="p-2 text-center">Baked daily to provide consistent taste and satisfaction in every bite.</p>
+      </div>
+    </div>
+  </div>
+
+<div class="flex items-center justify-center flex-col mt-20 gap-y-6 mobile_nav:mt-8 p-3">
+    <h1 class="capitalize font-semibold text-5xl mobile_nav:text-4xl text-center">our best selling product</h1>
+    <p class="text-center text-lg">Discover our best-selling treats – baked fresh and crafted to delight every bite. Your perfect indulgence awaits!</p>
+    <div class="flex items-center justify-center flex-row gap-x-0 mobile_nav:flex-col mobile_nav:gap-y-6 mobile_nav:w-auto">
+      <div class="flex items-center justify-center flex-col gap-y-2 p-2">
+        <img src="items/bread.jpg" class="w-bsp  h-96 mobile_nav:h-60 rounded-2xl object-cover">
+        <h2 class="text-2xl font-bold ">Bread</h2>
+        <p class="text-center text-lg font-normal">"Soft, fresh bread baked to perfection for every meal."</p>
+      </div>
+      <div class="flex items-center justify-center flex-col gap-y-2 p-2 mobile_nav:p-0">
+        <img src="items/coconut_bun.jpg" class="w-bsp h-96 mobile_nav:h-60 rounded-2xl object-cover">
+        <h2 class="text-2xl font-bold">Coconut Bun</h2>
+        <p class="text-center text-lg font-normal">"Sweet, soft Coconut Buns with tropical flavor in every bite."</p>
+      </div>
+      <div class="flex items-center justify-center flex-col gap-y-2 ">
+        <img src="items/special_rusk.jpg" class="w-bsp h-96 mobile_nav:h-60 rounded-2xl object-cover">
+        <h2 class="text-2xl font-bold">Special Rusk</h2>
+        <p class="text-center text-lg font-normal">"Golden, crunchy Special Rusk – perfect for tea time."</p>
+      </div>
+    </div>
+    <button class="bg-black h-14 w-52 text-white text-lg mt-6 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105 mobile_nav:mt-0" (click)="handleProductsBtn()">View More</button>
 </div>
-<div></div>
+
+</div>
+

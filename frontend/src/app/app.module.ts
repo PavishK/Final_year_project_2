@@ -33,7 +33,7 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
     MainLayoutComponent,
     FullScreenLayoutComponent,
     CartComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,
