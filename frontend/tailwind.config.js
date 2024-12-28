@@ -11,6 +11,8 @@ module.exports = {
       },
       colors: {
         'h-t-color': '#F5952C',
+        'footer-color':'#F9F9F9',
+        'footer-text':'#777777',
       },
       fontFamily: {
         arvo: ['"Arvo"', 'serif'],

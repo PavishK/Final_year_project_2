@@ -8,8 +8,12 @@
       <p class="font-medium text-lg mt-6 break-words text-justify">At Sri Murugan Biscuit Bakery, our biscuits are crafted to be enjoyed at any time of the day. Designed to suit all climates, they retain their delightful taste and crunch wherever you are. Made with a blend of natural and artificial ingredients, every bite delivers the perfect balance of flavor and freshness!</p>
       <button class="bg-black h-14 w-52 text-white text-lg mt-6 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" (click)="handleMoreBtn()">View More</button>
     </div>
-    <div class="w-landing_img mobile_nav:w-auto">
-      <img class="w-auto h-auto" loading="eager" src="decoration/landing_page_1.jpg" >
+    <div class="w-landing_img mobile_nav:w-auto mobile_nav:h-auto">
+      <img class="w-auto h-auto"
+      src="decoration/landing_page_1.jpg"
+      srcser="decoration/landing_page_1.jpg 1200w"
+      >
+
     </div>
   </div>
 
@@ -71,7 +75,25 @@
         <p class="text-center text-lg font-normal">"Golden, crunchy Special Rusk – perfect for tea time."</p>
       </div>
     </div>
-    <button class="bg-black h-14 w-52 text-white text-lg mt-6 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105 mobile_nav:mt-0" (click)="handleProductsBtn()">View More</button>
+    <button class="bg-black h-14 w-52 text-white text-lg mt-3 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105 mobile_nav:mt-0" (click)="handleProductsBtn()">View More</button>
+</div>
+
+<div #counterElement class="bg-black grid justify-around items-center grid-flow-col text-white p-3 rounded-3xl mt-8 mobile_nav:grid-flow-row mobile_nav:gap-y-6 gap-1">
+  <div class="text-center flex items-center justify-center gap-1 flex-col">
+    <h1 class="text-4xl font-normal">{{Counter.value1}}+</h1>
+    <hr class="w-full bg-h-t-color h-1">
+    <p>Happy Clients</p>
+  </div>
+  <div class="text-center flex items-center justify-center gap-1 flex-col ">
+    <h1 class="text-4xl font-normal">{{Counter.value2}}</h1>
+    <hr class="w-full bg-h-t-color h-1">
+    <p>Supply Over TamilNadu</p>
+  </div>
+  <div class="text-center flex items-center justify-center gap-1 flex-col">
+    <h1 class="text-4xl font-normal">{{Counter.value3}}%</h1>
+    <hr class="w-full bg-h-t-color h-1">
+    <p>Customer Satisfaction</p>
+  </div>
 </div>
 
 </div>

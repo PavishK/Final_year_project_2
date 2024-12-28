@@ -1,0 +1,31 @@
+<div class="mt-10 flex items-center justify-around flex-row bg-footer-color mobile_nav:flex-col">
+  <div class="flex mobile_nav:items-center mobile_nav:justify-center flex-col gap-y-5 p-3 ">
+    <h1 class="text-4xl font-bold">SMT</h1>
+    <ul class="text-lg font-medium text-gray-600 flex mobile_nav:items-center mobile_nav:justify-center flex-col gap-y-2">
+      <li>{{email}}</li>
+      <li>{{phno}}</li>
+      <li class="w-80 mobile_nav:w-auto mobile_nav:text-center">{{address}}</li>
+    </ul>
+  </div>
+
+  <div class="flex items-start justify-start mobile_nav:items-center mobile_nav:justify-center flex-col gap-y-4 p-3">
+    <h1 class="text-2xl font-semibold">ON OUR SITE</h1>
+    <ul class="cursor-pointer text-lg font-medium text-gray-600 flex items-start justify-start mobile_nav:items-center mobile_nav:justify-center flex-col gap-y-2">
+      <li routerLink="/products">Products</li>
+      <li routerLink="/about">About</li>
+      <li routerLink="/reviews">Reviews</li>
+    </ul>
+  </div>
+
+  <div class="flex items-start justify-start  mobile_nav:items-center mobile_nav:justify-center flex-col gap-y-2 w-96 bg-footer-color mobile_nav:w-auto p-3">
+    <h1 class="text-2xl font-semibold">Subscribe Now</h1>
+    <p class="text-lg text-gray-600 font-medium mobile_nav:text-center"><b>Subscribe</b> and never miss out on new items & deals delivered to your inbox:</p>
+    <div class="flex items-center justify-center flex-col mt-4 w-fit rounded-xl">
+      <input class="w-80 bg-transparent border-gray-600 border-2 p-2  text-lg rounded-ss-xl rounded-se-xl mobile_nav:w-auto mobile_nav:rounded-lg" type="email" placeholder="Email *">
+      <button class="w-80 bg-black text-white font-medium text-lg p-1 rounded-ee-xl rounded-es-xl mobile_nav:w-auto mobile_nav:rounded-lg">Subscribe</button>
+    </div>
+  </div>
+
+</div>
+<hr class="w-full bg-footer-text">
+<p class="text-sm text-gray-600 p-2 flex items-center justify-center bg-footer-color text-center">{{"@ 2024 Sri Murugan Biscuit Bakery, all rights reserved."}}</p>
