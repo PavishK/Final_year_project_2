@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
+import { StorageService } from '../storage.service';
+import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-footer',
@@ -10,7 +13,5 @@ export class FooterComponent {
   public email:string="smt-bakery@gmail.com";
   public phno:string="+91 98427-20663";
   public address:string="63, INDIRA STREET KANJIKOVIL ROAD, PERUNDURAI, Erode, TamilNadu-638052";
-
-  public userEmail:string="";
 
 }

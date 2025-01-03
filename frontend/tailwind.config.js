@@ -16,6 +16,7 @@ module.exports = {
       },
       fontFamily: {
         arvo: ['"Arvo"', 'serif'],
+        pacifico:['"Pacifico"', 'serif'],
       },
       screens:{
         mobile_nav:{'max':'680px'},

@@ -1,12 +1,9 @@
-<div class="absolute -rotate-45 w-20 right-5 top-96 opacity-20 hidden mobile_nav:block"><img src="decoration/cupcake.svg"></div>
-
-
 <div class="ml-24 mr-24 mt-28 mobile_nav:ml-5 mobile_nav:mr-5 mobile_nav:mt-24">
   <div class="flex items-center justify-evenly mobile_nav:flex-col ">
     <div class="w-landing_img mobile_nav:w-auto ">
       <h1 class="text-7xl font-arvo font-semibold text-h-t-color mobile_nav:text-5xl">Sri Murugan<br>Biscuits</h1>
       <p class="font-medium text-lg mt-6 break-words text-justify">At Sri Murugan Biscuit Bakery, our biscuits are crafted to be enjoyed at any time of the day. Designed to suit all climates, they retain their delightful taste and crunch wherever you are. Made with a blend of natural and artificial ingredients, every bite delivers the perfect balance of flavor and freshness!</p>
-      <button class="bg-black h-14 w-52 text-white text-lg mt-6 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" (click)="handleMoreBtn()">View More</button>
+      <button class="bg-black h-14 w-52 text-white text-lg mt-6 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" routerLink="/about">View More</button>
     </div>
     <div class="w-landing_img mobile_nav:w-auto mobile_nav:h-auto">
       <img class="w-auto h-auto"
@@ -26,7 +23,7 @@
       <p class="text-lg font-medium text-justify">
         Welcome to Sri Murugan Biscuits Bakery, where every treat is crafted with real, carefully selected ingredients. We use the finest flours, rich chocolates, and fresh, locally-sourced produce to deliver pure, wholesome flavors. From cookies to cakes, enjoy delightful treats made with freshness you can taste. Indulge in the perfect blend of tradition and quality in every bite.
       </p>
-      <button class="bg-black h-14 w-52 text-white text-lg mt-0 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" (click)="handleProductsBtn()">View Products</button>
+      <button class="bg-black h-14 w-52 text-white text-lg mt-0 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" routerLink="/products">View Products</button>
     </div>
   </div>
 
@@ -34,7 +31,7 @@
     <div class="flex items-start justify-start gap-y-5 flex-col ">
       <h1 class="text-5xl font-medium mobile_nav:text-4xl">Why Choose Us?</h1>
       <p class="text-lg text-justify font-medium">We deliver freshly baked, handcrafted desserts made with the finest ingredients and care. Our wide range of treats caters to every taste, all at affordable prices. With strict hygiene standards, exceptional customer service, and a convenient online shopping experience, we make every moment sweeter.</p>
-      <button class="bg-black h-14 w-52 text-white text-lg mt-0 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105" (click)="handleReviewsBtn()">See Reviews</button>
+      <button class="bg-black h-14 w-52 text-white text-lg mt-0 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105"  routerLink="/reviews">See Reviews</button>
     </div>
 
     <div class="w-auto">
@@ -75,26 +72,43 @@
         <p class="text-center text-lg font-normal">"Golden, crunchy Special Rusk – perfect for tea time."</p>
       </div>
     </div>
-    <button class="bg-black h-14 w-52 text-white text-lg mt-3 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105 mobile_nav:mt-0" (click)="handleProductsBtn()">View More</button>
+    <button class="bg-black h-14 w-52 text-white text-lg mt-3 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-105 mobile_nav:mt-0" routerLink="/products">View More</button>
 </div>
 
 <div #counterElement class="bg-black grid justify-around items-center grid-flow-col text-white p-3 rounded-3xl mt-8 mobile_nav:grid-flow-row mobile_nav:gap-y-6 gap-1">
   <div class="text-center flex items-center justify-center gap-1 flex-col">
-    <h1 class="text-4xl font-normal">{{Counter.value1}}+</h1>
+    <h1 class="text-4xl font-normal">{{Counter.value1}}%</h1>
     <hr class="w-full bg-h-t-color h-1">
-    <p>Happy Clients</p>
+    <p>Customer Satisfaction</p>
   </div>
   <div class="text-center flex items-center justify-center gap-1 flex-col ">
-    <h1 class="text-4xl font-normal">{{Counter.value2}}</h1>
+    <h1 class="text-4xl font-normal">{{Counter.value2}}+</h1>
     <hr class="w-full bg-h-t-color h-1">
     <p>Supply Over TamilNadu</p>
   </div>
   <div class="text-center flex items-center justify-center gap-1 flex-col">
-    <h1 class="text-4xl font-normal">{{Counter.value3}}%</h1>
+    <h1 class="text-4xl font-normal">{{Counter.value3}}+</h1>
     <hr class="w-full bg-h-t-color h-1">
-    <p>Customer Satisfaction</p>
+    <p>Supply to Other States</p>
+  </div>
+</div>
+
+<div class="flex items-center justify-center flex-col gap-y-10 mt-20 mobile_nav:mt-8 mobile_nav:gap-y-3 p-1 w-full">
+  <h1 class="capitalize font-semibold text-5xl mobile_nav:text-4xl text-center">contact us</h1>
+  <div class="flex items-center justify-center flex-row mobile_nav:mt-6">
+    <form class="flex items-start justify-start flex-col gap-y-6" #formData="ngForm" (ngSubmit)="contact.handleSubmitBtn(formData)">
+      <input type="text" placeholder="Name *" class="text-left w-full p-3 border-black border-2 rounded-xl" name="name" ngModel required>
+      <input type="email" placeholder="Email *" class="text-left w-full p-3 border-black border-2 rounded-xl" name="email" ngModel required >
+      <textarea placeholder="Message *" class="text-left w-full p-3 border-black border-2 rounded-xl" name="message" ngModel required></textarea>
+      <button class="bg-black text-white font-medium text-lg text-center w-full p-2 rounded-xl transition ease-linear delay-100 hover:scale-95">Submit</button>
+    </form>
+    <div class="">
+      <img src="decoration/contact-us.svg" class="w-96 h-l_p2 mobile_nav:hidden">
+    </div>
   </div>
 </div>
 
 </div>
+
+<app-loading-spinner [isLoading]="contact.makeLoad"></app-loading-spinner>
 

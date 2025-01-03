@@ -16,10 +16,10 @@ export const User_Login=expressasynchandler(async(req,res)=>{
         else{
             if(await Match_Password(password,user.password))
             {
-                const data={id:user.id,name:user.name,role:user.role};//JWT TOKEN DATA
+                const data={id:user.id,name:user.name,email:user.email,role:user.role};//JWT TOKEN DATA
 
                 res.cookie("jwttoken",Generate_Token(data),cookiesConfig);
-                return res.status(201).json({message:"Login successful. Welcome back!",data:{name:user.name,email:user.email}});
+                return res.status(201).json({message:"Login successful. Welcome back!",data:{id:user._id,name:user.name,email:user.email,role:user.role}});
             }
             else
                 return res.status(401).json({message:"The password you entered is incorrect. Please try again."});
@@ -57,8 +57,8 @@ export const User_Register=expressasynchandler(async(req,res)=>{
        
         const data=await user.save();
 
-        res.cookie("jwttoken",Generate_Token({id:data._id,name:data.name,role:data.role}),cookiesConfig);
-        return res.status(201).json({message:"User registered successfully!",data:{name,email}});
+        res.cookie("jwttoken",Generate_Token({id:data._id,name:data.name,email:data.email,role:data.role}),cookiesConfig);
+        return res.status(201).json({message:"User registered successfully!",data:{id:data._id,name:data.name,email:data.email,role:data.role}});
     }
     catch(err){
         res.status(500).json({message:err.message});
@@ -76,8 +76,8 @@ export const SessionCheck=expressasynchandler(async(req,res)=>{
             return res.status(401).json({message:"Please login to continue.",access:false});
         const data=Verify_Token(jwttoken);
         if(data.access){
-            const {_id,name,email}=await User.findOne(data._id);
-            return res.status(200).json({message:"Session active!",data,userData:{_id:_id,name:name,email:email}});
+            const {_id,name,email,role}=await User.findOne({_id:data.data.id});
+            return res.status(200).json({message:"Session active!",data:{access:data.access},userData:{_id:_id,name:name,email:email,role:role}});
         }
             
 
@@ -87,4 +87,6 @@ export const SessionCheck=expressasynchandler(async(req,res)=>{
         res.clearCookie('jwttoken');
         return res.status(500).json({message:err.message});
     }
-})
+});
+
+

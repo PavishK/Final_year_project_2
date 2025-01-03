@@ -92,6 +92,7 @@ export class NavbarComponent implements OnInit {
       },
       (err)=>{
         this.storage.removeData();
+
         this.toast.error(err.error.message);
         this.isLoggedIn=false;
       },

@@ -20,7 +20,7 @@ const Users=new mongoose.Schema(
             type:String,
             default:"user",
             required:true,
-        }
+        },
     },
     {
         timestamps:true,

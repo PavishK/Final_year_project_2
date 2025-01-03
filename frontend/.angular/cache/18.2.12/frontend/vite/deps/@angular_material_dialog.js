@@ -1,12 +1,14 @@
 import {
-  A11yModule,
   BidiModule,
   Directionality,
+  MatCommonModule
+} from "./chunk-CUOFGWRY.js";
+import {
+  A11yModule,
   ESCAPE,
   FocusMonitor,
   FocusTrapFactory,
   InteractivityChecker,
-  MatCommonModule,
   Platform,
   RtlScrollAxisType,
   _getEventTarget,
@@ -19,7 +21,7 @@ import {
   getRtlScrollAxisType,
   hasModifierKey,
   supportsScrollBehavior
-} from "./chunk-JBBY4CPW.js";
+} from "./chunk-77GRRTG2.js";
 import {
   animate,
   animateChild,

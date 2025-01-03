@@ -57,6 +57,7 @@ export class LoginRegisterComponent {
           this.setLoading=false;
           this.toast.success(res.message);
           this.popupCloser.emit(false);
+          console.log(res.data);
           this.storage.setData(res.data);
           this.userActive.emit(true);
         },
