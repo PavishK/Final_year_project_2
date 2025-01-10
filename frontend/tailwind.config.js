@@ -13,6 +13,7 @@ module.exports = {
         'h-t-color': '#F5952C',
         'footer-color':'#F9F9F9',
         'footer-text':'#777777',
+        'items-color':'#F4F4F4',
       },
       fontFamily: {
         arvo: ['"Arvo"', 'serif'],

@@ -1,1 +1,43 @@
-<p>products works!</p>
+<div class="ml-24 mr-24 mt-28 mobile_nav:ml-5 mobile_nav:mr-5 mobile_nav:mt-24">
+  <div class="flex items-center justify-center flex-row mobile_nav:flex-col">
+
+    <div class="flex items-start justify-start flex-col p-2 cursor-pointer mobile_nav:w-full" *ngFor="let item of items">
+      <div [ngClass]="{'border-h-t-color':selectedItem==item.id}" class=" border-2 p-3 rounded-2xl w-40 mobile_nav:w-full hover:scale-110 transition ease-linear delay-100 " (click)="itemClicked(item)">
+        <div [ngClass]="selectedItem==item.id?'bg-h-t-color':'bg-items-color'" class="w-fit rounded-full p-1">
+          <img [src]="item.src" class="w-10 p-1">
+        </div>
+        <div class="flex items-start justify-start flex-col p-1 mt-4">
+          <p class="text-lg capitalize " [ngClass]="{'text-orange-700':selectedItem==item.id}">{{item.name}}</p>
+          <p class="text-gray-600 text-m">{{item.items}} items</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="text-lg flex items-center justify-center mt-6 p-3 " >
+    <input type="text" placeholder="Search something sweet on your mind...." class="w-landing_img mobile_nav:w-auto border-4 rounded-xl border-items-color  p-3" [(ngModel)]="searchProduct.productName">
+    <img src="icons/search.svg" class=" rounded-xl object-contain cursor-pointer p-2 w-12 bg-h-t-color" (click)="searchProduct.handleSearchBtn()">
+  </div>
+
+  <!-- Listing Items -->
+
+  <div id="productList" class="mt-4 grid grid-cols-3 place-items-center mobile_nav:grid-cols-1 gap-y-5 gap-x-4">
+
+    <div class="border-2  w-fit h-fit rounded-2xl border-items-color shadow-xl shadow-items-color" *ngFor="let product of showProducts">
+      <div class="flex items-start justify-start flex-col">
+        <div class="p-2 bg-items-color rounded-2xl">
+          <img [src]="'http://localhost:8080' + product.src" class="w-72 h-64 object-cover rounded-2xl hover:scale-105 transition ease-linear delay-75">
+        </div>
+        <h1 class="text-2xl font-normal capitalize pl-2">{{product.name}}</h1>
+        <div class="flex items-center justify-between w-full p-1">
+          <p class="float-start text-lg bg-items-color text-orange-700 p-2 rounded-xl" [ngStyle]="{'color':matchColor[product.type] || 'orange'}">{{product.type}}</p>
+          <p class="float-end text-3xl p-2 font-medium font-arvo">{{product.price|currency:'INR'}}</p>
+        </div>
+      </div>
+      </div>
+  </div>
+
+</div>
+
+<app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner>

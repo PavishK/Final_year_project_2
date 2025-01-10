@@ -68,7 +68,6 @@ class ContactUs{
 
   handleSubmitBtn(data:NgForm):void{
     if(data.valid){
-      this.makeLoad=true;
       if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/.test(data.value.email))
         this.toast.error('Invalid Email');
       else if(data.value.message.length<20)

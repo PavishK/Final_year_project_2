@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class FooterComponent {
 
-  public email:string="smt-bakery@gmail.com";
+  public email:string="smtbakery63@gmail.com";
   public phno:string="+91 98427-20663";
   public address:string="63, INDIRA STREET KANJIKOVIL ROAD, PERUNDURAI, Erode, TamilNadu-638052";
 

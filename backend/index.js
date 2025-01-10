@@ -21,6 +21,7 @@ app.use(cors(
 
 app.use(express.json());
 app.use(cookieParser('zerotwo'));
+app.use(express.static('public'));
 
 mongoose.connect(mongo_url).then(()=>
 {
@@ -37,3 +38,6 @@ app.listen(port,()=>console.log("Server 💻 running on port 8080"));
 
 import UserRouter from './router/userRouter.js';
 app.use("/api",UserRouter);
+
+import productRouter from './router/productRouter.js';
+app.use("/product-api",productRouter);
