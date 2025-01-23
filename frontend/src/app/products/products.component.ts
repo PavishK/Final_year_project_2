@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ProductCountService } from '../product-count.service';
+import { RouterManagerService } from '../router-manager.service';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -10,8 +11,8 @@ import { ProductCountService } from '../product-count.service';
 export class ProductsComponent implements OnInit {
 
   public makeLoading: boolean = false;
-  public products: any[] = [];
-  public showProducts:any[]=[];
+  public products: ProductSchema[] = [];
+  public showProducts:ProductSchema[]=[];
   public items: items[] = [
     { id: 1, src: "icons/dish.svg", name: "all menu", items: 0 },
     { id: 2, src: "icons/bread.svg", name: "bread", items: 0 },
@@ -19,7 +20,6 @@ export class ProductsComponent implements OnInit {
     { id: 4, src: "icons/rusk.svg", name: "rusk", items: 0 },
     { id: 5, src: "icons/biscuit.svg", name: "biscuit", items: 0 },
   ];
-  public searchProduct: SearchProducts = new SearchProducts();
 
   public ScrollIntoElement(): void {
     const ele = document.getElementById('productList');
@@ -32,7 +32,7 @@ export class ProductsComponent implements OnInit {
     setTimeout(() => this.makeLoading = false, 1000);
   }
 
-  constructor(private http: HttpClient, private toast:ToastrService, private countItems:ProductCountService) { }
+  constructor(private http: HttpClient, private toast:ToastrService, private countItems:ProductCountService, private route:RouterManagerService) { }
 
   ngOnInit(): void {
     this.http.get("http://localhost:8080/product-api/list-products")
@@ -67,8 +67,38 @@ export class ProductsComponent implements OnInit {
     return this.products.filter(item => item.type.toLowerCase() === type.toLowerCase());
   }
 
+  public searchName="";
+  public onSearchBtnHandler():void{
+    this.ActivateLoader();
+    if(!this.searchName)
+      this.toast.error("Please enter a product name");
+    else
+    this.MakeSearch(this.searchName);
+  }
+  public MakeSearch(search:string):void{
+
+    this.searchName=search;
+    this.selectedItem=1;
+    if(!search)
+      this.showProducts=this.products;
+
+    else{
+      this.showProducts=this.products.filter(item=>(item.name.toLowerCase()).includes(search.toLowerCase()));
+      if(this.showProducts.length==0)
+        this.toast.error("No products found");
+    }
+
+  }
+
+  public onClickProduct(data:any):void{
+    this.route.moveWithData("display-product-details/product",data);
+
+  }
+
 }
 
+
+//Data Models
 interface items {
   id: number;
   src: string;
@@ -76,12 +106,13 @@ interface items {
   items: number;
 }
 
-class SearchProducts {
-
-  public productName: string = "";
-
-  public handleSearchBtn(): void {
-    console.log(this.productName);
-  }
-
+interface ProductSchema{
+  _id:any;
+  name: string;
+  type: string;
+  price: number;
+  src:string;
+  desc:string;
+  stock_quandity:number;
+  rating:number;
 }

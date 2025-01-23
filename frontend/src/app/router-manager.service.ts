@@ -11,5 +11,9 @@ export class RouterManagerService {
   moveTo( path:String):void{
     this.router.navigate([path]);
   }
-  
+
+  moveWithData(path:string,data:any):void{
+    this.router.navigate([path,data]);
+  }
+
 }

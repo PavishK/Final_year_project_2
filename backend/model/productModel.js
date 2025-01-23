@@ -25,7 +25,13 @@ const products=new mongoose.Schema(
         stock_quandity:{
             type:Number,
             required:true,
-        }
+        },
+        rating:{
+            type:Number,
+        },
+        isVeg:{
+            type:Boolean,
+        },
     }
 );
 

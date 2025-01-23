@@ -26,10 +26,12 @@ module.exports = {
       width:{
         landing_img:'750px',
         l_p2:'900px',
-        bsp:'320px'
+        bsp:'320px',
+        disp_img:'600px'
       },
       height:{
         l_p2:'400px',
+        disp_image:'550px'
       }
     },
   },

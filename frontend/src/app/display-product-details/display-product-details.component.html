@@ -1,0 +1,33 @@
+<div class="flex items-start justify-start gap-x-2 flex-row p-3 h-screen mobile_nav:flex-col mobile_nav:gap-y-3">
+  <div class="flex flex-col items-center justify-center">
+
+      <img class="w-disp_img h-disp_image mobile_nav:h-96 p-1 object-cover hover:scale-105 transition ease-linear delay-100 rounded-3xl" [src]="'http://localhost:8080' + productData.src" >
+
+    <div class="flex items-center justify-center flex-row w-full mt-5 gap-x-1 mobile_nav:bottom-0 mobile_nav:fixed mobile_nav:p-1 ">
+      <button class="uppercase  h-10 w-full p-8 font-bold text-lg text-white bg-black border-none rounded-md flex items-center justify-center gap-x-1">
+        <img class="w-8" src="icons/add-to-cart.svg">
+        Add to cart</button>
+    </div>
+  </div>
+  <div class="flex items-start justify-start flex-col gap-y-2 mobile_nav:p-2 p-1">
+    <div class="flex items-start justify-start flex-col gap-y-1">
+      <h1 class="font-semibold text-4xl mobile_nav:text-3xl capitalize font-arvo">{{productData.name}}</h1>
+      <h2 class="text-xl font-normal text-justify">{{productData.desc}}</h2>
+      <div class="flex items-center justify-start gap-x-2 mt-1">
+        <p class="bg-h-t-color p-1 rounded-lg text-white font-normal text-xl font-pacifico">{{productData.rating}}</p>
+        <p [innerHTML]="productData.rating | starRating:5" class="text-3xl"></p>
+      </div>
+      <p class="font-arvo text-3xl mt-2 font-medium">{{productData.price | currency:'INR'}}</p>
+    </div>
+    <p class="w-96 font-normal border-2 border-h-t-color bg-orange-50 p-2 rounded-lg mt-1 text-justify flex items-start justify-start gap-x-1 mobile_nav:w-auto">
+      <img src="icons/sand-clock.svg" class="w-5 h-5">
+      This product has a shelf life of 6 months from the date of manufacture.</p>
+  </div>
+
+  <!-- Other details -->
+  <div>
+
+  </div>
+</div>
+
+<app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner>

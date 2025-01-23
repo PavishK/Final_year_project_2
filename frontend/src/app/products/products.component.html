@@ -16,8 +16,8 @@
   </div>
 
   <div class="text-lg flex items-center justify-center mt-6 p-3 " >
-    <input type="text" placeholder="Search something sweet on your mind...." class="w-landing_img mobile_nav:w-auto border-4 rounded-xl border-items-color  p-3" [(ngModel)]="searchProduct.productName">
-    <img src="icons/search.svg" class=" rounded-xl object-contain cursor-pointer p-2 w-12 bg-h-t-color" (click)="searchProduct.handleSearchBtn()">
+    <input type="text" placeholder="Search something sweet on your mind...." class="w-landing_img mobile_nav:w-auto border-4 rounded-xl border-items-color  p-3" (input)="MakeSearch($any($event.target).value)">
+    <img src="icons/search.svg" class=" rounded-xl object-contain cursor-pointer p-3 w-12 bg-h-t-color" (click)="onSearchBtnHandler()">
   </div>
 
   <!-- Listing Items -->
@@ -25,7 +25,7 @@
   <div id="productList" class="mt-4 grid grid-cols-3 place-items-center mobile_nav:grid-cols-1 gap-y-5 gap-x-4">
 
     <div class="border-2  w-fit h-fit rounded-2xl border-items-color shadow-xl shadow-items-color" *ngFor="let product of showProducts">
-      <div class="flex items-start justify-start flex-col">
+      <div class="flex items-start justify-start flex-col" (click)="onClickProduct(product)">
         <div class="p-2 bg-items-color rounded-2xl">
           <img [src]="'http://localhost:8080' + product.src" class="w-72 h-64 object-cover rounded-2xl hover:scale-105 transition ease-linear delay-75">
         </div>

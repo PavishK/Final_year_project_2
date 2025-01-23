@@ -54,7 +54,8 @@ export const User_Register=expressasynchandler(async(req,res)=>{
             return res.status(401).json({message:"Confirmation password does not match. Please re-enter."});
         else if(!/^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+\.[a-zA-Z]{2,}$/.test(email))
             return res.status(401).json({message:"Invalid email format. Please enter a valid email address."});
-       
+        else if(/^[0-9]/.test(name))
+            return res.status(400).json({message:"Name must start with character"});
         const data=await user.save();
 
         res.cookie("jwttoken",Generate_Token({id:data._id,name:data.name,email:data.email,role:data.role}),cookiesConfig);

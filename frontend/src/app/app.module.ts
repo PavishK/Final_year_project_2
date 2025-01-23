@@ -21,6 +21,8 @@ import { FullScreenLayoutComponent } from './layouts/full-screen-layout/full-scr
 import { CartComponent } from './cart/cart.component';
 import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 import { FooterComponent } from './footer/footer.component';
+import { DisplayProductDetailsComponent } from './display-product-details/display-product-details.component';
+import { StarRatingPipe } from './pipes/star-rating.pipe';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { FooterComponent } from './footer/footer.component';
     CartComponent,
     LoadingSpinnerComponent,
     FooterComponent,
+    DisplayProductDetailsComponent,
+    StarRatingPipe,
   ],
   imports: [
     BrowserModule,

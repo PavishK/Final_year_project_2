@@ -7,6 +7,7 @@ import { ReviewsComponent } from './reviews/reviews.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { FullScreenLayoutComponent } from './layouts/full-screen-layout/full-screen-layout.component';
 import { CartComponent } from './cart/cart.component';
+import { DisplayProductDetailsComponent } from './display-product-details/display-product-details.component';
 
 const routes: Routes = [
   {
@@ -43,6 +44,16 @@ const routes: Routes = [
       {
         path:'cart',
         component:CartComponent,
+      }
+    ]
+  },
+  {
+    path:'display-product-details',
+    component:FullScreenLayoutComponent,
+    children:[
+      {
+        path:'product',
+        component:DisplayProductDetailsComponent,
       }
     ]
   }
