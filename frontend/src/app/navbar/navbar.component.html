@@ -17,8 +17,22 @@
   <div class="mobile_nav:hidden">&nbsp;</div>
   <div class="mobile_nav:hidden">&nbsp;</div>
   <div *ngIf="isLoggedIn else loginblock" class="text-xl flex items-center  justify-center gap-x-3 cursor-pointer mobile_nav:hidden">
-    <img class="w-12 p-2 " src="icons/search.svg">
-    <img class="w-12 p-2 rounded-lg bg-h-t-color"  src="icons/cart.svg" routerLink="user/cart">
+    <img class="w-12 p-2 " src="icons/search.svg" (click)="OnSearchBtnClick()">
+    <!-- <img class="w-12 p-2 rounded-lg bg-h-t-color"  src="icons/cart.svg" routerLink="user/cart"> -->
+
+    <div class="relative">
+      <a routerLink="user/cart">
+        <img class="w-12 p-2 rounded-lg bg-h-t-color" src="icons/cart.svg" />
+      </a>
+      <span
+        *ngIf="cartCount > 0"
+        class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2
+               bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+        {{ cartCount }}
+      </span>
+    </div>
+
+
       <div  class="w-12 rounded-3xl bg-h-t-color p-2 cursor-pointer">
         <img *ngIf="!account_menu_view" (click)="triggerAccountBtn()" src="icons/account.svg">
         <img *ngIf="account_menu_view" src="icons/close_menu.svg" (click)="triggerAccountBtn()">
@@ -49,10 +63,24 @@
   </ng-template>
 
 
-  <div class="w-10 bg-h-t-color p-2 rounded-lg hidden mobile_nav:block cursor-pointer">
+  <!-- <div class="w-10 bg-h-t-color p-2 rounded-lg hidden mobile_nav:block cursor-pointer">
     <img *ngIf="!mobile_menu_view" src="icons/menu.svg" (click)="triggerMenuBtn() ">
     <img *ngIf="mobile_menu_view" src="icons/close_menu.svg" (click)="triggerMenuBtn(); account_menu_view=false">
+  </div> -->
+
+  <div class="transition ease-linear delay-100 w-10 bg-h-t-color p-2 rounded-lg hidden mobile_nav:block cursor-pointer relative">
+    <img *ngIf="!mobile_menu_view" src="icons/menu.svg" (click)="triggerMenuBtn()">
+    <img *ngIf="mobile_menu_view" src="icons/close_menu.svg" (click)="triggerMenuBtn(); account_menu_view=false">
+
+    <!-- Red Dot Indicator -->
+    <span
+      *ngIf="cartCount > 0 && !mobile_menu_view"
+      class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2
+             bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+      {{ cartCount }}
+    </span>
   </div>
+
 </div>
 
 <div *ngIf="mobile_menu_view" class="border-2 border-black p-3 w-auto h-auto fixed top-5 right-16 rounded-ss-3xl rounded-ee-3xl rounded-es-3xl bg-white transition ease-in-out delay-300">
@@ -65,8 +93,22 @@
 
   <div class="mt-4">
   <div *ngIf="isLoggedIn else loginblock" class="text-xl flex items-center  justify-center gap-x-3 cursor-pointer">
-    <div class="flex items-center justify-center"><img class="w-12 p-2 " src="icons/search.svg">
-    <img class="w-12 p-2 rounded-lg bg-h-t-color" src="icons/cart.svg" routerLink="user/cart"></div>
+    <div class="flex items-center justify-center"><img class="w-12 p-2 " src="icons/search.svg"  (click)="OnSearchBtnClick()">
+    <!-- <img class="w-12 p-2 rounded-lg bg-h-t-color" src="icons/cart.svg" routerLink="user/cart"> -->
+
+    <div class="relative">
+      <a routerLink="user/cart">
+        <img class="w-12 p-2 rounded-lg bg-h-t-color" src="icons/cart.svg" />
+      </a>
+      <span
+        *ngIf="cartCount > 0"
+        class="absolute top-0 right-0 transform translate-x-1/2 -translate-y-1/2
+               bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">
+        {{ cartCount }}
+      </span>
+    </div>
+
+  </div>
     <div  class="w-12 rounded-3xl bg-h-t-color p-2 cursor-pointer">
       <img *ngIf="!account_menu_view" (click)="triggerAccountBtn()" src="icons/account.svg">
       <img *ngIf="account_menu_view" src="icons/close_menu.svg" (click)="triggerAccountBtn()">

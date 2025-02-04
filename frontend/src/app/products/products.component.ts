@@ -91,7 +91,7 @@ export class ProductsComponent implements OnInit {
   }
 
   public onClickProduct(data:any):void{
-    this.route.moveWithData("display-product-details/product",data);
+    this.route.moveWithData("/product",data);
 
   }
 
@@ -115,4 +115,6 @@ interface ProductSchema{
   desc:string;
   stock_quandity:number;
   rating:number;
+  minquantity:number;
+  pieces:number;
 }

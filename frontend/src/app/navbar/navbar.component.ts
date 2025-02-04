@@ -2,6 +2,9 @@ import { StorageService } from './../storage.service';
 import { Component,OnInit, HostListener } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { RouterManagerService } from '../router-manager.service';
+import { CartService } from '../cart.service';
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -9,13 +12,15 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavbarComponent implements OnInit {
 
-    constructor(private storage:StorageService, private http:HttpClient,private toast:ToastrService){}
+    constructor(private storage:StorageService, private http:HttpClient,private toast:ToastrService,private route:RouterManagerService, private cartService:CartService){}
 
   public mobile_menu_view:boolean=false;
   public isLoggedIn?:boolean;
   public account_menu_view:boolean=false;
   protected userData?:any;
   public makeLoading:boolean=false;
+
+  public cartCount:number=0;
 
   //Nav Bar Animation
   prevScrollPos: number = window.pageYOffset;
@@ -41,9 +46,11 @@ export class NavbarComponent implements OnInit {
     },2000)
   }
 
+  public OnSearchBtnClick():void{
+    this.route.moveTo('/products');
+  }
+
   ngOnInit(): void {
-
-
 
     //Openening loading...
     this.makeLoaderVisible();
@@ -73,6 +80,19 @@ export class NavbarComponent implements OnInit {
   if(this.isLoggedIn){  this.sessionCheck();}
 
 
+  this.cartService.cartCount$.subscribe(count=>{
+    this.cartCount=count;
+  });
+
+  this.http.get(`http://localhost:8080/cart-api/display-user-cart-data/${this.userData._id}`).
+    subscribe({
+      next:(res:any)=>{
+        this.cartCount=res.length;
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    });
 
   }
 
@@ -144,5 +164,7 @@ export class NavbarComponent implements OnInit {
     this.isLoggedIn=false;
     this.makeLoaderVisible();
   }
+
+
 
 }

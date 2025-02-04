@@ -41,3 +41,9 @@ app.use("/api",UserRouter);
 
 import productRouter from './router/productRouter.js';
 app.use("/product-api",productRouter);
+
+import countryRouter from './router/countryRouter.js';
+app.use("/country-api",countryRouter);
+
+import cartRouter from './router/cartRouter.js';
+app.use("/cart-api",cartRouter);

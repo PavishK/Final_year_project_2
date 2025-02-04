@@ -27,11 +27,12 @@ module.exports = {
         landing_img:'750px',
         l_p2:'900px',
         bsp:'320px',
-        disp_img:'600px'
+        disp_img:'600px',
+        disp_product:'455px',
       },
       height:{
         l_p2:'400px',
-        disp_image:'550px'
+        disp_image:'520px'
       }
     },
   },

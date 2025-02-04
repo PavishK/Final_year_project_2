@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { RouterManagerService } from '../router-manager.service';
+import { StorageService } from '../storage.service';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-display-product-details',
@@ -14,10 +16,15 @@ export class DisplayProductDetailsComponent implements OnInit {
   public productData:any=[];
   public makeLoading:boolean=false;
   public allProductData:ProductSchema[]=[];
+  public countryData:CounterSchema[]=[];
   public matchColor: any = { bread: 'red', cake: 'gray', biscuit: 'orange', rusk: 'green' };
   public popUpState:boolean=false;
   public popUpDescription:boolean=false;
-  constructor(private route:ActivatedRoute, private toast:ToastrService,private http:HttpClient, private routeMoveTo:RouterManagerService){}
+  public randomProducts:ProductSchema[]=[];
+
+
+
+  constructor(private route:ActivatedRoute, private toast:ToastrService,private http:HttpClient, private routeMoveTo:RouterManagerService, private storage:StorageService, private cartService:CartService){}
 
   public MakeLoadingVisible():void{
     this.makeLoading=true;
@@ -25,6 +32,12 @@ export class DisplayProductDetailsComponent implements OnInit {
       this.makeLoading=false;
     },1200);
 
+  }
+
+  public ScrollIntoElement(): void {
+    const ele = document.getElementById('goToProduct');
+    if (ele)
+      ele.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   ngOnInit(): void {
@@ -43,23 +56,66 @@ export class DisplayProductDetailsComponent implements OnInit {
             next: (res: any) => {
               this.allProductData = res.data;
               //this.allProductData=this.allProductData.filter(item=> item.type==this.productData.type ) //&& item._id!=this.productData._id
-              console.log(this.allProductData);
+              this.allProductData=this.allProductData.filter(item=>item._id!=this.productData._id);
+              ShowRandomProduct(this.allProductData);
             },
             error: (err:any) => this.toast.error(err.error.message)
           });
+
+          const ShowRandomProduct=(data:ProductSchema[])=>{
+            for(let i=0;i<4;i++){
+              this.randomProducts.push(data.splice(Math.floor(Math.random()*this.allProductData.length),1)[0]);
+            }
+            // console.log(this.randomProducts);
+          }
+
       }
 
       public onClickProduct(data:any):void{
-        this.routeMoveTo.moveWithData("display-product-details/product",data);
+      this.routeMoveTo.moveWithData("/product",data);
+    }
 
-      }
-
-      public closeOrOpenStatePopup(){
+      public closeOrOpenStatePopup():void{
+        this.http.get("http://localhost:8080/country-api/display-country-data").
+        subscribe({next:(res:any)=>{
+          this.countryData=res;
+        },error:(err)=>{
+          this.toast.error("Unable to get states!");
+        }})
         this.popUpState=!this.popUpState;
       }
-      public closeOrOpenDescriptionPopUp(){
+      public closeOrOpenDescriptionPopUp():void{
         this.popUpDescription=!this.popUpDescription;
       }
+
+      public onAddToCartBtnClicked():void{
+        const userId=this.storage.getData()._id;
+
+        const CartData={
+          userId:userId,
+          productId:this.productData._id,
+          productName:this.productData.name,
+          price:Number(this.productData.price),
+          quantity:Number(this.productData.minquantity),
+          imgSrc:this.productData.src,
+          totalPrice:(this.productData.price*this.productData.minquantity)
+        }
+        console.log(CartData);
+
+
+        this.http.post("http://localhost:8080/cart-api/insert-cart-data",CartData).
+        subscribe({
+          next:(res:any)=>{
+            this.toast.success(`${this.productData.name} has been successfully added to your cart.`);
+            this.cartService.addToCart(res.length);
+          },error:(err)=>{
+            this.toast.error(`Oops! Unable to add ${this.productData.name} to your cart. Please try again.`);
+            console.log(err.error.message)
+          }
+        })
+      }
+
+
 }
 
 
@@ -72,4 +128,12 @@ interface ProductSchema{
   desc:string;
   stock_quandity:number;
   rating:number;
+  minquantity:number;
+  pieces:number;
+}
+
+interface CounterSchema{
+  _id:any;
+  name: string;
+  charge:number;
 }

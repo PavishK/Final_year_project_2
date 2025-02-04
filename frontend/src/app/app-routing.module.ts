@@ -35,6 +35,10 @@ const routes: Routes = [
         path:'reviews',
         component:ReviewsComponent,
       },
+      {
+        path:'product',
+        component:DisplayProductDetailsComponent,
+      }
     ]
   },
   {
@@ -47,16 +51,16 @@ const routes: Routes = [
       }
     ]
   },
-  {
-    path:'display-product-details',
-    component:FullScreenLayoutComponent,
-    children:[
-      {
-        path:'product',
-        component:DisplayProductDetailsComponent,
-      }
-    ]
-  }
+  // {
+  //   path:'display-product-details',
+  //   component:FullScreenLayoutComponent,
+  //   children:[
+  //     {
+  //       path:'product',
+  //       component:DisplayProductDetailsComponent,
+  //     }
+  //   ]
+  // }
 ];
 
 @NgModule({

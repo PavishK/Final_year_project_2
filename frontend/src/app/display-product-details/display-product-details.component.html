@@ -1,12 +1,3 @@
-<div class="fixed right-0 p-3 flex items-center justify-center cursor-pointer transition ease-in-out delay-150 hover:opacity-40 mobile_nav:p-3" routerLink="/user/cart">
-
-  <div class="bg-h-t-color w-fit h-fit rounded-lg flex items-center justify-center flex-row-reverse">
-    <div class="bg-white text-xl p-1 capitalize font-medium rounded-s-md ">
-      cart items: <span class="font-arvo">{{12345}}</span></div>
-    <img src="icons/cart.svg" class="w-14 h-14 p-1 rounded-lg">
-  </div>
-</div>
-
 <!-- Popup State -->
 
 <div *ngIf="popUpState" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 ">
@@ -16,28 +7,10 @@
       <button class="text-gray-500 hover:text-orange-500 text-2xl" (click)="closeOrOpenStatePopup()">✖</button>
     </div>
 
-    <div class="max-h-60 overflow-y-auto border rounded p-2">
+    <div  class="max-h-60 overflow-y-auto border rounded p-2">
       <div class="grid grid-cols-2 gap-2">
-        <div class="p-2 bg-gray-100 rounded flex justify-between">
-          <span>California</span> <span class="font-semibold">$10</span>
-        </div>
-        <div class="p-2 bg-gray-100 rounded flex justify-between">
-          <span>Texas</span> <span class="font-semibold">$8</span>
-        </div>
-        <div class="p-2 bg-gray-100 rounded flex justify-between">
-          <span>Florida</span> <span class="font-semibold">$12</span>
-        </div>
-        <div class="p-2 bg-gray-100 rounded flex justify-between">
-          <span>New York</span> <span class="font-semibold">$15</span>
-        </div>
-        <div class="p-2 bg-gray-100 rounded flex justify-between">
-          <span>Illinois</span> <span class="font-semibold">$7</span>
-        </div>
-        <div class="p-2 bg-gray-100 rounded flex justify-between">
-          <span>Ohio</span> <span class="font-semibold">$9</span>
-        </div>
-        <div class="p-2 bg-gray-100 rounded flex justify-between">
-          <span>Georgia</span> <span class="font-semibold">$11</span>
+        <div class="p-2 bg-gray-100 rounded flex justify-between" *ngFor="let country of countryData">
+          <span class="capitalize">{{country.name}}</span> <span class="font-semibold">{{country.charge | currency:'INR'}}</span>
         </div>
       </div>
     </div>
@@ -50,8 +23,8 @@
 
 <!-- Description SMT -->
 
-<div *ngIf="popUpDescription" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" (click)="closeOrOpenDescriptionPopUp()">
-  <div class="bg-white w-96 p-5 rounded-xl shadow-lg mobile_nav">
+<div  *ngIf="popUpDescription" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50" (click)="closeOrOpenDescriptionPopUp()">
+  <div id="goToProduct" class="bg-white w-96 p-5 rounded-xl shadow-lg mobile_nav">
     <div class="flex justify-between items-center mb-4">
       <h1 class="text-2xl font-semibold capitalize">description</h1>
       <button class="text-gray-500 hover:text-red-500 text-2xl">✖</button>
@@ -67,13 +40,14 @@
 
 <!-- Product Details -->
 
-<div class="flex items-start justify-start gap-x-2 flex-row p-3 mobile_nav:flex-col mobile_nav:gap-y-3">
+<div  id="goToProduct" class="flex items-start justify-start gap-x-4 flex-row p-3 mobile_nav:flex-col mobile_nav:gap-y-3 mt-24 mobile_nav:mt-16">
   <div class="flex flex-col items-center justify-center">
+    <div class="w-disp_img mobile_nav:w-auto">
+      <img class="h-disp_image w-disp_img mobile_nav:w-auto mobile_nav:h-96 p-1 object-cover hover:scale-105 transition ease-linear delay-100 rounded-3xl flex-1" [src]="'http://localhost:8080' + productData.src" >
+    </div>
 
-      <img class="w-disp_img h-disp_image mobile_nav:h-96 p-1 object-cover hover:scale-105 transition ease-linear delay-100 rounded-3xl" [src]="'http://localhost:8080' + productData.src" >
-
-    <div class="flex items-center justify-center flex-row w-full mt-5 gap-x-1 mobile_nav:bottom-0 mobile_nav:fixed mobile_nav:p-1 ">
-      <button class="uppercase  h-10 w-full p-8 font-bold text-lg text-white bg-black border-none rounded-md flex items-center justify-center gap-x-1">
+    <div class=" hover:scale-95 transition ease-linear delay-100 flex items-center justify-center flex-row w-full mt-4 gap-x-1 mobile_nav:bottom-0 mobile_nav:fixed mobile_nav:p-1 ">
+      <button class="uppercase  h-10 w-full p-8 font-bold text-lg text-white bg-black border-none rounded-md flex items-center justify-center gap-x-1" (click)="onAddToCartBtnClicked()">
         <img class="w-8" src="icons/add-to-cart.svg">
         Add to cart</button>
     </div>
@@ -92,7 +66,7 @@
       <img src="icons/sand-clock.svg" class="w-5 h-5">
       This product has a shelf life of 6 months from the date of manufacture.</p>
       <!-- Other Details -->
-       <div class="gap-x-20 mobile_nav:w-full w-96 flex flex-col gap-y-4">
+       <div class="gap-x-20 mobile_nav:w-full w-disp_product flex flex-col gap-y-4">
       <div class="p-0 mt-5 flex items-center justify-between ">
         <h1 class=" font-medium  text-xl">Delivery Available</h1>
         <p class=" text-blue-600 font-medium text-lg cursor-pointer" (click)="closeOrOpenStatePopup()">View States</p>
@@ -132,15 +106,17 @@
 </div> -->
 </div>
 
+<hr class="border-2 border-gray-300 mt-4 m-3">
+
 <div class="flex items-center justify-center gap-y-4 flex-col p-3 mobile_nav:mt-3">
   <div>
     <h1 class="text-3xl self-start font-medium mobile_nav:font-2xl">You May Also Like</h1>
   </div>
 
-    <div id="productList" class=" grid grid-cols-4 place-items-center mobile_nav:grid-cols-1 gap-y-5 gap-x-4">
+    <div class=" grid grid-cols-4 place-items-center mobile_nav:grid-cols-1 gap-y-5 gap-x-4">
 
-      <div class="border-2  w-fit h-fit rounded-2xl border-items-color shadow-xl shadow-items-color" *ngFor="let product of allProductData">
-        <div class="flex items-start justify-start flex-col" (click)="onClickProduct(product)">
+      <div class="border-2  w-fit h-fit rounded-2xl border-items-color shadow-xl shadow-items-color" *ngFor="let product of randomProducts">
+        <div class="flex items-start justify-start flex-col" (click)="onClickProduct(product);  this.ScrollIntoElement();">
           <div class="p-2 bg-items-color rounded-2xl">
             <img [src]="'http://localhost:8080' + product.src" class="w-72 h-64 object-cover rounded-2xl hover:scale-105 transition ease-linear delay-75">
           </div>
