@@ -9,6 +9,15 @@ const Country=new mongoose.Schema(
         charge:{
             type:Number,
             required:true,
+        },
+        state:{
+            type:String,
+            required:true,
+        },
+        isAvailable:{
+            type:Boolean,
+            required:true,
+            default:true,
         }
     }
 );

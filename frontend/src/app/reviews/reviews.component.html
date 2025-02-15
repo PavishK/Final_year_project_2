@@ -1,1 +1,57 @@
-<p>reviews works!</p>
+<div class="min-h-screen flex flex-col items-center justify-center p-6 mt-16 mobile_nav:mt-16">
+  <div class="w-full max-w-5xl bg-white rounded-xl shadow-xl p-8">
+
+    <!-- Reviews List (Displayed First) -->
+    <div *ngIf="reviews.length === 0" class="text-center text-gray-500 text-lg">No reviews yet. Be the first to write one!</div>
+
+    <div *ngFor="let review of reviews; let i = index"
+         [@fadeInAnimation]="i"
+         class="mt-6 p-6 bg-white rounded-lg shadow-lg flex flex-col sm:flex-row items-start sm:items-center transition-all duration-500">
+      <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
+        <img *ngIf="review.image" [src]="'http://localhost:8080'+review.image" class="object-contain" alt="User Image" class="w-full h-full object-cover" (click)="onImageClicked(review.image)">
+      </div>
+      <div class="ml-0 sm:ml-6 mt-4 sm:mt-0">
+        <p class="text-md text-gray-600">{{ review.date }}</p>
+        <p class="font-extrabold text-2xl text-black">{{ review.name }}<span class="text-sm pl-1" *ngIf="userID==review.userId" >(you)</span></p>
+        <div class="flex text-yellow-500 text-2xl">
+          <p class="text-3xl" [innerHTML]="review.rating | starRating:5"></p>
+        </div>
+        <p class="text-gray-700 text-lg mt-2">{{ review.comment }}</p>
+      </div>
+    </div>
+
+    <!-- Add Review Form -->
+    <div class="p-6 rounded-lg shadow-md mt-8">
+      <h3 class="text-3xl font-bold text-h-t-color mb-4">Write a Review</h3>
+
+      <label class="block text-xl font-semibold text-black">Select Rating:</label>
+      <select [(ngModel)]="newReview.rating"
+        class="w-full p-4 border border-orange-400 rounded-lg mt-2 text-lg focus:ring-2 focus:ring-orange-500">
+        <option value="" disabled selected>Select Rating</option>
+        <option *ngFor="let star of [1,2,3,4,5]" [value]="star">{{ star }}</option>
+      </select>
+
+      <textarea [(ngModel)]="newReview.comment" rows="4" placeholder="Your Review"
+        class="w-full p-4 border border-orange-400 rounded-lg mt-3 text-lg focus:ring-2 focus:ring-orange-500"></textarea>
+
+      <!-- Image Upload -->
+      <label class="block mt-4 text-xl font-semibold text-black">Upload Image:</label>
+      <input type="file" (change)="onFileChange($event)" accept="image/*"
+        class="w-full p-3 border border-orange-400 rounded-lg mt-2 bg-white cursor-pointer">
+
+      <button  (click)="addReview()" class="bg-black h-14 w-full text-white text-lg mt-5 rounded-lg text-center font-medium transition ease-linear delay-100 hover:scale-95">Submit Review</button>
+
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isImageTouched" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center z-50" (click)="isImageTouched=false;">
+  <div class="bg-white p-4 rounded-lg max-w-md w-full relative">
+    <button (click)="isImageTouched=false;" class="absolute top-2 right-2 text-gray-700 text-4xl font-bold">&times;</button>
+    <div class="flex justify-center">
+      <img [src]="imagePath" alt="Popup Image" class="w-full h-auto rounded-lg shadow-lg">
+    </div>
+  </div>
+</div>
+
+<app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner>

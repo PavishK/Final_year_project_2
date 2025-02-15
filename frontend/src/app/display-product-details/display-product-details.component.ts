@@ -89,8 +89,7 @@ export class DisplayProductDetailsComponent implements OnInit {
       }
 
       public onAddToCartBtnClicked():void{
-        const userId=this.storage.getData()._id;
-
+        const userId=this.storage.getData().id;
         const CartData={
           userId:userId,
           productId:this.productData._id,
@@ -98,7 +97,13 @@ export class DisplayProductDetailsComponent implements OnInit {
           price:Number(this.productData.price),
           quantity:Number(this.productData.minquantity),
           imgSrc:this.productData.src,
-          totalPrice:(this.productData.price*this.productData.minquantity)
+          totalPrice:(this.productData.price*this.productData.pieces),
+          stock_quantity:Number(this.productData.stock_quandity),
+          product_is_veg:this.productData.isVeg,
+          product_type:this.productData.type,
+          max_quantity:this.productData.maxquantity,
+          min_quantity:this.productData.minquantity,
+          pack_quantity:this.productData.pieces,
         }
         console.log(CartData);
 
@@ -109,8 +114,11 @@ export class DisplayProductDetailsComponent implements OnInit {
             this.toast.success(`${this.productData.name} has been successfully added to your cart.`);
             this.cartService.addToCart(res.length);
           },error:(err)=>{
+            if(err.status==400)
+              this.toast.info(`${this.productData.name} is already in the cart!`);
+            else
             this.toast.error(`Oops! Unable to add ${this.productData.name} to your cart. Please try again.`);
-            console.log(err.error.message)
+            console.log(err)
           }
         })
       }

@@ -31,7 +31,31 @@ const Cart=new mongoose.Schema(
         imgSrc:{
             type:String,
             required:true,
-        }
+        },
+        stock_quantity:{
+            type:Number,
+            required:true,
+        },
+        product_is_veg:{
+            type:Boolean,
+            required:true,
+        },
+        product_type:{
+            type:String,
+            required:true,
+        },
+        max_quantity:{
+            type:Number,
+            required:true,
+        },
+        min_quantity:{
+            type:Number,
+            required:true,
+        },
+        pack_quantity:{
+            type:Number,
+            required:true,
+        },
     },
     {
         timestamps:true,

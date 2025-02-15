@@ -1,1 +1,150 @@
-<p>cart works!</p>
+<ng-container *ngIf="cartCount === 0; else cartItems">
+  <div
+    @fadeInScale
+    class="flex flex-col items-center justify-center h-screen text-center p-5"
+  >
+    <img
+      src="icons/empty-cart.svg"
+      alt="Empty Cart"
+      class="w-64 h-64 md:w-80 md:h-80"
+    >
+    <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mt-6">
+      Your Cart is Empty
+    </h1>
+    <p class="text-gray-600 text-lg md:text-xl mt-2">
+      Looks like you haven't added anything to your cart yet.
+    </p>
+    <button
+      class="mt-6 px-6 py-3 bg-h-t-color text-lg font-medium text-white rounded-lg shadow-md hover:bg-orange-500 hover:scale-105 delay-150 transition-all"
+    >
+      Continue Shopping
+    </button>
+  </div>
+</ng-container>
+
+
+<ng-template #cartItems>
+  <div class="p-5 mt-24 mobile_nav:mt-16">
+  <div class="flex items-start justify-normal  flex-col gap-y-1">
+    <h1 class="text-4xl font-bold font-arvo">Snack Cart</h1>
+    <p class="text-lg"><b>{{cartCount}} items</b> in your cart. </p>
+  </div>
+
+
+  <!-- Cart Data -->
+
+  <div class="p-3 mt-4 flex items-start justify-center gap-x-8 mobile_nav:flex-col">
+
+    <div>
+
+      <div *ngFor="let cart of cartData; let i=index" class="flex items-start justify-normal gap-x-4 border-2 border-gray-200 p-2 rounded-xl mt-4" >
+
+        <div class="w-fit h-auto mobile_nav:w-36 mobile_nav:h-full object-center p-2 bg-gray-100 rounded-xl flex items-center justify-center">
+          <img [src]="'http://localhost:8080'+cart.imgSrc" class="object-cover rounded-xl h-36 w-44">
+        </div>
+
+        <div class="flex items-start justify-normal flex-col gap-y-2 ">
+          <div class="flex items-start justify-between w-landing_img mobile_nav:w-auto mobile_nav:flex-col mobile_nav:gap-y-2">
+
+            <div class="flex items-start justify-normal flex-col gap-y-1">
+              <h1 class="text-3xl font-bold font-arvo mobile_nav:text-2xl capitalize">{{cart.productName}}</h1>
+              <div class="flex items-start justify-center text-lg gap-x-3">
+                <p>Type | <b>{{cart.product_type}}</b></p>
+                <div class="flex items-start justify-center gap-x-0">Veg |
+                  <img *ngIf="cart.product_is_veg" src="icons/tick.svg" class=" w-8 p-1 object-cover">
+                  <img *ngIf="!cart.product_is_veg" src="icons/wrong.svg" class=" w-8 p-1 object-cover">
+                </div>
+              </div>
+            </div>
+            <div class="text-2xl font-arvo mobile_nav:text-2xl">
+              <b>Price: {{cart.totalPrice| currency:'INR'}}</b>
+            </div>
+
+          </div>
+          <hr class="h-1 bg-gray-200 mt-1 w-full">
+          <div class="select-none mt-5 flex items-start justify-between w-full mobile_nav:flex-col mobile_nav:gap-y-2 overflow-y-scroll">
+            <p class="text-footer-text text-lg">Stock Available: <b class="text-black">{{cart.stock_quantity}}</b></p>
+            <div class="text-footer-text text-lg flex items-start justify-center gap-x-3">Quantity
+              <div class="w-8 bg-gray-100 p-2 rounded-md cursor-pointer" (click)="decrementQuantity(cart)">
+                <img src="icons/minus.svg" class="">
+              </div>
+              <b class="font-bold text-black">{{cart.quantity}}</b>
+              <div class="w-8 bg-gray-100 p-2 rounded-md cursor-pointer" (click)="incrementQuantity(cart)" >
+                <img src="icons/plus.svg" class="">
+              </div>
+              <div class="w-8 bg-gray-100 p-2 rounded-md cursor-pointer" (click)="removeItem(i,cart.productName,cart._id)">
+                <img src="icons/delete.svg" class="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="w-fit border-2 border-gray-100 -mt-28 rounded-xl mobile_nav:mt-10">
+      <form #ShippingData="ngForm" class="flex items-start justify-normal flex-col gap-y-2 p-3" (ngSubmit)="shippingCharge(ShippingData)">
+        <h1 class="text-3xl font-bold">Calculated Shipping</h1>
+        <div  class="flex items-start justify-normal flex-col gap-y-2 p-2">
+          <select class="capitalize w-full bg-gray-200 rounded-3xl font-medium p-2 text-lg" name="state" ngModel required="">
+            <option value="" disabled selected>Select a State</option>
+            <option *ngFor="let state of stateData.state" [value]="state">{{state}}</option>
+          </select>
+
+          <div class="flex items-center justify-normal gap-x-1">
+            <select class="capitalize w-full bg-gray-200 rounded-3xl font-medium p-2 text-lg" name="district" ngModel required="">
+              <option value="" disabled selected>Select a District</option>
+              <option *ngFor="let district of stateData.district" [value]="district">{{district}}</option>
+            </select>
+
+            <input class=" w-full border-2 border-gray-200 rounded-3xl p-2 text-lg text-footer-text" type="text" placeholder="PIN Code" name="pin" ngModel required="">
+          </div>
+          <span class="text-red-600 font-medium capitalize pl-3" *ngIf="pinCodeValidation">{{"Invalid PIN code."}}</span>
+        </div>
+        <button class="hover:scale-105 transition ease-linear delay-150 w-full bg-black text-white h-10 text-lg font-bold rounded-3xl" type="submit" maxlength="6">Update</button>
+      </form>
+      <hr class="bg-gray-200 h-1 w-full mt-5 mb-5">
+
+      <div *ngIf="true" class="flex items-start justify-normal flex-col gap-y-2 p-3">
+        <h1 class="capitalize text-3xl font-bold ">Coupon code</h1>
+        <p class="text-lg font-medium text-footer-text w-96 text-center">
+          Save more with our exclusive coupon code! Use it at checkout to get amazing discounts on your favorite products.
+        </p>
+        <input type="text" placeholder="Coupon Code" class="w-full border-2 border-gray-200 rounded-3xl p-2 text-lg text-footer-text">
+        <button class=" hover:scale-105 transition ease-linear delay-150 w-full bg-black text-white h-10 text-lg font-bold rounded-3xl mt-3">Apply</button>
+      </div>
+
+      <div class="bg-h-t-color p-3 rounded-2xl m-3">
+        <div class="flex items-start justify-normal flex-col gap-y-3">
+          <h1 class="text-3xl font-bold">Cart Total</h1>
+          <div class="flex items-start justify-normal flex-col w-full gap-y-1 text-lg font-medium pr-6 pl-6 font-arvo">
+            <div class="flex items-start justify-between w-full ">
+              <h3>Cart Subtotal</h3>
+              <h3 class="font-bold">{{cartTotal.subtotal|currency:'INR'}}</h3>
+            </div>
+            <div class="flex items-start justify-between w-full ">
+              <h3>Shipping</h3>
+              <h3 class="font-bold">{{cartTotal.shipping|currency:'INR'}}</h3>
+            </div>
+            <div class="flex items-start justify-between w-full ">
+              <h3>Discount</h3>
+              <h3 class="font-bold text-white">-&nbsp;{{cartTotal.discount|currency:'INR'}}</h3>
+            </div>
+            <div class="flex items-start justify-between w-full font-bold text-2xl">
+              <h3>Cart Total</h3>
+              <h3 class="font-bold">{{cartTotal.total|currency:'INR'}}</h3>
+            </div>
+
+          </div>
+        </div>
+        <button (click)="openAddressPopUp()" class=" hover:scale-105 transition ease-linear delay-150 w-full bg-white text-black h-10 text-lg font-bold rounded-3xl mt-4">Continue</button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+</ng-template>
+
+<app-loading-spinner [isLoading]="makeLoading"/>

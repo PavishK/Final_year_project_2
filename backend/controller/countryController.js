@@ -1,5 +1,6 @@
 import Country from '../model/countryModel.js';
 import handler from 'express-async-handler';
+import axios from 'axios';
 
 export const Insert_Country_Data=handler(async(req,res)=>{
     console.log("Request Insert country data -> ",req.body);
@@ -15,12 +16,32 @@ export const Insert_Country_Data=handler(async(req,res)=>{
 });
 
 export const Display_Country_Data=handler(async(req,res)=>{
-    console.log("Request Display country data -> ",req.body);
+    console.log("Request Display country data -> ",req.url);
     try {
         const data=await Country.find({});
         if(data.length==0)
             return res.status(404).json({message:"No Country Data Found!"});
         res.status(200).json(data);
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});
+
+//PIN code Validator
+
+export const PINCode_Location_Finder=handler(async(req,res)=>{
+    console.log("Request PIN code location finder -> ",req.body);
+    try {
+        const data=await axios.get(`https://api.postalpincode.in/pincode/${req.body.pin}`);
+        //console.log(data.data[0].PostOffice);
+        const stateData=await data.data[0].PostOffice.filter(dt=>dt.District.toLowerCase()===req.body.district && dt.Circle.toLowerCase()===req.body.state);
+        
+        if(stateData.length>0){
+            const cityNames=[...new Set(stateData.map(info=>info.Name))]
+            return res.status(201).json({cityNames:cityNames});
+        }
+        else
+            return res.status(401).json({message:"Invalid PIN Code!"});
     } catch (error) {
         return res.status(500).json({message:error.message});
     }

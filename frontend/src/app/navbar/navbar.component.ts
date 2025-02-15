@@ -84,7 +84,7 @@ export class NavbarComponent implements OnInit {
     this.cartCount=count;
   });
 
-  this.http.get(`http://localhost:8080/cart-api/display-user-cart-data/${this.userData._id}`).
+  this.http.get(`http://localhost:8080/cart-api/display-user-cart-data/${this.userData.id}`).
     subscribe({
       next:(res:any)=>{
         this.cartCount=res.length;
@@ -162,6 +162,7 @@ export class NavbarComponent implements OnInit {
     this.makeLoaderVisible();
     this.storage.removeData();
     this.isLoggedIn=false;
+    setTimeout(()=>window.location.reload(),850);
     this.makeLoaderVisible();
   }
 

@@ -47,3 +47,6 @@ app.use("/country-api",countryRouter);
 
 import cartRouter from './router/cartRouter.js';
 app.use("/cart-api",cartRouter);
+
+import reviewRouter from './router/reviewRouter.js';
+app.use("/review-api",reviewRouter);

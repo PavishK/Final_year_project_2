@@ -38,16 +38,20 @@ const routes: Routes = [
       {
         path:'product',
         component:DisplayProductDetailsComponent,
+      },
+      {
+        path:'cart',
+        component:CartComponent,
       }
     ]
   },
   {
-    path:'user',
+    path:'full-view',
     component:FullScreenLayoutComponent,
     children:[
       {
-        path:'cart',
-        component:CartComponent,
+        path:'products',
+        component:ProductsComponent,
       }
     ]
   },

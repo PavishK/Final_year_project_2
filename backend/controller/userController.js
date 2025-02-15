@@ -78,7 +78,7 @@ export const SessionCheck=expressasynchandler(async(req,res)=>{
         const data=Verify_Token(jwttoken);
         if(data.access){
             const {_id,name,email,role}=await User.findOne({_id:data.data.id});
-            return res.status(200).json({message:"Session active!",data:{access:data.access},userData:{_id:_id,name:name,email:email,role:role}});
+            return res.status(200).json({message:"Session active!",data:{access:data.access},userData:{id:_id,name:name,email:email,role:role}});
         }
             
 

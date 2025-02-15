@@ -38,6 +38,7 @@ export class LoginRegisterComponent {
           this.popupCloser.emit(false);
           this.storage.setData(res.data);
           this.userActive.emit(true);
+          setTimeout(()=>window.location.reload(),800);
         },
         (err)=>{
           this.setLoading=false;
