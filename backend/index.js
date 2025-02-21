@@ -50,3 +50,6 @@ app.use("/cart-api",cartRouter);
 
 import reviewRouter from './router/reviewRouter.js';
 app.use("/review-api",reviewRouter);
+
+import addressRouter from './router/addressRouter.js'
+app.use("/address-api",addressRouter);

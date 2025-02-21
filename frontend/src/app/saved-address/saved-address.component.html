@@ -1,0 +1,64 @@
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg ">
+  <div class="flex items-start gap-x-10 justify-normal">
+  <button class=" text-gray-600 hover:text-gray-900" routerLink="/home">
+    <img src="icons/back.svg" class="w-10 h-10 hover:scale-105 transition-transform duration-300">
+  </button>
+  <h2 class="text-4xl font-bold font-arvo text-h-t-color mb-6">Manage Address</h2>
+</div>
+
+  <div *ngFor="let address of addresses" class="bg-gray-50 p-6 rounded-lg mb-6 border border-gray-300">
+    <p><strong>{{ address.fullname }}</strong></p>
+    <p>{{ address.phoneNumber }}</p>
+    <p>{{ address.houseNo }}, {{ address.roadNo }}</p>
+    <p>{{ address.city }}, {{ address.state }} - {{ address.pinCode }}</p>
+    <p class="text-sm text-gray-500">{{ address.addressType }}</p>
+
+    <div class="mt-4 flex justify-between">
+      <button (click)="toggleEditMode(false, address)" class="text-blue-500 text-sm font-medium">Edit</button>
+      <button (click)="deleteAddress(address._id)" class="text-red-500 text-sm font-medium">Delete</button>
+    </div>
+  </div>
+
+  <div  class="text-center bg-gray-50 p-6 rounded-lg mb-6">
+    <h3 class="text-xl font-medium text-gray-600 mb-4" *ngIf="addresses.length === 0">No Saved Addresses</h3>
+    <button (click)="toggleEditMode(true)" class="w-full bg-black text-lg text-white font-medium py-2 rounded-lg">
+      Add New Address
+    </button>
+  </div>
+
+
+  <div *ngIf="isEditMode" class="bg-gray-100 p-6 rounded-lg mt-6 border border-gray-300">
+    <h3 class="text-xl font-medium text-gray-800 mb-4">
+      {{ isAddingNewAddress ? 'Enter New Address' : 'Edit Address' }}
+    </h3>
+
+    <form (submit)="saveNewAddress()" class="space-y-4">
+      <input type="text" [(ngModel)]="newAddress.fullname" name="fullName" placeholder="Full Name" required class="input"/>
+      <input type="text" [(ngModel)]="newAddress.phoneNumber" name="phoneNumber" placeholder="Phone Number" required class="input"/>
+      <input type="text" [(ngModel)]="newAddress.pinCode" name="pinCode" placeholder="Pin Code" (keyup)="validatePinCode()" maxlength="6" required class="input"/>
+      <span *ngIf="pinCodeError" class="text-red-500 text-sm">{{ pinCodeError }}</span>
+      <span *ngIf="pinCodeMessage" class="text-green-500 text-sm">{{ pinCodeMessage }}</span>
+
+      <select [(ngModel)]="newAddress.state" name="state" required class="input">
+        <option *ngFor="let state of states" [value]="state">{{ state }}</option>
+      </select>
+
+      <select [(ngModel)]="newAddress.city" name="city" required class="input">
+        <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
+      </select>
+
+      <input type="text" [(ngModel)]="newAddress.houseNo" name="houseNo" placeholder="House No." required class="input"/>
+      <input type="text" [(ngModel)]="newAddress.roadNo" name="roadNo" placeholder="Road No." required class="input"/>
+
+      <div class="flex gap-4">
+
+        <button *ngIf="isAddingNewAddress" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Save Address</button>
+        <button *ngIf="!isAddingNewAddress" class="bg-blue-500 text-white px-4 py-2 rounded-lg" (click)="UpdateBtn()"> Update Address</button>
+
+        <button type="button" (click)="cancelEdit()" class="bg-gray-400 text-white px-4 py-2 rounded-lg">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<app-loading-spinner [isLoading]="makeLoadind"></app-loading-spinner>

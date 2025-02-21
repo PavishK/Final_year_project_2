@@ -2,6 +2,7 @@ import User from '../model/userModel.js';
 import expressasynchandler from 'express-async-handler';
 import { Encrypt_Password, Match_Password } from '../middleware/passwordMiddleware.js';
 import { Generate_Token, Verify_Token } from '../middleware/jwtMiddleware.js';
+import { hashSync } from 'bcrypt';
 
 const cookiesConfig={httpOnly:true,secure:false,maxAge:3 * 60 * 60 * 1000, signed:true};
 
@@ -90,4 +91,50 @@ export const SessionCheck=expressasynchandler(async(req,res)=>{
     }
 });
 
+export const Get_UserData=expressasynchandler(async(req,res)=>{
+    console.log("Edit Profile Request -> ",req.params.id);
+    try {
+        const userData=await User.findById(req.params.id);
+        if(!userData)
+            return res.status(404).json({message:"User not found."});
+        delete userData.password;
+        return res.status(200).json({message:"User data fetched successfully!",userData});
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});
 
+export const Update_User_Data=expressasynchandler(async(req,res)=>{
+    console.log("Request User Profile Update -> ",req.params.id);
+    try {
+        if(!req.body)
+            res.status(401).json({message:"Invalid User Info!"});
+        await User.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        res.status(201).json({message:"User Profile Updated Successfully!"});
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+});
+
+
+
+export const Update_Password=expressasynchandler(async(req,res)=>{
+    console.log("Request for Update Paddword -> ",req.body);
+    try {
+        if(!req.body)
+            return res.status(401).json({message:"Need Email and NewPassword!"});
+        const {password,email}=req.body;
+        const userData=await User.findOne({email:email});
+        if(!userData)
+            return res.status(401).json({message:"User not found!"});
+        const ExistPassword=await Match_Password(password,userData.password);
+        if(ExistPassword)
+            return res.status(401).json({message:"The new password is same as the old password!"});
+        const gen_password=await Encrypt_Password(password);
+        await User.findByIdAndUpdate(userData._id,{password:gen_password},{new:true});
+        return res.status(201).json({message:"Password Updated Successfully!"});
+        
+    } catch (error) {
+            return res.status(500).json({message:error.message});
+    }
+});

@@ -23,7 +23,13 @@ import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.compo
 import { FooterComponent } from './footer/footer.component';
 import { DisplayProductDetailsComponent } from './display-product-details/display-product-details.component';
 import { StarRatingPipe } from './pipes/star-rating.pipe';
-
+import { AdminHomeComponent } from './admin/admin-home/admin-home.component';
+import { ManageUsersComponent } from './admin/manage-users/manage-users.component';
+import { ManageProductsComponent } from './admin/manage-products/manage-products.component';
+import { ManageOrdersComponent } from './admin/manage-orders/manage-orders.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { SavedAddressComponent } from './saved-address/saved-address.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +46,13 @@ import { StarRatingPipe } from './pipes/star-rating.pipe';
     FooterComponent,
     DisplayProductDetailsComponent,
     StarRatingPipe,
+    AdminHomeComponent,
+    ManageUsersComponent,
+    ManageProductsComponent,
+    ManageOrdersComponent,
+    AdminPanelComponent,
+    EditProfileComponent,
+    SavedAddressComponent,
   ],
   imports: [
     BrowserModule,

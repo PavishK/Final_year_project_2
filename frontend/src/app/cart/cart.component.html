@@ -106,10 +106,10 @@
 
       <div *ngIf="true" class="flex items-start justify-normal flex-col gap-y-2 p-3">
         <h1 class="capitalize text-3xl font-bold ">Coupon code</h1>
-        <p class="text-lg font-medium text-footer-text w-96 text-center">
+        <p class="text-lg font-medium text-footer-text w-96 text-center mobile_nav:w-auto">
           Save more with our exclusive coupon code! Use it at checkout to get amazing discounts on your favorite products.
         </p>
-        <input type="text" placeholder="Coupon Code" class="w-full border-2 border-gray-200 rounded-3xl p-2 text-lg text-footer-text">
+        <input type="text" placeholder="Coupon Code" class="w-full border-2 border-gray-200 rounded-3xl p-2 text-lg text-footer-text" [(ngModel)]="couponCode">
         <button class=" hover:scale-105 transition ease-linear delay-150 w-full bg-black text-white h-10 text-lg font-bold rounded-3xl mt-3">Apply</button>
       </div>
 

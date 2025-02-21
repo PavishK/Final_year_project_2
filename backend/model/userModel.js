@@ -21,6 +21,20 @@ const Users=new mongoose.Schema(
             default:"user",
             required:true,
         },
+        fullname:{
+            type:String,
+
+        },
+        phno:{
+            type:String,
+        },
+        country:{
+            type:String,
+            default:"india"
+        },
+        pin_code:{
+            type:String,
+        }
     },
     {
         timestamps:true,

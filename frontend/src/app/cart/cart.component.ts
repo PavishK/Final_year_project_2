@@ -26,6 +26,7 @@ export class CartComponent implements OnInit {
   public countryData:any[]=[];
   public stateData:any={state:[],district:[]};
   public pinCodeValidation:boolean=false;
+  public couponCode:string="";
   public cartTotal: CartSchema = { subtotal: 0, shipping: 0, discount: 0, total: 0 };
 
   constructor(private http: HttpClient, private storage: StorageService, private toast:ToastrService, private cartService:CartService) {}
