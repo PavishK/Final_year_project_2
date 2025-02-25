@@ -35,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { ManageCountriesComponent } from './admin/manage-countries/manage-countries.component';
 import { ManageCouponsComponent } from './admin/manage-coupons/manage-coupons.component';
 
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 @NgModule({
   declarations: [
     AppComponent,
@@ -76,6 +77,7 @@ import { ManageCouponsComponent } from './admin/manage-coupons/manage-coupons.co
  }),
  HttpClientModule,
  MatIconModule,
+ 
   ],
   providers: [
     provideAnimationsAsync(),
