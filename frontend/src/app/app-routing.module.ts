@@ -15,6 +15,8 @@ import { ManageProductsComponent } from './admin/manage-products/manage-products
 import { ManageOrdersComponent } from './admin/manage-orders/manage-orders.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SavedAddressComponent } from './saved-address/saved-address.component';
+import { ManageCouponsComponent } from './admin/manage-coupons/manage-coupons.component';
+import { ManageCountriesComponent } from './admin/manage-countries/manage-countries.component';
 
 const routes: Routes = [
   {
@@ -75,6 +77,14 @@ const routes: Routes = [
       {
         path:'orders-management',
         component:ManageOrdersComponent,
+      },
+      {
+        path:'coupons-management',
+        component:ManageCouponsComponent,
+      },
+      {
+        path:'countries-management',
+        component:ManageCountriesComponent
       }
     ]
   },

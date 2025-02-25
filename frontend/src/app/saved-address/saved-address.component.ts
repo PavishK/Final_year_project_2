@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { StorageService } from '../storage.service';
 import { RouterManagerService } from '../router-manager.service';
 import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-saved-address',
@@ -37,7 +38,8 @@ export class SavedAddressComponent implements OnInit {
     private http: HttpClient,
     private storage: StorageService,
     private route: RouterManagerService,
-    private toast: ToastrService
+    private toast: ToastrService,
+    private navigate:Location,
   ) {}
 
   ngOnInit(): void {
@@ -212,5 +214,8 @@ export class SavedAddressComponent implements OnInit {
           this.makeLoadind=false;
         }
       });
+  }
+  goBack():void{
+    this.navigate.back();
   }
 }

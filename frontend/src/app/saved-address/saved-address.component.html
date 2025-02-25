@@ -1,10 +1,10 @@
-<div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg ">
-  <div class="flex items-start gap-x-10 justify-normal">
-  <button class=" text-gray-600 hover:text-gray-900" routerLink="/home">
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg mt-8 ">
+
+  <button class=" text-gray-600 hover:text-gray-900" (click)="goBack()">
     <img src="icons/back.svg" class="w-10 h-10 hover:scale-105 transition-transform duration-300">
   </button>
-  <h2 class="text-4xl font-bold font-arvo text-h-t-color mb-6">Manage Address</h2>
-</div>
+  <h2 class="-mt-10 text-4xl font-bold text-center mb-6 text-h-t-color font-arvo">Saved Addresses</h2>
+
 
   <div *ngFor="let address of addresses" class="bg-gray-50 p-6 rounded-lg mb-6 border border-gray-300">
     <p><strong>{{ address.fullname }}</strong></p>
@@ -37,7 +37,7 @@
       <input type="text" [(ngModel)]="newAddress.phoneNumber" name="phoneNumber" placeholder="Phone Number" required class="input"/>
       <input type="text" [(ngModel)]="newAddress.pinCode" name="pinCode" placeholder="Pin Code" (keyup)="validatePinCode()" maxlength="6" required class="input"/>
       <span *ngIf="pinCodeError" class="text-red-500 text-sm">{{ pinCodeError }}</span>
-      <span *ngIf="pinCodeMessage" class="text-green-500 text-sm">{{ pinCodeMessage }}</span>
+      <span *ngIf="pinCodeMessage" class="text-green-500 text-sm p-2">{{ pinCodeMessage }}</span>
 
       <select [(ngModel)]="newAddress.state" name="state" required class="input">
         <option *ngFor="let state of states" [value]="state">{{ state }}</option>

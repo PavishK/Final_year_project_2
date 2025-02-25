@@ -109,8 +109,9 @@
         <p class="text-lg font-medium text-footer-text w-96 text-center mobile_nav:w-auto">
           Save more with our exclusive coupon code! Use it at checkout to get amazing discounts on your favorite products.
         </p>
-        <input type="text" placeholder="Coupon Code" class="w-full border-2 border-gray-200 rounded-3xl p-2 text-lg text-footer-text" [(ngModel)]="couponCode">
-        <button class=" hover:scale-105 transition ease-linear delay-150 w-full bg-black text-white h-10 text-lg font-bold rounded-3xl mt-3">Apply</button>
+        <input type="text" placeholder="Coupon Code" class="w-full border-2 border-gray-200 rounded-3xl p-2 text-lg text-footer-text uppercase" [(ngModel)]="couponCode" maxlength="10" (keyup)="CouponCodeChanged()">
+        <span [ngClass]="couponHandler.error?'text-red-600':'text-green-600'" class=" p-1 text-sm font-bold capitalize">{{couponHandler.msg}}</span>
+        <button class=" hover:scale-105 transition ease-linear delay-150 w-full bg-black text-white h-10 text-lg font-bold rounded-3xl mt-3" (click)="CouponCodeChanged()">Apply</button>
       </div>
 
       <div class="bg-h-t-color p-3 rounded-2xl m-3">
@@ -136,7 +137,7 @@
 
           </div>
         </div>
-        <button (click)="openAddressPopUp()" class=" hover:scale-105 transition ease-linear delay-150 w-full bg-white text-black h-10 text-lg font-bold rounded-3xl mt-4">Continue</button>
+        <button (click)="openAddressPopup()" class=" hover:scale-105 transition ease-linear delay-150 w-full bg-white text-black h-10 text-lg font-bold rounded-3xl mt-4">Continue</button>
       </div>
 
     </div>

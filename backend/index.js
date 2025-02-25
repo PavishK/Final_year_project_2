@@ -53,3 +53,9 @@ app.use("/review-api",reviewRouter);
 
 import addressRouter from './router/addressRouter.js'
 app.use("/address-api",addressRouter);
+
+import couponRouter from './router/couponRouter.js';
+app.use("/coupon-api",couponRouter);
+
+import adminRouter from './router/adminRouter.js'
+app.use("/admin-api",adminRouter);

@@ -1,0 +1,33 @@
+<div class="bg-white rounded-2xl p-6 max-w-lg w-full shadow-2xl">
+  <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Select Address</h2>
+
+  <div *ngIf="data.addresses.length > 0; else noAddress">
+    <div class="space-y-4">
+      <div *ngFor="let address of data.addresses" (click)="selectAddress(address)"
+           class="border border-gray-300 p-5 rounded-lg shadow-md hover:shadow-lg hover:bg-gray-100 cursor-pointer transition-all duration-300">
+        <p class="font-semibold text-lg text-gray-900">{{ address.fullname }}</p>
+        <p class="text-gray-700">{{ address.phoneNumber }}</p>
+        <p class="text-gray-600">{{ address.houseNo }}, {{ address.roadNo }}</p>
+        <p class="text-gray-600">{{ address.city }}, {{ address.state }} - {{ address.pinCode }}</p>
+        <span class="inline-block bg-blue-500 text-white text-xs font-semibold px-3 py-1 rounded-full mt-2">
+          {{ address.addressType }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noAddress>
+    <p class="text-gray-500 text-center text-lg">No address found.</p>
+  </ng-template>
+
+  <div class="mt-6 flex justify-between items-center">
+    <button class="bg-blue-600 text-white px-5 py-2 rounded-full font-medium hover:bg-blue-700 transition w-1/2 mr-2"
+            (click)="manageAddress()">
+      {{data.addresses.length>0?'Manage Address':'New Address'}}
+    </button>
+    <button class="text-gray-600 px-5 py-2 rounded-full font-medium border border-gray-400 hover:border-red-500 hover:text-red-500 transition w-1/2 ml-2"
+            (click)="closePopup()">
+      Cancel
+    </button>
+  </div>
+</div>

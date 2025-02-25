@@ -24,7 +24,12 @@ export class DisplayProductDetailsComponent implements OnInit {
 
 
 
-  constructor(private route:ActivatedRoute, private toast:ToastrService,private http:HttpClient, private routeMoveTo:RouterManagerService, private storage:StorageService, private cartService:CartService){}
+  constructor(private route:ActivatedRoute,
+    private toast:ToastrService,
+    private http:HttpClient,
+    private routeMoveTo:RouterManagerService,
+    private storage:StorageService,
+    private cartService:CartService){}
 
   public MakeLoadingVisible():void{
     this.makeLoading=true;

@@ -30,6 +30,11 @@ import { ManageOrdersComponent } from './admin/manage-orders/manage-orders.compo
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SavedAddressComponent } from './saved-address/saved-address.component';
+import { AddressPopupComponent } from './address-popup/address-popup.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ManageCountriesComponent } from './admin/manage-countries/manage-countries.component';
+import { ManageCouponsComponent } from './admin/manage-coupons/manage-coupons.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +58,9 @@ import { SavedAddressComponent } from './saved-address/saved-address.component';
     AdminPanelComponent,
     EditProfileComponent,
     SavedAddressComponent,
+    AddressPopupComponent,
+    ManageCountriesComponent,
+    ManageCouponsComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,16 +68,17 @@ import { SavedAddressComponent } from './saved-address/saved-address.component';
     FormsModule,
     BrowserAnimationsModule,
     FormsModule,
+    MatDialogModule,
     ToastrModule.forRoot({
     positionClass: 'toast-top-right',
     timeOut: 4000,
     closeButton: false
  }),
  HttpClientModule,
- MatIconModule
+ MatIconModule,
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
   ],
   bootstrap: [AppComponent]
 })

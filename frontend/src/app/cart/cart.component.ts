@@ -5,6 +5,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
 import { CartService } from '../cart.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddressPopupComponent } from '../address-popup/address-popup.component';
 
 @Component({
   selector: 'app-cart',
@@ -27,9 +29,13 @@ export class CartComponent implements OnInit {
   public stateData:any={state:[],district:[]};
   public pinCodeValidation:boolean=false;
   public couponCode:string="";
+  public couponHandler:any={error:false,msg:""};
+  public couponDiscount=0.0;
   public cartTotal: CartSchema = { subtotal: 0, shipping: 0, discount: 0, total: 0 };
 
-  constructor(private http: HttpClient, private storage: StorageService, private toast:ToastrService, private cartService:CartService) {}
+  public addresses = [];
+
+  constructor(public dialog: MatDialog, private http: HttpClient, private storage: StorageService, private toast:ToastrService, private cartService:CartService) {}
 
   ngOnInit(): void {
     const userData = this.storage.getData();
@@ -40,25 +46,45 @@ export class CartComponent implements OnInit {
           this.cartData = res || [];
           this.cartCount = this.cartData.length;
           this.calculateCartTotal();
+          this.fetchAddresses(userData.id);
         },
         error: (err) => {
           console.error('Error fetching cart data:', err);
         }
       });
       this.makeLoading=false;
-    }
 
+
+
+    }
+    this.makeLoading=true;
     this.http.get("http://localhost:8080/country-api/display-country-data").
     subscribe({next:(res:any)=>{
       this.countryData=res;
       this.stateData.state=[...new Set(this.countryData.map(data=>data.state))];
       this.stateData.district=[...new Set(this.countryData.map(data=>data.name))];
+      this.makeLoading=false;
     },
     error:(err)=>{
       console.log(err);
+      this.makeLoading=false;
     }
   })
 
+  }
+
+  fetchAddresses(userId: string) {
+    this.makeLoading=true;
+    this.http.get(`http://localhost:8080/address-api/user/display-user-address/${userId}`)
+      .subscribe({
+        next: (res: any) => this.addresses = res.data,
+        error: () => {
+          this.addresses = [];
+          this.makeLoading=false;
+          //this.toast.error("Failed to fetch addresses");
+        }
+      });
+      this.makeLoading=false;
   }
 
   incrementQuantity(cartItem: any): void {
@@ -100,7 +126,7 @@ export class CartComponent implements OnInit {
   private calculateCartTotal(): void {
     this.cartTotal.subtotal = this.cartData.reduce((total, item) => total + item.totalPrice, 0);
     this.cartTotal.shipping = this.cartTotal.shipping > 0 ? 50 : 0; // Example shipping calculation
-    this.cartTotal.discount = this.cartTotal.subtotal * 0.1; // Example discount of 10%
+    this.cartTotal.discount = this.cartTotal.subtotal * this.couponDiscount; // Example discount of 10%
     this.cartTotal.total = this.cartTotal.subtotal + this.cartTotal.shipping - this.cartTotal.discount;
   }
 
@@ -113,20 +139,24 @@ export class CartComponent implements OnInit {
     else{
       if(!/^\d{6}$/.test(data.value.pin))
        this.pinCodeValidation=true;
+
       else{
+        this.makeLoading=true;
         this.http.post(`http://localhost:8080/country-api/get-pincode-location`,data.value).
       subscribe({
         next:(res:any)=>{
             this.cartTotal.shipping=(this.countryData.filter(ele=>ele.state==data.value.state)[0].charge);
             this.calculateCartTotal();
             this.toast.success("Shipping charge claculated!");
-            console.log(res);
+            //console.log(res);
+            this.makeLoading=false;
 
         },
         error:(err)=>{
           console.log(err.error.message);
           this.pinCodeValidation=true;
           this.cartTotal.shipping=0;
+          this.makeLoading=false;
           this.toast.error("Unable to find District for the given pin code!");
         }
       });
@@ -135,12 +165,59 @@ export class CartComponent implements OnInit {
      }
     }
 
-    public openAddressPopUp():void{
+
+    public CouponCodeChanged():void{
+      if(!/^[A-Z]{10}$/.test(this.couponCode.toUpperCase())){
+           this.couponHandler={error:true,msg:"Invalid Coupon Code!"}
+           this.couponDiscount=0.0;
+           this.calculateCartTotal();
+      }
+      else{
+
+        const data={userId:this.storage.getData().id,coupon_code:this.couponCode.toUpperCase()};
+        this.makeLoading=true;
+        this.http.post("http://localhost:8080/coupon-api/apply-coupon-code",data).
+        subscribe({
+          next:(res:any)=>{
+            this.couponHandler={error:false,msg:res.message};
+            this.couponDiscount=res.discount;
+            this.calculateCartTotal();
+            this.makeLoading=false;
+          },
+          error:(err:any)=>{
+            setTimeout(()=>{
+              this.couponHandler={error:true,msg:err.error.message};
+              this.couponDiscount=0.0;
+              this.calculateCartTotal();
+              this.makeLoading=false;
+            },1000);
+
+          }
+        });
+
+
+      }
+
+
+    }
+
+    openAddressPopup() {
       if(this.cartTotal.shipping<=0)
         this.toast.info("Please select your shipping address!");
       else{
-        console.log("Open")
-      }
+
+
+      const dialogRef = this.dialog.open(AddressPopupComponent, {
+        width: '500px',
+        data: { addresses: this.addresses }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Address Selected'+result);
+        }
+      });
+    }
     }
 
 }

@@ -1,2 +1,89 @@
-<p>Admin_Nav</p>
-<router-outlet></router-outlet>
+<div class="flex h-screen bg-gray-100">
+  <!-- Overlay (for closing menu on mobile) -->
+  <div *ngIf="isMenuOpen" (click)="toggleMenu()" class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"></div>
+
+  <!-- Sidebar -->
+  <div [ngClass]="{'translate-x-0': isMenuOpen, '-translate-x-full': !isMenuOpen}"
+       class="w-64 bg-white text-gray-900 p-6 space-y-6 fixed h-full shadow-lg transition-transform duration-300 ease-in-out md:translate-x-0 transform md:block z-50">
+
+    <!-- Sidebar Header with Close Button -->
+    <div class="flex justify-between items-center">
+      <div class="text-3xl text-blue-600 font-extrabold">Admin Panel</div>
+      <!-- Close Button -->
+      <button (click)="toggleMenu()"
+              class="md:hidden w-10 text-blue-700 h-10 flex items-center justify-center rounded-2xl border-2 border-blue-700 shadow-lg hover:bg-blue-700 transition duration-300">
+        <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+    </div>
+
+    <hr class="border-2 border-blue-700 shadow-lg w-full">
+
+    <!-- Navigation -->
+    <nav class="space-y-4">
+      <a routerLink="/admin/admin-home" routerLinkActive="text-white bg-blue-500" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500 hover:text-white">
+        <span class="material-icons">dashboard</span>
+        <span>Dashboard</span>
+      </a>
+      <a routerLink="/admin/products-management" routerLinkActive="text-white bg-blue-500" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500 hover:text-white">
+        <span class="material-icons">inventory</span>
+        <span>Products</span>
+      </a>
+      <a routerLink="/admin/users-management" routerLinkActive="text-white bg-blue-500" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500 hover:text-white">
+        <span class="material-icons">group</span>
+        <span>Users</span>
+      </a>
+      <a routerLink="/admin/orders-management" routerLinkActive="text-white bg-blue-500" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500 hover:text-white">
+        <span class="material-icons">shopping_cart</span>
+        <span>Orders</span>
+      </a>
+      <a routerLink="/admin/coupons-management" routerLinkActive="text-white bg-blue-500" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500 hover:text-white">
+        <span class="material-icons">sell</span>
+        <span>Coupons</span>
+      </a>
+      <a routerLink="/admin/states-management" routerLinkActive="text-white bg-blue-500" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-blue-500 hover:text-white">
+        <span class="material-icons">public</span>
+        <span>States</span>
+      </a>
+
+      <!-- Go to Home and Logout -->
+      <hr class="border-t border-gray-300">
+      <a routerLink="/home" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-green-500 hover:text-white">
+        <span class="material-icons">home</span>
+        <span>Go to Home</span>
+      </a>
+      <a (click)="logout()" class="flex items-center space-x-3 p-3 rounded-lg hover:bg-red-500 hover:text-white cursor-pointer">
+        <span class="material-icons">logout</span>
+        <span>Log Out</span>
+      </a>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="flex-1 transition-all duration-300" [ngClass]="{'md:ml-64': isMenuOpen}">
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md p-4 flex justify-between items-center fixed w-full md:w-[calc(100%-16rem)] top-0 md:left-64 z-40 transition-all duration-300">
+      <button (click)="toggleMenu()" class="text-blue-700 md:hidden">
+        <svg class="w-8 h-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+
+      <!-- User Info -->
+      <div class="flex items-center space-x-4">
+        <div>
+          <p class="text-lg font-semibold text-gray-900 capitalize">{{AdminData.name}}</p>
+          <p class="text-gray-600 text-sm">{{AdminData.email}}</p>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <div class="mt-20 p-4 md:ml-64 mobile_nav:ml-0">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner>
