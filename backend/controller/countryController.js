@@ -37,8 +37,13 @@ export const PINCode_Location_Finder=handler(async(req,res)=>{
         const stateData=await data.data[0].PostOffice.filter(dt=>dt.District.toLowerCase()===req.body.district && dt.Circle.toLowerCase()===req.body.state);
         
         if(stateData.length>0){
-            const cityNames=[...new Set(stateData.map(info=>info.Name))]
-            return res.status(201).json({cityNames:cityNames});
+            const cityNames=[...new Set(stateData.map(info=>info.Name))];
+
+            const data=await Country.findOne({name:req.body.district});
+            if(data.isAvailable)
+                return res.status(200).json({message:"City Name Found!",data:data.charge});
+            else
+                return res.status(404).json({message:"Currently out-of stock for this location!"});
         }
         else
             return res.status(401).json({message:"Invalid PIN Code!"});
@@ -57,7 +62,7 @@ export const Validate_PINCode=handler(async(req,res)=>{
         const stateData=await data.data[0].PostOffice.filter(dt=>dt.Country.toLowerCase()==="india");
         
         if(stateData.length>0){
-            const cityNames=[...new Set(stateData.map(info=>info.Name))]
+            const cityNames=[...new Set(stateData.map(info=>info.Name))];
             return res.status(201).json({cityNames:cityNames});
         }
         else
@@ -78,4 +83,30 @@ export const Get_City_State_Name=handler(async(req,res)=>{
     } catch (error) {
         return res.status(500).json({message:error.message});
     }
-})
+});
+
+
+export const Delete_State_Data=handler(async(req,res)=>{
+    console.log("Request Delete State Data -> ",req.params);
+    try {
+        const data=await Country.findByIdAndDelete(req.params.id);
+        if(!data)
+            return res.status(404).json({message:"No Data Found!"});
+        return res.status(201).json({message:"State Data Deleted Successfully!"});
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});
+
+
+export const Update_Country_data=handler(async(req,res)=>{
+    console.log("Request Update Country -> ",req.body);
+    try {
+        if(!req.body)
+            return res.status(401).json({message:"Missing Data!"});
+        await Country.findByIdAndUpdate(req.params.id,req.body,{new:true});
+        return res.status(201).json({message:"State data updated Successfully!"});
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});

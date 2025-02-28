@@ -5,9 +5,10 @@ import handler from 'express-async-handler';
 export const Insert_Coupon_Data=handler(async(req,res)=>{
     console.log("Request Coupon Code Insert -> ",req.body);
     try {
+        const {_id,...data}=req.body;
         if(!req.body)
             return res.status(401).json({message:"Need Coupon Data!"});
-        const newCoupon=new Coupon(req.body);
+        const newCoupon=new Coupon(data);
         await newCoupon.save();
         return res.status(201).json({message:"Coupon data Inserted successfully!"});
     } catch (error) {
@@ -33,4 +34,44 @@ export const Apply_Coupon_code=handler(async(req,res)=>{
     } catch (error) {
         return res.status(500).json({message:error.message});
     }
-})
+});
+
+
+export const Display_Coupon_Code=handler(async(req,res)=>{
+    console.log("Get -> ",req.url);
+    try {
+        const data=await Coupon.find({});
+        if(data.length<0)
+            return res.status(401).json({message:"Empty Coupon Data!"});
+        return res.status(201).json(data);
+    } catch (error) {
+
+        return res.status(500).json({message:error.message});
+        
+    }
+});
+
+export const Delete_Coupon_Data=handler(async(req,res)=>{
+    console.log("Request Delete Coupon Code -> ",req.body);
+    try {
+        const data=await Coupon.findByIdAndDelete(req.params.id);
+        if(!data)
+            return res.status(401).json({message:"Coupon Data not found!"});
+        return res.status(201).json({message:"Coupon Data Deleted Successfully!"});
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});
+
+export const Update_Coupon_Code=handler(async(req,res)=>{
+    console.log("Request Update Coupon Code -> ",req.body);
+    try {
+        const{_id,...updated}=req.body;
+        const data=await Coupon.findByIdAndUpdate(req.params.id,updated,{new:true});
+        if(!data)
+            return res.status(401).json({message:"Coupon Data not found!"});
+        return res.status(201).json({message:"Coupon Data Updated Successfully!"});
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});

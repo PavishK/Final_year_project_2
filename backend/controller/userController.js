@@ -118,6 +118,8 @@ export const Update_User_Data=expressasynchandler(async(req,res)=>{
 
 
 
+
+
 export const Update_Password=expressasynchandler(async(req,res)=>{
     console.log("Request for Update Paddword -> ",req.body);
     try {
@@ -136,5 +138,47 @@ export const Update_Password=expressasynchandler(async(req,res)=>{
         
     } catch (error) {
             return res.status(500).json({message:error.message});
+    }
+});
+
+
+
+export const Display_Users=expressasynchandler(async(req,res)=>{
+    console.log("Request Display Users -> ",req.params.id);
+    try {
+        const data=await User.find({});
+        if(!data)
+            return res.status(401).json({message:"No Users Found!"});
+        
+        res.status(201).json({message:"Users Displayed Successfully!",data:data.filter(ele=>ele._id!=req.params.id)});
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+});
+
+
+export const Update_user_Role=expressasynchandler(async(req,res)=>{
+    console.log("Request for Update User Role -> ",req.body);
+    try {
+        const {id,role}=req.body;
+        const userData=await User.findByIdAndUpdate(id,{role:role},{new:true});
+        if(!userData)
+            return res.status(401).json({message:"User not found!"});
+        return res.status(201).json({message:"User Role Updated Successfully!"});
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});
+
+
+export const Delete_User=expressasynchandler(async(req,res)=>{
+    console.log("Request for Delete User -> ",req.params.id);
+    try {
+        const data=await User.findByIdAndDelete(req.params.id);
+        if(!data)
+            return res.status(401).json({message:"User not found!"});
+        return res.status(201).json({message:"User Deleted Successfully!"});
+    } catch (error) {
+        return res.status(500).json({message:error.message});   
     }
 });

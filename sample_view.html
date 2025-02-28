@@ -1,19 +1,31 @@
+<!DOCTYPE html>
 <html>
-  <body style="font-family: Arial, sans-serif; background-color: #f7f9fc; padding: 30px;">
-    <div style="max-width: 500px; margin: 0 auto; background-color: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);">
-      <div style="text-align: center;">
-        <h2 style="color: #F5952C; font-size: 28px; font-weight: bold;">Password Reset Request</h2>
-        <p style="font-size: 16px; color: #333;">We received a request to reset your password.</p>
-      </div>
-      <div style="background-color: #f4f7fc; border-radius: 8px; padding: 20px; margin-top: 20px; text-align: center;">
-        <h3 style="color: #1d72b8; font-size: 40px; font-weight: bold; letter-spacing: 2px;">${otp}</h3>
-        <p style="font-size: 14px; color: #555; margin-top: 10px;">Use this OTP to reset your password.</p>
-        <p style="font-size: 14px; color: #555; margin-top: 10px;">If you didn’t request this, please ignore.</p>
-      </div>
-      <footer style="text-align: center; margin-top: 30px; font-size: 12px; color: #888;">
-        <p>&copy; 2025 <span style="color: #1d72b8;">Sri Murugan Biscuit Bakery</span></p>
-        <p style="font-size: 14px; font-weight: bold; color: #555;">SMT Team</p>
-      </footer>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Reset Your Password</title>
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #fff7f0; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 20px auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+    .header { text-align: center; background: #F5952C; color: white; font-size: 26px; font-weight: bold; padding: 18px; border-radius: 12px 12px 0 0; }
+    .content { text-align: center; padding: 20px; color: #444; }
+    .password-box { font-size: 22px; font-weight: bold; background: #FFECD1; color: #F5952C; padding: 12px; border-radius: 8px; display: inline-block; margin: 15px 0; border: 2px dashed #F5952C; letter-spacing: 1px; }
+    .footer { text-align: center; font-size: 14px; color: #777; padding: 15px; background: #fff3e0; border-radius: 0 0 12px 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">🔒 Password Reset by Admin</div>
+    <div class="content">
+      <p>Hello,</p>
+      <p>Your password has been reset by an administrator for <b>Sri Murugan Biscuits Bakery</b>.</p>
+      <p>Here is your new password:</p>
+      <p class="password-box">${newPassword}</p>
+      <p>For security reasons, please change your password immediately after logging in.</p>
     </div>
-  </body>
+    <div class="footer">
+      &copy; 2025 Sri Murugan Biscuits Bakery. All rights reserved.
+    </div>
+  </div>
+</body>
 </html>

@@ -1,3 +1,4 @@
+import { trace } from 'console';
 import Product from '../model/productModel.js';
 import expressAsyncHandler from 'express-async-handler';
 import multer from 'multer';
@@ -26,15 +27,20 @@ export const InsertProduct=expressAsyncHandler(async(req,res)=>{
             return res.status(501).json({message:"Unable to upload Image!"});
 
             const src=req.file?`/images/${req.file.filename}`:null;
-            const {name,price,desc,type,stock_quantity}=JSON.parse(req.body.details);
+            const {name,price,desc,type,stock_quantity,maxquantity,minquantity,pieces,rating,isVeg}=JSON.parse(req.body.details);
             const newProduct=new Product(
                 {
                     name:name,
                     price:price,
                     desc:desc,
                     type:type,
-                    stock_quandity:stock_quantity,
+                    stock_quantity:stock_quantity,
                     src:src,
+                    maxquantity:maxquantity,
+                    minquantity:minquantity,
+                    pieces:pieces,
+                    rating:rating,
+                    isVeg:isVeg,
                 }
             );
             newProduct.save().then(()=>
@@ -60,5 +66,31 @@ export const ListProducts=expressAsyncHandler(async(req,res)=>{
     }catch(err){
         res.status(500).json({message:err.message});
 
+    }
+});
+
+
+export const Delete_Product=expressAsyncHandler(async(req,res)=>{
+    console.log("Deleting Product -> ",req.params);
+    try {
+        if(!req.params.id)
+            return res.status(401).json({message:"Product ID is required!"});
+        await Product.findByIdAndDelete(req.params.id);
+        return res.status(201).json({message:"Product deleted successfully!"});
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+
+export const Update_Product=expressAsyncHandler(async(req,res)=>{
+    console.log("Request Update Product -> ",req.params.id);
+    try {
+        if(!req.params.id)
+            return res.status(401).json({message:"Product ID is required!"});
+        const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        return res.status(201).json({message:"Product updated successfully!",data:product});
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 });

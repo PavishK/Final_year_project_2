@@ -1,6 +1,8 @@
 import expressAsyncHandler from "express-async-handler";
 import nodemailer from 'nodemailer';
-import { fp_otp } from "../middleware/generateOTP.js";
+import { fp_otp, gen_password } from "../middleware/generateOTP.js";
+import User from '../model/userModel.js';
+import { Encrypt_Password } from "../middleware/passwordMiddleware.js";
 
 
   
@@ -88,6 +90,8 @@ import { fp_otp } from "../middleware/generateOTP.js";
 `
  }
 
+
+
 await tunnel.sendMail(option,(err,info)=>{
   if (err) {
     return res.status(500).json({message:'Error sending OTP: ' + err.message});
@@ -98,4 +102,81 @@ await tunnel.sendMail(option,(err,info)=>{
     } catch (error) {
       return res.status(500).json({ message: "Error sending OTP: " + error.message});
     }
-  })
+  });
+
+
+
+export const Send_Reseted_Password = expressAsyncHandler(async (req, res) => {
+    console.log("Request Send Reset Password -> ", req.body);
+    try {
+        if (!req.body) return res.status(400).json({ message: "Invalid Request!" });
+
+        const { id,email } = req.body;
+        const newPassword = gen_password();
+
+        // ✅ Configure SMTP Transport with Debugging Enabled
+        const tunnel = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 587, // Try 465 if needed
+            secure: false,
+            auth: {
+                user: process.env.ADMIN_MAIL,
+                pass: process.env.MAIL_APP_KEY,
+            },  
+        });
+
+        // ✅ Email Options
+        const option = {
+            from: process.env.ADMIN_MAIL,
+            to: email,
+            subject: 'Reset Password',
+            html: `
+            <html>
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Admin Reset Your Password</title>
+              <style>
+                body { font-family: Arial, sans-serif; background-color: #fff7f0; margin: 0; padding: 0; }
+                .container { max-width: 600px; margin: 20px auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+                .header { text-align: center; background: #F5952C; color: white; font-size: 26px; font-weight: bold; padding: 18px; border-radius: 12px 12px 0 0; }
+                .content { text-align: center; padding: 20px; color: #444; }
+                .password-box { font-size: 22px; font-weight: bold; background: #FFECD1; color: #F5952C; padding: 12px; border-radius: 8px; display: inline-block; margin: 15px 0; border: 2px dashed #F5952C; letter-spacing: 1px; }
+                .footer { text-align: center; font-size: 14px; color: #777; padding: 15px; background: #fff3e0; border-radius: 0 0 12px 12px; }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="header">🔒 Password Reset by Admin</div>
+                <div class="content">
+                  <p>Hello,</p>
+                  <p>Your password has been reset by an administrator for <b>Sri Murugan Biscuits Bakery</b>.</p>
+                  <p>Here is your new password:</p>
+                  <p class="password-box">${newPassword}</p>
+                  <p>For security reasons, please change your password immediately after logging in.</p>
+                </div>
+                <div class="footer">
+                  &copy; 2025 Sri Murugan Biscuits Bakery. All rights reserved.
+                </div>
+              </div>
+            </body>
+            </html>`,
+        };
+
+        
+        // await tunnel.sendMail(option);
+        console.log("New Password -> ",newPassword);
+        const encrypt_newPassword=await Encrypt_Password(newPassword);
+        const user=await User.findById(id);
+        if(!user)
+          return res.status(401).json({message:"User Not Found!"});
+        await User.findByIdAndUpdate(id,{password:encrypt_newPassword},{new:true});
+
+        return res.status(200).json({ message: 'New Password sent to User email' });
+
+
+    } catch (error) {
+        console.error("Error sending email:", error.message);
+        return res.status(500).json({ message: "Error sending mail: " + error.message });
+    }
+});

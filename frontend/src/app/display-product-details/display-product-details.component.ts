@@ -103,7 +103,7 @@ export class DisplayProductDetailsComponent implements OnInit {
           quantity:Number(this.productData.minquantity),
           imgSrc:this.productData.src,
           totalPrice:(this.productData.price*this.productData.pieces),
-          stock_quantity:Number(this.productData.stock_quandity),
+          stock_quantity:Number(this.productData.stock_quantity),
           product_is_veg:this.productData.isVeg,
           product_type:this.productData.type,
           max_quantity:this.productData.maxquantity,
@@ -139,7 +139,7 @@ interface ProductSchema{
   price: number;
   src:string;
   desc:string;
-  stock_quandity:number;
+  stock_quantity:number;
   rating:number;
   minquantity:number;
   pieces:number;
@@ -149,4 +149,5 @@ interface CounterSchema{
   _id:any;
   name: string;
   charge:number;
+  isAvailable:boolean;
 }

@@ -77,7 +77,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
  }),
  HttpClientModule,
  MatIconModule,
- 
+ NgxChartsModule,
   ],
   providers: [
     provideAnimationsAsync(),

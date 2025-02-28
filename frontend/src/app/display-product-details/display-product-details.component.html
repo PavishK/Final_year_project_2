@@ -9,7 +9,7 @@
 
     <div  class="max-h-60 overflow-y-auto border rounded p-2">
       <div class="grid grid-cols-2 gap-2">
-        <div class="p-2 bg-gray-100 rounded flex justify-between" *ngFor="let country of countryData">
+        <div [ngClass]="country.isAvailable?'bg-white':'bg-red-300'" class="p-2 bg-gray-100 rounded flex justify-between" *ngFor="let country of countryData">
           <span class="capitalize">{{country.name}}</span> <span class="font-semibold">{{country.charge | currency:'INR'}}</span>
         </div>
       </div>

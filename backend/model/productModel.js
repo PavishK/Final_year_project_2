@@ -22,7 +22,7 @@ const products=new mongoose.Schema(
             type:Number,
             required:true,
         },
-        stock_quandity:{
+        stock_quantity:{
             type:Number,
             required:true,
         },
@@ -31,6 +31,18 @@ const products=new mongoose.Schema(
         },
         isVeg:{
             type:Boolean,
+        },
+        maxquantity:{
+            type:Number,
+            default:1,
+        },
+        minquantity:{
+            type:Number,
+            default:1,
+        },
+        pieces:{
+            type:Number,
+            default:10,
         },
     }
 );

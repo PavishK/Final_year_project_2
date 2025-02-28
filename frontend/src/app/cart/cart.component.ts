@@ -125,7 +125,7 @@ export class CartComponent implements OnInit {
 
   private calculateCartTotal(): void {
     this.cartTotal.subtotal = this.cartData.reduce((total, item) => total + item.totalPrice, 0);
-    this.cartTotal.shipping = this.cartTotal.shipping > 0 ? 50 : 0; // Example shipping calculation
+    this.cartTotal.shipping = this.cartTotal.shipping; // Example shipping calculation
     this.cartTotal.discount = this.cartTotal.subtotal * this.couponDiscount; // Example discount of 10%
     this.cartTotal.total = this.cartTotal.subtotal + this.cartTotal.shipping - this.cartTotal.discount;
   }
@@ -145,7 +145,8 @@ export class CartComponent implements OnInit {
         this.http.post(`http://localhost:8080/country-api/get-pincode-location`,data.value).
       subscribe({
         next:(res:any)=>{
-            this.cartTotal.shipping=(this.countryData.filter(ele=>ele.state==data.value.state)[0].charge);
+          console.log(res)
+            this.cartTotal.shipping=res.data;
             this.calculateCartTotal();
             this.toast.success("Shipping charge claculated!");
             //console.log(res);
@@ -157,7 +158,11 @@ export class CartComponent implements OnInit {
           this.pinCodeValidation=true;
           this.cartTotal.shipping=0;
           this.makeLoading=false;
-          this.toast.error("Unable to find District for the given pin code!");
+
+          if(err.status==404)
+            this.toast.error(err.error.message);
+          else
+            this.toast.error("Unable to find District for the given pin code!");
         }
       });
       }
