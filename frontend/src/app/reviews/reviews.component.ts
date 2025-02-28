@@ -25,6 +25,7 @@ export class ReviewsComponent implements OnInit {
   isImageTouched:boolean=false;
   imagePath:string="";
   makeLoading:boolean=false;
+  public popupNotOrder:boolean=true;
 
   constructor(private http: HttpClient, private storage: StorageService, private toast: ToastrService) {}
 

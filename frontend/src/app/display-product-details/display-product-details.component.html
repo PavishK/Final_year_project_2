@@ -131,5 +131,41 @@
 </div>
 
 
+<div *ngIf="popupLogin" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+  <div class="bg-white p-8 rounded-lg shadow-2xl w-11/12 sm:w-96 text-center">
+    <img src="decoration/cake_login.svg" alt="Login Required" class="w-24 h-24 mx-auto mb-4">
+    <h2 class="text-2xl font-semibold text-gray-800">Please Login to Continue</h2>
+    <p class="text-gray-600 mt-3">You need to be logged in to access this feature.</p>
+    <div class="mt-5 flex justify-center gap-4">
+      <button (click)="LoginPopup()"  class="bg-[#F5952C] hover:bg-[#d17c24] text-white px-5 py-3 rounded-lg text-lg font-medium">Login</button>
+      <button (click)="popupLogin=false;" class="bg-gray-300 hover:bg-gray-400 px-5 py-3 rounded-lg text-lg font-medium">Close</button>
+    </div>
+  </div>
+</div>
+<div class="relative p-6 flex-auto" *ngIf="popupLoginComponent">
+  <app-login-register [loginOrRegister]="!popupLogin" ></app-login-register>
+</div>
+
+<!-- Modal Overlay -->
+<div *ngIf="popupLoginComponent" class="fixed inset-0 z-50 flex justify-center items-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none backdrop-blur-sm">
+  <!-- Modal Container -->
+  <div class="relative w-full mx-4 my-6 max-w-6xl md:w-4/5 lg:w-3/5 shadow-2xl rounded-2xl">
+    <!-- Modal Content -->
+    <div class="border-0 rounded-2xl shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+      <!-- Modal Header -->
+      <div class="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t mt-5">
+        <h3 class="text-2xl font-semibold">Login / Register</h3>
+        <div  class="w-8 rounded-lg bg-h-t-color p-2 cursor-pointer" (click)="popupLoginComponent=false; popupLogin=false;">
+          <img src="icons/close_menu.svg" >
+        </div>
+      </div>
+      <!-- Modal Body -->
+      <div class="relative p-6 flex-auto">
+        <app-login-register [loginOrRegister]="!popupLogin"></app-login-register>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner>

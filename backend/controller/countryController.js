@@ -5,9 +5,11 @@ import axios from 'axios';
 export const Insert_Country_Data=handler(async(req,res)=>{
     console.log("Request Insert country data -> ",req.body);
     try {
+
+        const {_id,...data}=req.body;
         if(!req.body)
             return res.status(400).json({message:"Empty Country Data!"});
-        const country = new Country(req.body);
+        const country = new Country(data);
         await country.save();
         res.status(201).json({message:"Country Data Inserted Successfully!"});
     } catch (error) {

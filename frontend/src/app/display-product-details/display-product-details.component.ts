@@ -22,6 +22,10 @@ export class DisplayProductDetailsComponent implements OnInit {
   public popUpDescription:boolean=false;
   public randomProducts:ProductSchema[]=[];
 
+  public popupLogin:boolean=false;
+  public popupLoginComponent:boolean=false;
+
+
 
 
   constructor(private route:ActivatedRoute,
@@ -93,8 +97,25 @@ export class DisplayProductDetailsComponent implements OnInit {
         this.popUpDescription=!this.popUpDescription;
       }
 
+      public LoginPopup():void{
+        this.makeLoading=true;
+        this.popupLogin=false;
+        this.popupLoginComponent=true;
+        setTimeout(()=>this.makeLoading=false,1000);
+      }
+
       public onAddToCartBtnClicked():void{
-        const userId=this.storage.getData().id;
+
+        var userId:string="";
+
+        try{
+          userId=this.storage.getData().id;
+        }catch(err){
+          this.makeLoading=true;
+          this.popupLogin=true;
+          setTimeout(()=>this.makeLoading=false,1000);
+        }
+
         const CartData={
           userId:userId,
           productId:this.productData._id,
@@ -103,7 +124,7 @@ export class DisplayProductDetailsComponent implements OnInit {
           quantity:Number(this.productData.minquantity),
           imgSrc:this.productData.src,
           totalPrice:(this.productData.price*this.productData.pieces),
-          stock_quantity:Number(this.productData.stock_quantity),
+          stock_quantity:Number(this.productData.stock_quantity - this.productData.minquantity),
           product_is_veg:this.productData.isVeg,
           product_type:this.productData.type,
           max_quantity:this.productData.maxquantity,
@@ -121,9 +142,10 @@ export class DisplayProductDetailsComponent implements OnInit {
           },error:(err)=>{
             if(err.status==400)
               this.toast.info(`${this.productData.name} is already in the cart!`);
+
             else
             this.toast.error(`Oops! Unable to add ${this.productData.name} to your cart. Please try again.`);
-            console.log(err)
+
           }
         })
       }
