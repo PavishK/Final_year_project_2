@@ -123,7 +123,7 @@ export class DisplayProductDetailsComponent implements OnInit {
           price:Number(this.productData.price),
           quantity:Number(this.productData.minquantity),
           imgSrc:this.productData.src,
-          totalPrice:(this.productData.price*this.productData.pieces),
+          totalPrice:(this.productData.price*this.productData.pieces)*this.productData.minquantity,
           stock_quantity:Number(this.productData.stock_quantity - this.productData.minquantity),
           product_is_veg:this.productData.isVeg,
           product_type:this.productData.type,

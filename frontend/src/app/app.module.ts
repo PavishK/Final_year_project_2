@@ -36,6 +36,10 @@ import { ManageCountriesComponent } from './admin/manage-countries/manage-countr
 import { ManageCouponsComponent } from './admin/manage-coupons/manage-coupons.component';
 
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { PaymentComponent } from './payment/payment.component';
+import { OrdersComponent } from './orders/orders.component';
+
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     AppComponent,
@@ -62,6 +66,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     AddressPopupComponent,
     ManageCountriesComponent,
     ManageCouponsComponent,
+    PaymentComponent,
+    OrdersComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,6 +75,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     FormsModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     MatDialogModule,
     ToastrModule.forRoot({
     positionClass: 'toast-top-right',

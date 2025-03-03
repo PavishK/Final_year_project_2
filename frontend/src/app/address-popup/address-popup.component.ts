@@ -8,34 +8,49 @@ import { RouterManagerService } from '../router-manager.service';
   styleUrls: ['./address-popup.component.css']
 })
 export class AddressPopupComponent {
+
+  public makeLoading: boolean = false;
+
   constructor(
-    public dialogRef: MatDialogRef<AddressPopupComponent>, private route:RouterManagerService,
+    public dialogRef: MatDialogRef<AddressPopupComponent>,
+    private route: RouterManagerService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   selectAddress(address: any) {
-    const addressData={
-      name:address.fullname,
-      houseno:address.houseNo,
-      roadno:address.roadNo,
-      city: address.city,
-      state: address.state+" - "+address.pinCode,
-    }
-    const info={
-      userId:address.userId,
-      type:address.addressType,
-      phno:address.phoneNumber,
-      address:Object.values(addressData).join(', '),
-    }
-    this.dialogRef.close(info);
+    this.makeLoading = true;
+
+    const UserAddress = {
+      userId: address.userId,
+      userName: address.fullname,
+      address: `${address.houseNo}, ${address.roadNo}, ${address.city}, ${address.state} - ${address.pinCode}`,
+      phno: address.phoneNumber,
+      addressType: address.addressType,
+    };
+
+    console.log(address);
+
+    setTimeout(() => {  // Simulate async behavior if needed
+      this.dialogRef.close(UserAddress);
+      this.makeLoading = false;
+    }, 500);
   }
 
   closePopup() {
-    this.dialogRef.close(null);
+    this.makeLoading = true;
+    setTimeout(() => {
+      this.dialogRef.close(null);
+      this.makeLoading = false;
+    }, 300);
   }
 
-  manageAddress():void{
+  manageAddress(): void {
+    this.makeLoading = true;
     this.closePopup();
-    this.route.moveTo('user/saved-address');
+
+    setTimeout(() => {
+      this.route.moveTo('user/saved-address');
+      this.makeLoading = false;
+    }, 500);
   }
 }

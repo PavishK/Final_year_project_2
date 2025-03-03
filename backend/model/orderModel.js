@@ -1,0 +1,61 @@
+import mongoose from 'mongoose';
+
+const Order=new mongoose.Schema(
+    {
+        userName:{
+            type:String,
+            required:true,
+        },
+        status:{
+            type:String,
+            required:true,
+            default:"Processing"
+        },
+        paymentType:{
+            type:String,
+            required:true,
+        },
+        address:{
+            type:String,
+            required:true,
+        },
+        cartData:{
+            type:Array,
+            required:true,
+        },
+        userId:{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'users',
+            required:true,
+        },
+        subtotal:{
+            type:Number,
+            required:true,
+        },
+        total:{
+            type:Number,
+            required:true,
+        },
+        shipping:{
+            type:Number,
+            required:true,
+        },
+        discount:{
+            type:Number,
+            required:true,
+        },
+        expectedArrival:{
+            type:String,
+            default:"Processing",
+        },
+        cancelled:{
+            type:Boolean,
+            default:false,
+        },
+    },
+    {
+        timestamps:true,
+    }
+);
+
+export default mongoose.model('orders',Order);

@@ -34,6 +34,24 @@ export class CartComponent implements OnInit {
   public cartTotal: CartSchema = { subtotal: 0, shipping: 0, discount: 0, total: 0 };
 
   public addresses = [];
+  public showPaymentMethod:boolean=false;
+  public personData:PersonDataSchema={userId:'',name:'',address:'',phno:'',addressType:''};
+  public cartDataUpdated:CartDataSchema[]=[{
+    productName:'',
+    productPrice:0,
+    productImg:'',
+    productQuantity:0,
+    productId:'',
+  }];
+
+  public costData:CostDataSchema={
+    subtotal:0,
+    shipping:0,
+    discount:0,
+    total:0,
+  };
+
+  public orderData:any;
 
   constructor(public dialog: MatDialog, private http: HttpClient, private storage: StorageService, private toast:ToastrService, private cartService:CartService) {}
 
@@ -44,6 +62,7 @@ export class CartComponent implements OnInit {
       this.http.get<any[]>(`http://localhost:8080/cart-api/display-user-cart-data/${userData.id}`).subscribe({
         next: (res) => {
           this.cartData = res || [];
+          console.log(res);
           this.cartCount = this.cartData.length;
           this.calculateCartTotal();
           this.fetchAddresses(userData.id);
@@ -128,6 +147,13 @@ export class CartComponent implements OnInit {
     this.cartTotal.shipping = this.cartTotal.shipping; // Example shipping calculation
     this.cartTotal.discount = this.cartTotal.subtotal * this.couponDiscount; // Example discount of 10%
     this.cartTotal.total = this.cartTotal.subtotal + this.cartTotal.shipping - this.cartTotal.discount;
+
+    this.costData={
+      subtotal:this.cartTotal.subtotal,
+      shipping:this.cartTotal.shipping,
+      discount:this.couponDiscount,
+      total:this.cartTotal.total
+    };
   }
 
   public shippingCharge(data:NgForm):void{
@@ -219,7 +245,21 @@ export class CartComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          console.log('Address Selected'+result);
+          this.personData=result;
+          console.log(result)
+          this.cartData=this.cartData.map(item=>(
+            {
+              productName:item.productName,
+              productPrice:item.pack_quantity*item.price,
+              productQuantity:item.quantity,
+              productImg:item.imgSrc,
+              productId:item.productId,
+            }
+          ));
+          console.log(this.cartData);
+
+          this.orderData={userInfo:result,cartData:this.cartData,costData:this.costData};
+          this.showPaymentMethod=!this.showPaymentMethod;
         }
       });
     }
@@ -232,4 +272,27 @@ interface CartSchema {
   shipping: number;
   discount: number;
   total: number;
+}
+
+interface PersonDataSchema{
+  name:string;
+  address:string;
+  phno:string | number;
+  addressType:string
+  userId:string;
+}
+
+interface CartDataSchema{
+  productName:string,
+  productPrice:number,
+  productImg:string,
+  productQuantity:number,
+  productId:string,
+}
+
+interface CostDataSchema{
+  subtotal:number,
+  shipping:number,
+  discount:number,
+  total:number,
 }

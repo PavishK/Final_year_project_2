@@ -59,3 +59,9 @@ app.use("/coupon-api",couponRouter);
 
 import adminRouter from './router/adminRouter.js'
 app.use("/admin-api",adminRouter);
+
+import orderRouter from './router/orderRouter.js'
+app.use("/order-api",orderRouter);
+
+import paymentRouter from './router/paymentRouter.js';
+app.use("/payment-api",paymentRouter);

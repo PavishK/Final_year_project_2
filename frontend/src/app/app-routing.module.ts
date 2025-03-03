@@ -17,6 +17,7 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { SavedAddressComponent } from './saved-address/saved-address.component';
 import { ManageCouponsComponent } from './admin/manage-coupons/manage-coupons.component';
 import { ManageCountriesComponent } from './admin/manage-countries/manage-countries.component';
+import { OrdersComponent } from './orders/orders.component';
 
 const routes: Routes = [
   {
@@ -99,6 +100,10 @@ const routes: Routes = [
       {
         path:'saved-address',
         component:SavedAddressComponent,
+      },
+      {
+        path:'orders',
+        component:OrdersComponent,
       }
     ]
   },

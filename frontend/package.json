@@ -22,6 +22,7 @@
     "@angular/router": "^18.2.0",
     "@swimlane/ngx-charts": "^22.0.0-alpha.0",
     "chart.js": "^4.4.8",
+    "jspdf": "^3.0.0",
     "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

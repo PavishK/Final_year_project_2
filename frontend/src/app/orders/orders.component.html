@@ -1,0 +1,78 @@
+<div class="max-w-5xl mx-auto px-6 py-8 bg-white shadow-xl rounded-xl border border-gray-200 md:px-8 md:py-10">
+  <div class="flex items-center mb-6">
+    <button class="text-[#F5952C] font-bold text-lg hover:underline flex items-center gap-2" (click)="goBack()">
+      <img src="icons/back.svg" class="w-8 h-8 md:w-10 md:h-10 hover:scale-105 transition-transform duration-300">
+    </button>
+    <h2 class="text-3xl md:text-4xl font-extrabold text-h-t-color font-arvo ml-4 md:ml-6 flex items-center gap-3">My Orders</h2>
+  </div>
+
+  <div *ngIf="orders.length > 0; else noOrders">
+    <div *ngFor="let order of orders" class="bg-gray-50 p-6 md:p-8 rounded-xl shadow-md mt-6 md:mt-8 border border-gray-300">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b pb-4">
+        <div>
+          <h3 class="text-xl md:text-2xl font-semibold text-gray-800">Order ID: {{ order._id }}</h3>
+          <p class="text-base md:text-lg text-gray-600">Placed on: {{ order.createdAt | date:'longDate' }}</p>
+          <p class="text-base text-gray-600 mt-1">Expected Arrival: {{ order.expectedArrival==="Processing"?'--- --- ---':order.expectedArrival | date:'longDate' }}</p>
+        </div>
+        <span class="px-4 py-2 md:px-5 md:py-2 text-base md:text-lg font-bold rounded-full mt-3 md:mt-0"
+          [ngClass]="{
+            'bg-green-300 text-green-900': order.status === 'Delivered',
+            'bg-yellow-300 text-yellow-900': order.status === 'Shipped',
+            'bg-red-300 text-red-900': order.status === 'Cancelled',
+            'bg-blue-300 text-blue-900': order.status === 'Processing'
+          }">
+          {{ order.status }}
+        </span>
+      </div>
+
+      <div *ngFor="let item of order.cartData" class="flex flex-col md:flex-row items-center mt-4 md:mt-6 border-b pb-4 md:pb-6 gap-4 md:gap-6">
+        <img [src]="'http://localhost:8080'+item.productImg" alt="{{ item.productName }}" class="w-20 h-20 md:w-24 md:h-24 rounded-lg border">
+        <div class="flex-grow text-center md:text-left">
+          <h4 class="text-lg md:text-xl font-semibold text-gray-900">{{ item.productName }}</h4>
+          <p class="text-base md:text-lg text-gray-700 font-arvo">{{ item.productPrice | currency:'INR' }} x {{ item.productQuantity }}</p>
+        </div>
+        <p class="text-lg md:text-xl font-bold text-gray-900 font-arvo">{{ item.productPrice * item.productQuantity | currency:'INR' }}</p>
+      </div>
+
+      <div class="mt-4 md:mt-6 text-gray-800 text-base md:text-lg font-arvo float-right mobile_nav:float-none mobile_nav:p-0 p-2">
+        <p><strong>Subtotal:</strong> {{ order.subtotal | currency:'INR' }}</p>
+        <p><strong>Shipping:</strong> {{ order.shipping | currency:'INR' }}</p>
+        <p><strong>Discount:</strong> {{ order.discount * 100 | currency }}%</p>
+        <p class="text-xl md:text-2xl font-extrabold text-[#F5952C] mt-2 md:mt-3">Total: {{ order.total |currency:'INR' }}</p>
+      </div>
+
+      <div class="bg-gray-200 p-4 md:p-5 rounded-lg mt-4 md:mt-6">
+        <p class="text-lg md:text-xl font-bold text-gray-900 flex items-center justify-normal gap-x-1">
+          <img src="icons/address-book.svg" class="w-6 h-6">
+          Delivery Address:</p>
+        <p class="text-base md:text-lg text-gray-700">{{ order.address }}</p>
+        <p class="text-lg md:text-xl font-bold text-gray-900 mt-3 md:mt-4 flex items-center justify-normal gap-x-1">
+          <img src="icons/payment-method.svg" class="w-6 h-6">
+          Payment Type: <span class="font-normal">{{ order.paymentType }}</span></p>
+      </div>
+
+      <div class="mt-4 md:mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <button class="px-5 py-2 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700" (click)="downloadReceipt(order._id)">
+          📄 Download Receipt
+        </button>
+        <button *ngIf="order.status === 'Processing' || order.status === 'Shipped'" class="px-5 py-2 bg-red-600 text-white text-lg font-bold rounded-lg hover:bg-red-700" (click)="cancelOrder(order._id)">
+          ❌ Cancel Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noOrders>
+    <div class="flex flex-col items-center mt-8 md:mt-12">
+      <img src="icons/empty-orders.svg" alt="No Orders" class="w-36 md:w-48 mb-4 md:mb-6">
+      <p class="text-xl md:text-2xl text-gray-700 font-semibold capitalize">No orders placed yet.</p>
+      <button class="mt-3 md:mt-4 px-5 py-2 md:px-6 md:py-3 bg-[#F5952C] text-white text-lg font-bold rounded-lg hover:bg-[#e4841b]" (click)="shopNow()">
+        Start Shopping
+      </button>
+    </div>
+  </ng-template>
+</div>
+
+
+<app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner
+>

@@ -164,7 +164,7 @@ export const Send_Reseted_Password = expressAsyncHandler(async (req, res) => {
         };
 
         
-        // await tunnel.sendMail(option);
+        await tunnel.sendMail(option);
         console.log("New Password -> ",newPassword);
         const encrypt_newPassword=await Encrypt_Password(newPassword);
         const user=await User.findById(id);

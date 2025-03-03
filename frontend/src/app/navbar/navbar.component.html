@@ -48,7 +48,7 @@
         <div class="flex items-center justify-start gap-x-4" routerLink="/user/saved-address">
           <img class="w-7" src="icons/address.svg"><span class="hover:scale-110 transition ease-in-out delay-100 hover:underline">Saved Address</span>
         </div>
-        <div class="flex items-center justify-start gap-x-4">
+        <div class="flex items-center justify-start gap-x-4" routerLink="/user/orders">
           <img class="w-7" src="icons/cart-check.svg"><span class="hover:scale-110 transition ease-in-out delay-100 hover:underline">My Orders</span>
         </div>
         <div *ngIf="userData?.role=='admin'" class="flex items-center justify-start gap-x-4" routerLink="/admin">
@@ -132,7 +132,7 @@
     <div class="flex items-center justify-start gap-x-4"  routerLink="/user/saved-address">
       <img class="w-7" src="icons/address.svg"><span class="hover:scale-110 transition ease-in-out delay-100 hover:underline">Address</span>
     </div>
-    <div class="flex items-center justify-start gap-x-4">
+    <div class="flex items-center justify-start gap-x-4"  routerLink="/user/orders">
       <img class="w-7" src="icons/cart-check.svg"><span class="hover:scale-110 transition ease-in-out delay-100 hover:underline">My Orders</span>
     </div>
     <div class="flex items-center justify-start gap-x-4" routerLink="/admin">
