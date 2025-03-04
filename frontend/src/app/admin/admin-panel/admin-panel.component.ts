@@ -54,6 +54,8 @@ export class AdminPanelComponent implements OnInit {
 
       VerifyAdmin();
 
+
+
     }
 
   toggleMenu() {
@@ -74,3 +76,4 @@ interface AdminSchema{
   email:String;
   id:String;
 }
+

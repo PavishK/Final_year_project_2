@@ -10,7 +10,7 @@ export const Insert_Order_Data=handler(async(req,res)=>{
             return res.status(401).json({message:"Order Data Not Found!"});
         const orderData = new Orders(req.body);
         await orderData.save();
-        //await Cart.deleteMany({userId:req.body.userId});
+        await Cart.deleteMany({userId:req.body.userId});
         return res.status(201).json({message:"Order Data Stored Successfully!"});
     } catch (error) {
         return res.status(500).json({message:error.message});

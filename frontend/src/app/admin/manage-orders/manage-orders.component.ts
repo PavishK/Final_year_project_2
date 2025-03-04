@@ -96,4 +96,5 @@ interface Order {
   total: number;
   cancelled: boolean;
   paymentType: string;
+  cancellationMailSent:boolean;
 }

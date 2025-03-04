@@ -14,6 +14,9 @@ export class OrdersComponent implements OnInit {
   orders: OrderDataSchema[] = [];
   receiptData: ReceiptDataSchema | null = null;
   makeLoading: boolean = false;
+  isModalOpen = false;
+  cancelReason = '';
+  selectedOrder: OrderDataSchema | null = null;
 
   constructor(
     private http: HttpClient,
@@ -74,38 +77,32 @@ export class OrdersComponent implements OnInit {
 
     const doc = new jsPDF();
 
-    // Header: Store Details
-    doc.setFont('helvetica', 'bold');
+    // Header
+    doc.setFont('courier', 'bold');
     doc.setFontSize(14);
-    doc.text('Sri Murugan Biscuit Bakery', 60, 15);
+    doc.text('SRI MURUGAN BISCUIT BAKERY', 50, 15);
     doc.setFontSize(10);
-    doc.text('63, Indra St, Kanjikovil road, Perundurai, Tamil Nadu 638052', 40, 22);
-    doc.text('Phone: +91 98427 20663 | Email: smtbakery@gmail.com', 50, 28);
+    doc.text('63, Indra St, Kanjikovil Road, Perundurai', 45, 22);
+    doc.text('Tamil Nadu - 638052', 70, 28);
+    doc.text('Phone: +91 98427 20663', 65, 34);
+    doc.line(10, 38, 200, 38);
 
-    doc.line(10, 32, 200, 32); // Separator Line
-
-    // Title
-    doc.setFontSize(12);
-    doc.text('RECEIPT', 90, 40);
-
-    // Customer & Order Info
-    doc.setFont('helvetica', 'normal');
-    doc.text(`Customer Name: ${this.receiptData.userName}`, 10, 50);
-    doc.text(`Receipt No: ${this.receiptData._id}`, 10, 58);
-    doc.text(`Date: ${new Date(this.receiptData.createdAt).toLocaleDateString()}`, 10, 66);
-
-    doc.line(10, 70, 200, 70); // Separator Line
+    // Receipt Info
+    doc.setFont('courier', 'normal');
+    doc.text(`Date: ${new Date(this.receiptData.createdAt).toLocaleDateString()}`, 10, 46);
+    doc.text(`Receipt No: ${this.receiptData._id}`, 10, 52);
+    doc.text(`Customer: ${this.receiptData.userName}`, 10, 58);
+    doc.line(10, 62, 200, 62);
 
     // Table Header
-    let yPosition = 78;
+    let yPosition = 70;
     doc.setFontSize(10);
     doc.text('S.No', 12, yPosition);
     doc.text('Item', 40, yPosition);
     doc.text('Qty', 120, yPosition);
     doc.text('Price', 140, yPosition);
     doc.text('Total', 170, yPosition);
-
-    doc.line(10, yPosition + 2, 200, yPosition + 2); // Line below headers
+    doc.line(10, yPosition + 2, 200, yPosition + 2);
 
     // Table Content
     yPosition += 8;
@@ -118,7 +115,25 @@ export class OrdersComponent implements OnInit {
       yPosition += 8;
     });
 
-    // Save Receipt PDF
+    doc.line(10, yPosition + 2, 200, yPosition + 2);
+    yPosition += 10;
+
+    // Totals
+    doc.setFont('courier', 'bold');
+    doc.text(`Subtotal: Rs. ${this.receiptData.subtotal.toFixed(2)}`, 130, yPosition);
+    yPosition += 6;
+    doc.text(`Shipping: Rs. ${this.receiptData.shipping.toFixed(2)}`, 130, yPosition);
+    yPosition += 6;
+    doc.text(`Discount: Rs. ${this.receiptData.discount.toFixed(2)}`, 130, yPosition);
+    yPosition += 8;
+    doc.text(`Total: Rs. ${this.receiptData.total.toFixed(2)}`, 130, yPosition);
+    yPosition += 10;
+
+    doc.line(10, yPosition, 200, yPosition);
+    yPosition += 10;
+    doc.text('Thank you for shopping with us!', 60, yPosition);
+
+    // Save PDF
     doc.save(`Receipt_${this.receiptData._id}.pdf`);
     this.makeLoading = false;
   }
@@ -127,18 +142,58 @@ export class OrdersComponent implements OnInit {
     if (window.history.length > 1) {
       window.history.back();
     } else {
-      this.router.moveTo('/home'); // Redirect to home if no history available
+      this.router.moveTo('/home');
     }
   }
 
-  cancelOrder(id:string):void{
-    console.log("Order Cancel!")
-  }
-
-  shopNow():void{
+  shopNow(): void {
     this.router.moveTo('/products');
   }
 
+  openModal(order: OrderDataSchema) {
+    if (!order.cancellationMailSent) {
+      this.selectedOrder = order;
+      this.isModalOpen = true;
+    } else {
+      this.toast.info('Cancellation request is already sent. Please wait.');
+    }
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+    this.cancelReason = '';
+    this.selectedOrder = null;
+  }
+
+  confirmCancel() {
+    if (this.cancelReason.trim() && this.selectedOrder) {
+
+      const cancelData={
+        orderId:this.selectedOrder._id,
+        reason:this.cancelReason.trim(),
+        email:this.storage.getData().email,
+        fullName:this.selectedOrder.userName,
+      }
+
+      this.makeLoading=true;
+      this.http.post('http://localhost:8080/order-api/send-cancellation-mail',cancelData).subscribe(
+        {
+          next:(res)=>{
+            this.toast.info("Your cancellation request has been submitted. The status will be updated shortly.");
+         this.closeModal();
+         this.makeLoading=false;
+          },
+          error:(err)=>{
+            this.toast.error('Error sending cancellation mail!');
+         this.closeModal();
+         this.makeLoading=false;
+          }
+        }
+      );
+    } else {
+      this.toast.error('Please enter a reason for cancellation.');
+    }
+  }
 }
 
 interface OrderDataSchema {
@@ -155,6 +210,7 @@ interface OrderDataSchema {
   createdAt: string;
   expectedArrival: string;
   userName: string;
+  cancellationMailSent: boolean;
 }
 
 interface ReceiptDataSchema {

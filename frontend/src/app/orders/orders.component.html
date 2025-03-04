@@ -28,17 +28,17 @@
       <div *ngFor="let item of order.cartData" class="flex flex-col md:flex-row items-center mt-4 md:mt-6 border-b pb-4 md:pb-6 gap-4 md:gap-6">
         <img [src]="'http://localhost:8080'+item.productImg" alt="{{ item.productName }}" class="w-20 h-20 md:w-24 md:h-24 rounded-lg border">
         <div class="flex-grow text-center md:text-left">
-          <h4 class="text-lg md:text-xl font-semibold text-gray-900">{{ item.productName }}</h4>
+          <h4 class="text-lg md:text-xl font-semibold text-gray-900 capitalize">{{ item.productName }}</h4>
           <p class="text-base md:text-lg text-gray-700 font-arvo">{{ item.productPrice | currency:'INR' }} x {{ item.productQuantity }}</p>
         </div>
         <p class="text-lg md:text-xl font-bold text-gray-900 font-arvo">{{ item.productPrice * item.productQuantity | currency:'INR' }}</p>
       </div>
 
-      <div class="mt-4 md:mt-6 text-gray-800 text-base md:text-lg font-arvo float-right mobile_nav:float-none mobile_nav:p-0 p-2">
+      <div class="mt-4 md:mt-6 text-gray-800 text-base md:text-lg font-arvo float-right mobile_nav:float-none mobile_nav:p-0 p-2 bg-white rounded-xl">
         <p><strong>Subtotal:</strong> {{ order.subtotal | currency:'INR' }}</p>
+        <p><strong>Discount:</strong> {{ order.discount * 100  }}%</p>
         <p><strong>Shipping:</strong> {{ order.shipping | currency:'INR' }}</p>
-        <p><strong>Discount:</strong> {{ order.discount * 100 | currency }}%</p>
-        <p class="text-xl md:text-2xl font-extrabold text-[#F5952C] mt-2 md:mt-3">Total: {{ order.total |currency:'INR' }}</p>
+        <p class="text-xl md:text-2xl font-extrabold text-[#F5952C] mt-2 md:mt-3"><b class="text-gray-950">Total:</b> {{ order.total |currency:'INR' }}</p>
       </div>
 
       <div class="bg-gray-200 p-4 md:p-5 rounded-lg mt-4 md:mt-6">
@@ -52,11 +52,13 @@
       </div>
 
       <div class="mt-4 md:mt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-        <button class="px-5 py-2 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700" (click)="downloadReceipt(order._id)">
-          📄 Download Receipt
+        <button class="px-5 py-2 bg-blue-600 text-white text-lg font-bold rounded-lg hover:bg-blue-700 flex items-center gap-x-2" (click)="downloadReceipt(order._id)">
+          <img src="icons/receipt.svg" class="w-6 h-6">
+          Download Receipt
         </button>
-        <button *ngIf="order.status === 'Processing' || order.status === 'Shipped'" class="px-5 py-2 bg-red-600 text-white text-lg font-bold rounded-lg hover:bg-red-700" (click)="cancelOrder(order._id)">
-          ❌ Cancel Order
+        <button *ngIf="order.status === 'Processing' || order.status === 'Shipped'" class="px-5 py-2 bg-red-600 text-white text-lg font-bold rounded-lg hover:bg-red-700 flex items-center gap-x-2" (click)="openModal(order)">
+          <img src="icons/cancel-delivery.svg" class="w-6 h-6">
+          Cancel Order
         </button>
       </div>
     </div>
@@ -73,6 +75,37 @@
   </ng-template>
 </div>
 
-
-<app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner
+<!-- Modal -->
+<div
+  class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+  *ngIf="isModalOpen"
 >
+  <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+    <h2 class="text-xl font-semibold text-gray-800 mb-4">Confirm Cancellation</h2>
+    <p class="text-gray-600 mb-3">Please provide a reason for cancellation:</p>
+
+    <textarea
+      class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+      [(ngModel)]="cancelReason"
+      placeholder="Enter reason..."
+    ></textarea>
+
+    <div class="flex justify-end mt-4 space-x-2">
+      <button
+        class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
+        (click)="closeModal()"
+      >
+        Close
+      </button>
+      <button
+        class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+        (click)="confirmCancel()"
+      >
+        Confirm
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<app-loading-spinner [isLoading]="makeLoading"></app-loading-spinner>

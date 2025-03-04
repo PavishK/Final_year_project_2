@@ -1,5 +1,8 @@
 import handler from 'express-async-handler';
+
 import User from '../model/userModel.js';
+import Product from '../model/productModel.js'
+import Order from '../model/orderModel.js'
 
 export const Check_Is_Admin=handler(async(req,res)=>{
     console.log("Request Check Admin -> ",req.body);
@@ -16,3 +19,19 @@ export const Check_Is_Admin=handler(async(req,res)=>{
 });
 
  
+
+export const Display_Counts=handler(async(req,res)=>{
+    console.log("Request Admin Data Count -> ",req.url);
+    try {
+
+        const userCount=(await User.find({})).length;
+        const productCount=(await Product.find({})).length;
+        const orderCount=(await Order.find({})).length;
+        const revenue=(await Order.find({}));
+        const total=revenue.reduce((acc,ele)=>acc+ele.total,0);
+        return res.status(200).json({userCount,productCount,orderCount,total});
+        
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});

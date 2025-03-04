@@ -3,6 +3,7 @@ import nodemailer from 'nodemailer';
 import { fp_otp, gen_password } from "../middleware/generateOTP.js";
 import User from '../model/userModel.js';
 import { Encrypt_Password } from "../middleware/passwordMiddleware.js";
+import { hash } from "bcrypt";
 
 
   
@@ -179,4 +180,51 @@ export const Send_Reseted_Password = expressAsyncHandler(async (req, res) => {
         console.error("Error sending email:", error.message);
         return res.status(500).json({ message: "Error sending mail: " + error.message });
     }
+});
+
+
+import Order from '../model/orderModel.js'
+
+export const Order_Cancellation_Mail = expressAsyncHandler(async (req, res) => {
+  console.log("Request Order Cancellation -> ", req.body);
+
+  try {
+    const { email, orderId, fullName, reason } = req.body;
+
+    const tunnel = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587, // Try 465 if needed
+      secure: false,
+      auth: {
+        user: process.env.ADMIN_MAIL,
+        pass: process.env.MAIL_APP_KEY,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.ADMIN_MAIL,
+      to: process.env.ADMIN_MAIL, 
+      replyTo: email, 
+      subject: 'Order Cancellation Request',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px; background-color: #f9f9f9;">
+          <h2 style="color: #d9534f; text-align: center;">Order Cancellation Request</h2>
+          <p>Customer <strong>${fullName}</strong> has requested to cancel their order.</p>
+          <p><strong>Order ID:</strong> ${orderId}</p>
+          <p><strong>Reason for cancellation:</strong> ${reason}</p>
+          <p>You can reply directly to this email to respond to the customer.</p>
+          <hr>
+          <p style="text-align: center; font-size: 14px; color: #555;">&copy; ${new Date().getFullYear()} Sri Murugan Biscuit Bakery. All rights reserved.</p>
+        </div>
+      `,
+    };
+
+    await tunnel.sendMail(mailOptions);
+
+    await Order.findByIdAndUpdate(orderId,{cancellationMailSent:true},{new:true});
+    return res.status(200).json({ message: "Cancellation email sent successfully" });
+  } catch (error) {
+    // console.error("Error sending cancellation email: ", error);
+    return res.status(500).json({ message: "Failed to send cancellation email" });
+  }
 });

@@ -50,6 +50,13 @@
       <input type="text" [(ngModel)]="newAddress.houseNo" name="houseNo" placeholder="House No." required class="input"/>
       <input type="text" [(ngModel)]="newAddress.roadNo" name="roadNo" placeholder="Road No." required class="input"/>
 
+      <select [(ngModel)]="newAddress.addressType" name="addressType" required class="input">
+        <option value="" disabled>Select Type</option>
+        <option value="House">House</option>
+        <option value="Work">Work</option>
+      </select>
+
+
       <div class="flex gap-4">
 
         <button *ngIf="isAddingNewAddress" type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Save Address</button>

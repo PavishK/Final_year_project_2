@@ -52,6 +52,10 @@ const Order=new mongoose.Schema(
             type:Boolean,
             default:false,
         },
+        cancellationMailSent:{
+            type:Boolean,
+            default:false,
+        },
     },
     {
         timestamps:true,
