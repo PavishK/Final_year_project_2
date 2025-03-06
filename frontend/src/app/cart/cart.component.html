@@ -80,8 +80,8 @@
       </div>
     </div>
 
-    <div class="w-fit border-2 border-gray-100 -mt-28 rounded-xl mobile_nav:mt-10">
-      <form #ShippingData="ngForm" class="flex items-start justify-normal flex-col gap-y-2 p-3" (ngSubmit)="shippingCharge(ShippingData)">
+    <div class="w-auto border-2 border-gray-100 -mt-28 rounded-xl mobile_nav:mt-10 mobile_nav:w-full mobile_nav:ml-10">
+      <form #ShippingData="ngForm" class="flex items-start justify-normal flex-col gap-y-2 p-3 mobile_nav:w-full" (ngSubmit)="shippingCharge(ShippingData)">
         <h1 class="text-3xl font-bold">Calculated Shipping</h1>
         <div  class="flex items-start justify-normal flex-col gap-y-2 p-2">
           <select class="capitalize w-full bg-gray-200 rounded-3xl font-medium p-2 text-lg" name="state" ngModel required="">
@@ -103,7 +103,7 @@
       </form>
       <hr class="bg-gray-200 h-1 w-full mt-5 mb-5">
 
-      <div *ngIf="true" class="flex items-start justify-normal flex-col gap-y-2 p-3">
+      <div *ngIf="true" class="flex items-start justify-normal flex-col gap-y-2 p-3 mobile_nav:w-full">
         <h1 class="capitalize text-3xl font-bold ">Coupon code</h1>
         <p class="text-lg font-medium text-footer-text w-96 text-center mobile_nav:w-auto">
           Save more with our exclusive coupon code! Use it at checkout to get amazing discounts on your favorite products.

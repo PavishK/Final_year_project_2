@@ -1,0 +1,33 @@
+<div
+  *ngIf="isVisible"
+  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
+>
+  <div
+    class="bg-white p-6 rounded-2xl shadow-xl transform transition-all scale-90 animate-fadeIn w-96"
+  >
+    <img src="icons/success.gif" alt="Order Success" class="w-16 h-16 mx-auto animate-bounce" />
+
+    <h2 class="text-3xl font-semibold text-center mt-4 text-green-600">
+      Order Placed Successfully! 
+    </h2>
+
+    <p class="text-gray-600 text-center mt-2">
+      Thank you for your purchase! Your order is being processed and will be delivered soon.
+    </p>
+
+    <div class="flex justify-center mt-4 space-x-3">
+      <button
+        (click)="hidePopup()"
+        class="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all"
+      >
+        Close
+      </button>
+      <button
+        (click)="viewOrder()"
+        class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all"
+      >
+        View Order
+      </button>
+    </div>
+  </div>
+</div>

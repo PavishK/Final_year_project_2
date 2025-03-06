@@ -17,8 +17,7 @@ export const Insert_Cart_Data=handler(async(req,res)=>{
 
         const newCart=new Cart(req.body);
         await newCart.save();
-        const data=await Cart.find({});
-        res.status(201).json({message:"Cart Data Inserted Successfully!",length:data.length});
+        res.status(201).json({message:"Cart Data Inserted Successfully!"});
     } catch (error) {
         return res.status(500).json({message:error.message});
     }

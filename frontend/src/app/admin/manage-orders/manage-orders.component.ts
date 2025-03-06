@@ -97,4 +97,5 @@ interface Order {
   cancelled: boolean;
   paymentType: string;
   cancellationMailSent:boolean;
+  upiId:string;
 }

@@ -1,0 +1,50 @@
+
+<!-- Payment Popup -->
+<div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60" *ngIf="showPopup">
+  <div class="bg-white p-6 md:p-8 rounded-lg shadow-2xl w-11/12 max-w-lg relative">
+
+    <!-- Close Button -->
+    <span class="absolute top-4 right-4 text-gray-700 cursor-pointer text-4xl md:text-5xl font-bold hover:text-red-500 transition transform hover:scale-110"
+      (click)="togglePopup()">
+      &times;
+    </span>
+
+    <!-- Card Image -->
+    <div class="flex justify-center mb-5">
+      <img src="decoration/card-pay.svg" alt="Card" class="w-16 md:w-24">
+    </div>
+
+    <h2 class="text-xl md:text-2xl font-semibold mb-6 text-center text-gray-800">
+      Enter Payment Details
+    </h2>
+
+    <!-- Card Fields -->
+    <div class="mb-4">
+      <label for="card-number" class="block text-sm md:text-base text-gray-700 font-medium">Card Number</label>
+      <div id="card-number" class="border p-3 rounded-md shadow-sm bg-gray-100"></div>
+    </div>
+
+    <div class="mb-4 flex gap-3">
+      <div class="w-1/2">
+        <label for="card-expiry" class="block text-sm md:text-base text-gray-700 font-medium">Expiry Date</label>
+        <div id="card-expiry" class="border p-3 rounded-md shadow-sm bg-gray-100"></div>
+      </div>
+      <div class="w-1/2">
+        <label for="card-cvc" class="block text-sm md:text-base text-gray-700 font-medium">CVC</label>
+        <div id="card-cvc" class="border p-3 rounded-md shadow-sm bg-gray-100"></div>
+      </div>
+    </div>
+
+    <!-- Payment Button -->
+    <button class="bg-green-600 text-white text-base md:text-lg px-5 md:px-6 py-3 rounded-md hover:bg-green-700 transition w-full flex items-center justify-center shadow-md font-medium"
+      (click)="createPaymentIntent()">
+      Pay {{ paymentData?.costData?.total | currency:'INR' }}
+    </button>
+  </div>
+</div>
+
+<!-- Loading Spinner -->
+<app-loading-spinner [isLoading]="loading"></app-loading-spinner>
+
+<app-success-popup [isVisible]="successPopup"></app-success-popup>
+<app-error-popup [isVisible]="errorPopup"></app-error-popup>

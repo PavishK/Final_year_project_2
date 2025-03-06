@@ -40,6 +40,11 @@ import { PaymentComponent } from './payment/payment.component';
 import { OrdersComponent } from './orders/orders.component';
 
 import { ReactiveFormsModule } from '@angular/forms';
+import { SuccessPopupComponent } from './success-popup/success-popup.component';
+import { ErrorPopupComponent } from './error-popup/error-popup.component';
+
+import {QRCodeModule} from 'angularx-qrcode';
+import { CardPaymentComponent } from './card-payment/card-payment.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +73,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     ManageCouponsComponent,
     PaymentComponent,
     OrdersComponent,
+    SuccessPopupComponent,
+    ErrorPopupComponent,
+    CardPaymentComponent,
   ],
   imports: [
     BrowserModule,
@@ -85,6 +93,7 @@ import { ReactiveFormsModule } from '@angular/forms';
  HttpClientModule,
  MatIconModule,
  NgxChartsModule,
+ QRCodeModule,
   ],
   providers: [
     provideAnimationsAsync(),

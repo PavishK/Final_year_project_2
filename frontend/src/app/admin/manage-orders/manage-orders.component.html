@@ -22,7 +22,7 @@
             <span *ngIf="!order.cancelled">{{ order.expectedArrival==="Processing"?'-- -- ----':order.expectedArrival }}</span>
           </td>
           <td class="p-2">{{ order.status }}</td>
-          <td class="p-2">{{ order.paymentType }}</td>
+          <td class="p-2">{{ order.paymentType }} {{order.upiId!==""?'('+order.upiId+')':null}}</td>
           <td class="p-2 font-bold">{{ order.total | currency:'INR' }}</td>
           <td class="p-2">
             <button (click)="openEditModal(order)" class="bg-blue-500 text-white px-3 py-1 rounded">Edit</button>
@@ -34,6 +34,7 @@
 
   <!-- Edit Order Modal -->
   <div *ngIf="selectedOrder" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+
     <div class="bg-white p-6 rounded-lg w-96">
       <h3 class="text-xl font-bold mb-4">Edit Order</h3>
       <form [formGroup]="editForm">

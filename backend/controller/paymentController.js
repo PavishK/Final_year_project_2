@@ -1,48 +1,58 @@
 import Stripe from 'stripe';
 import handler from 'express-async-handler';
-import env from 'dotenv';
-env.config();
+import dotenv from 'dotenv';
 
-const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);
+dotenv.config();
 
-export const Card_Payment=handler(async (req, res) => {
-    console.log("Payment Attempt");
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+export const Card_Payment_Controller = handler(async (req, res) => {
+    console.log("🔹 Request Received for Card Payment:", req.body);
 
     try {
-        const { cartItems, email, discountCode, shippingCode } = req.body;
+        const { cartData, costData, userInfo } = req.body;
 
-        if (!cartItems || !email) {
-            return res.status(400).json({ message: "Missing cartItems or email" });
+        // Validate cart data
+        if (!Array.isArray(cartData) || cartData.length === 0) {
+            return res.status(400).json({ error: "Cart data is empty or invalid" });
         }
 
-        // Convert cart items to Stripe line items
-        const lineItems = cartItems.map((item) => ({
-            price_data: {
-                currency: 'inr',
-                product_data: {
-                    name: item.name,
-                },
-                unit_amount: Math.round(item.price * 100),
-            },
-            quantity: item.quantity,
-        }));
+        // Validate cost data
+        if (!costData || typeof costData.total !== 'number' || costData.total <= 0) {
+            return res.status(400).json({ error: "Invalid cost data" });
+        }
 
-        // Create Stripe Checkout Session
-        const session = await stripe.checkout.sessions.create({
-            payment_method_types: ['card'],
-            line_items: lineItems,
-            mode: 'payment',
-            shipping_options: [{ shipping_rate: shippingCode }],
-            discounts: [discountCode],
-            success_url: 'http://localhost:4200/success',
-            cancel_url: 'http://localhost:4200/cancel',
-            customer_email: email,
-        });
+        // Validate user info
+        if (!userInfo || !userInfo.userId || !userInfo.userName || !userInfo.phno || !userInfo.address) {
+            return res.status(400).json({ error: "Invalid user information" });
+        }
 
-        res.status(200).json({ url: session.url });
+        // Convert total amount to cents (Stripe uses cents)
+        const totalAmount = Math.round(costData.total * 100);
 
+        console.log(`✅ Processing Payment: ₹${costData.total} (Converted to ${totalAmount} paise)`);
+
+        // Create Payment Intent
+        // Create Payment Intent
+const paymentIntent = await stripe.paymentIntents.create({
+    amount: totalAmount,
+    currency: "inr",
+    payment_method_types: ["card"],
+    metadata: {
+        userId: userInfo.userId,
+        name: userInfo.userName,
+        phone: userInfo.phno,
+        totalAmount: costData.total,
+        orderSummary: cartData.map(item => `${item.productName} x${item.productQuantity}`).join(", "),
+    },
+});
+
+
+        console.log("✅ Payment Intent Created:", paymentIntent.id);
+
+        res.json({ clientSecret: paymentIntent.client_secret });
     } catch (error) {
-        console.error("Error creating Stripe session:", error);
-        res.status(500).json({ message: error.message, error: true });
+        console.error("❌ Payment Error:", error.message);
+        res.status(500).json({ error: "Payment failed: " + error.message });
     }
 });

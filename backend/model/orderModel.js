@@ -56,6 +56,10 @@ const Order=new mongoose.Schema(
             type:Boolean,
             default:false,
         },
+        upiId:{
+            type:String,
+            default:'',
+        },
     },
     {
         timestamps:true,

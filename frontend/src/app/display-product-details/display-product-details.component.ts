@@ -138,7 +138,16 @@ export class DisplayProductDetailsComponent implements OnInit {
         subscribe({
           next:(res:any)=>{
             this.toast.success(`${this.productData.name} has been successfully added to your cart.`);
-            this.cartService.addToCart(res.length);
+
+            this.http.get(`http://localhost:8080/cart-api/display-user-cart-data/${userId}`).
+    subscribe({
+      next:(res:any)=>{
+        this.cartService.addToCart(res.length);
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    });
           },error:(err)=>{
             if(err.status==400)
               this.toast.info(`${this.productData.name} is already in the cart!`);

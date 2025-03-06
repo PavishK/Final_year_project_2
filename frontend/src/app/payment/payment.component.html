@@ -86,25 +86,58 @@
   </div>
 </div>
 
-<!-- Success Popup (Only for COD) -->
-<div *ngIf="successPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-  <div class="bg-white p-6 rounded-lg shadow-lg w-[350px] max-w-full animate-fadeIn text-center">
 
-    <h2 class="text-2xl font-bold text-green-600">Order Placed Successfully! 🎉</h2>
-    <p class="text-gray-700 mt-2">Your order has been confirmed and will be delivered soon.</p>
 
-    <div class="mt-4 flex justify-center">
-      <svg class="h-12 w-12 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
-      </svg>
+<!-- UPI PAYMENT -->
+
+<!-- Modal Overlay -->
+<div *ngIf="upiModel" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
+  <div class="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-md text-center relative transform transition-all scale-100">
+
+    <!-- Close Button -->
+    <button (click)="closePayment()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-3xl font-bold">
+      &times;
+    </button>
+
+    <h2 class="text-2xl font-bold text-gray-800 mb-5">Pay via Google Pay</h2>
+
+    <div class="mb-5">
+      <label class="block text-lg font-medium text-gray-700">Enter Your UPI ID</label>
+      <input [(ngModel)]="payerUpiId" type="text" placeholder="yourupi@bank"
+        class="mt-2 w-full p-3 border border-gray-300 rounded-lg text-lg focus:outline-none focus:ring-4 focus:ring-blue-500 transition-all" />
     </div>
 
-    <p class="text-gray-500 mt-2">For Cash on Delivery (COD), please keep the payment ready.</p>
-    <p class="text-gray-500">You'll receive an update once your order is out for delivery! 🚚</p>
+    <!-- Mobile: Redirect to GPay -->
+    <div *ngIf="isMobile; else qrCodeBlock">
+      <button (click)="redirectToGPay()"
+        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg py-3 px-6 rounded-full transition-all shadow-lg hover:shadow-xl">
+        Pay with Google Pay
+      </button>
+    </div>
 
-    <button class="mt-6 w-full bg-[#F5952C] text-white py-2 rounded-lg shadow-lg hover:bg-[#e28420] transition font-semibold"
-            (click)="closeSuccessPopup()">
-      Got it!
+    <!-- Desktop: Show QR Code -->
+    <ng-template #qrCodeBlock>
+      <p class="text-lg text-gray-600 mb-3">Scan to Pay</p>
+      <div class="flex justify-center">
+        <qrcode [qrdata]="upiUrl" [width]="220" errorCorrectionLevel="M"
+          class="p-3 bg-gray-200 rounded-xl shadow-lg"></qrcode>
+      </div>
+      <p class="mt-4 text-lg text-gray-800 font-medium">Merchant UPI ID:</p>
+      <p class="text-lg font-bold text-blue-600">{{ receiverUpiId }}</p>
+    </ng-template>
+
+    <!-- Payment Done Button -->
+    <button (click)="confirmPayment()"
+      class="mt-5 bg-green-600 hover:bg-green-700 text-white font-semibold text-lg py-3 px-6 rounded-full transition-all shadow-lg hover:shadow-xl">
+      Payment Done
     </button>
+
   </div>
 </div>
+
+
+<app-card-payment [ShowCardModel]="showCardModel" [PaymentData]="paymentData"></app-card-payment>
+
+
+<app-success-popup [isVisible]="successPopup"></app-success-popup>
+<app-error-popup [isVisible]="errorPopup"></app-error-popup>
