@@ -25,15 +25,17 @@
   <div id="productList" class="mt-4 grid grid-cols-3 place-items-center mobile_nav:grid-cols-1 gap-y-5 gap-x-4">
 
     <div class="border-2  w-fit h-fit rounded-2xl border-items-color shadow-xl shadow-items-color" *ngFor="let product of showProducts">
-      <div class="flex items-start justify-start flex-col" (click)="onClickProduct(product)">
-        <div class="p-2 bg-items-color rounded-2xl">
+      <div [ngClass]="{'opacity-80':product.stock_quantity===0}" class="flex items-start justify-start flex-col" (click)="onClickProduct(product)">
+        <div class="p-2 bg-items-color rounded-2xl flex items-center justify-center">
           <img [src]="'http://localhost:8080' + product.src" class="w-72 h-64 object-cover rounded-2xl hover:scale-105 transition ease-linear delay-75">
+          <p *ngIf="product.stock_quantity<1" class="text-red-700 bg-white p-2 rounded-xl font-bold text-2xl capitalize absolute ">Out Of Stock</p>
         </div>
         <h1 class="text-2xl font-normal capitalize pl-2">{{product.name}}</h1>
         <div class="flex items-center justify-between w-full p-1">
           <p class="float-start text-lg bg-items-color text-orange-700 p-2 rounded-xl" [ngStyle]="{'color':matchColor[product.type] || 'orange'}">{{product.type}}</p>
           <p class="float-end text-3xl p-2 font-medium font-arvo">{{product.price|currency:'INR'}}</p>
         </div>
+
       </div>
       </div>
   </div>

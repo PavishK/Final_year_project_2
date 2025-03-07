@@ -14,7 +14,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let order of orders" class="border-b" [ngClass]="{ 'bg-red-100': order.cancelled}" [ngClass]="{'text-red-700': order.cancellationMailSent}">
+        <tr *ngFor="let order of orders" class="border-b" [ngClass]="{ 'bg-red-500': order.cancelled}" [ngClass]="{'text-red-700': order.cancellationMailSent}" [ngClass]="{'bg-green-200':order.status==='Delivered'}">
           <td class="p-2">{{ order.userName }}</td>
           <td class="p-2">{{ order.address }}</td>
           <td class="p-2">

@@ -91,7 +91,10 @@ export class ProductsComponent implements OnInit {
   }
 
   public onClickProduct(data:any):void{
-    this.route.moveWithData("/product",data);
+    if(data.stock_quantity<=0)
+      this.toast.error(data.name+" is out of stock");
+    else
+      this.route.moveWithData("/product",data);
 
   }
 
@@ -117,4 +120,5 @@ interface ProductSchema{
   rating:number;
   minquantity:number;
   pieces:number;
+  stock_quantity:number;
 }

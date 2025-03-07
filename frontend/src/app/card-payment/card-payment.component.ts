@@ -2,6 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { loadStripe, Stripe, StripeElements, StripeCardNumberElement, StripeCardExpiryElement, StripeCardCvcElement } from '@stripe/stripe-js';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-card-payment',
@@ -27,7 +28,7 @@ export class CardPaymentComponent implements OnChanges {
 
   async initializeStripe() {
     if (!this.stripe) {
-      this.stripe = await loadStripe('pk_test_51QxMYX4GITP5kPk7eCuCIMW5ZwjUWQKXc8wdgkXycxMkkbyAVQHUya3iJdgi57Cbs98vgDGGL9bV7jrLz4SHO7jI00EhbrnbDw');
+      this.stripe = await loadStripe(environment.StripePublicKey);
     }
 
     if (this.stripe && !this.elements) {
