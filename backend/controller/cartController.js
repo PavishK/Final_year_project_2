@@ -28,7 +28,7 @@ export const Display_User_Cart=handler(async(req,res)=>{
     try {
       const cartData=await Cart.find(req.params);
       if(cartData.length==0)
-        return res.status(404).json({message:"No Cart Data Found!"});
+        return res.status(201).json({message:"No Cart Data Found!"});
     res.status(200).json(cartData);
     } catch (error) {
         return res.status(500).json({message:error.message});
