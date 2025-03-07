@@ -25,7 +25,7 @@ export class ReviewsComponent implements OnInit {
   isImageTouched:boolean=false;
   imagePath:string="";
   makeLoading:boolean=false;
-  public popupNotOrder:boolean=true;
+  public popupNotOrder:boolean=false;
 
   constructor(private http: HttpClient, private storage: StorageService, private toast: ToastrService) {}
 
@@ -45,9 +45,39 @@ export class ReviewsComponent implements OnInit {
         error: (err: any) => console.error('Error fetching reviews:', err.message)
       });
       this.makeLoading=false;
+
+      this.reviewController();
+      this.makeLoading=false;
+  }
+
+  reviewController():boolean{
+    var flag:boolean=false;
+    this.makeLoading=true;
+    this.http.get(`http://localhost:8080/review-api/review-controller/${this.userID}`).
+    subscribe(
+      {
+        next:(res)=>{
+          this.popupNotOrder=false;
+          flag=true;
+          this.makeLoading=false;
+        },
+        error:(err)=>{
+          this.popupNotOrder=true;
+          flag=false;
+          this.makeLoading=false;
+        }
+      }
+    )
+    return flag;
   }
 
   addReview(): void {
+
+    if(!this.reviewController()){
+      this.toast.info("Please Order To Post your Review!");
+      return;
+    }
+
     if (this.newReview.rating > 0 && this.newReview.comment.trim()) {
       this.newReview.date = new Date().toISOString().split('T')[0];
 
@@ -67,8 +97,10 @@ export class ReviewsComponent implements OnInit {
             this.resetForm();
           },
           error: (err: any) => {
-            console.error('Error:', err.error);
-            this.toast.error('Failed to add review');
+            if(err.status==401)
+              this.toast.error(err.error.message);
+            else
+              this.toast.error('Failed to add review');
           }
         });
         this.makeLoading=false;

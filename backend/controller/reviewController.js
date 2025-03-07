@@ -20,10 +20,11 @@ export const Store_Review_Data=handler(async(req,res)=>{
     console.log("Review Insert Request");
     try {
 
+
         uploadImages.single('file')(req,res,(err)=>{
             if(err)
             return res.status(501).json({message:"Unable to upload Image!"});
-        
+   
         const src=req.file?`/review_images/${req.file.filename}`:null;
         const {name,userId,rating,comment,date}=JSON.parse(req.body.details);
         console.log(src);
@@ -52,6 +53,22 @@ export const Display_Reviews_Data=handler(async(req,res)=>{
         if(data.length==0)
             return res.status(404).json({message:"No reviews found!"});
         return res.status(200).json(data);
+    } catch (error) {
+        return res.status(500).json({message:error.message});
+    }
+});
+
+
+import Order from '../model/orderModel.js';
+
+export const Review_Controller=handler(async(req,res)=>{
+    console.log("Review Controller Request -> ",req.params);
+    try {
+        const data=await Order.find({userId:req.params.id});
+        if(data.length==0)
+            return res.status(401).json({message:"Please Order to Post Your Review"});
+        return res.status(200);
+        
     } catch (error) {
         return res.status(500).json({message:error.message});
     }
