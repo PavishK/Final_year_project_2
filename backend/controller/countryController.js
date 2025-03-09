@@ -9,10 +9,12 @@ export const Insert_Country_Data=handler(async(req,res)=>{
         const {_id,...data}=req.body;
         if(!req.body)
             return res.status(400).json({message:"Empty Country Data!"});
+        delete data._id;
         const country = new Country(data);
         await country.save();
         res.status(201).json({message:"Country Data Inserted Successfully!"});
     } catch (error) {
+        console.log(error)
         return res.status(500).json({message:error.message});
     }
 });
@@ -29,7 +31,7 @@ export const Display_Country_Data=handler(async(req,res)=>{
     }
 });
 
-//PIN code Validator
+//PIN code Validator backend\public\images\file_1738561961873.jpg.jpg
 
 export const PINCode_Location_Finder=handler(async(req,res)=>{
     console.log("Request PIN code location finder -> ",req.body);

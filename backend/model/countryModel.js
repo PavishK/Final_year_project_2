@@ -19,10 +19,6 @@ const Country=new mongoose.Schema(
             required:true,
             default:true,
         },
-        stripeId:{
-            type:String,
-            required:true,
-        }
     }
 );
 

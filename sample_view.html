@@ -1,31 +1,18 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Reset Your Password</title>
-  <style>
-    body { font-family: Arial, sans-serif; background-color: #fff7f0; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 20px auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
-    .header { text-align: center; background: #F5952C; color: white; font-size: 26px; font-weight: bold; padding: 18px; border-radius: 12px 12px 0 0; }
-    .content { text-align: center; padding: 20px; color: #444; }
-    .password-box { font-size: 22px; font-weight: bold; background: #FFECD1; color: #F5952C; padding: 12px; border-radius: 8px; display: inline-block; margin: 15px 0; border: 2px dashed #F5952C; letter-spacing: 1px; }
-    .footer { text-align: center; font-size: 14px; color: #777; padding: 15px; background: #fff3e0; border-radius: 0 0 12px 12px; }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="header">🔒 Password Reset by Admin</div>
-    <div class="content">
-      <p>Hello,</p>
-      <p>Your password has been reset by an administrator for <b>Sri Murugan Biscuits Bakery</b>.</p>
-      <p>Here is your new password:</p>
-      <p class="password-box">${newPassword}</p>
-      <p>For security reasons, please change your password immediately after logging in.</p>
-    </div>
-    <div class="footer">
-      &copy; 2025 Sri Murugan Biscuits Bakery. All rights reserved.
-    </div>
-  </div>
-</body>
-</html>
+
+            <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background-color: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <div style="background-color: #f8b400; padding: 20px; text-align: center;">
+                    <h2 style="color: #fff; margin: 0; font-size: 24px;">Sri Murugan Biscuits Bakery</h2>
+                    <p style="color: #fff; margin: 5px 0; font-size: 16px;">Your trusted bakery for delicious treats</p>
+                </div>
+                <div style="padding: 20px; text-align: center;">
+                    <img src="https://thumbs.dreamstime.com/b/sketch-lord-murugan-kartikeya-outline-editable-vector-illustration-drawing-184058651.jpg?w=576" alt="Bakery Logo" style="width: 100px; border-radius: 80%; margin-bottom: 10px;">
+                    <p style="font-size: 18px;">Dear <strong>${customerName}</strong>,</p>
+                    <p style="font-size: 16px;">We are pleased to inform you that your order <strong>#${orderId}</strong> has been updated.</p>
+                    <p style="font-size: 16px;"><strong>Delivery Status:</strong> <span style="color: #f8b400;">${status}</span></p>
+                    <p style="font-size: 16px;"><strong>Expected Delivery Date:</strong> ${deliveryDate}</p>
+                    <p style="font-size: 16px;">Thank you for choosing <strong>Sri Murugan Biscuits Bakery</strong>! We appreciate your support.</p>
+                </div>
+                <div style="background-color: #f8b400; padding: 15px; text-align: center; color: #fff; border-top: 1px solid #ddd;">
+                    <p style="margin: 0; font-size: 14px;">Need help? Contact us at <a href="mailto:smtbakery63@gmail.com" style="color: #fff; font-weight: bold;">smtbakery63@gmail.com</a></p>
+</div>
+            </div>

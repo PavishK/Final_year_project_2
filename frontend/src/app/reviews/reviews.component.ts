@@ -45,9 +45,6 @@ export class ReviewsComponent implements OnInit {
         error: (err: any) => console.error('Error fetching reviews:', err.message)
       });
       this.makeLoading=false;
-
-      this.reviewController();
-      this.makeLoading=false;
   }
 
   reviewController():boolean{
@@ -59,10 +56,12 @@ export class ReviewsComponent implements OnInit {
         next:(res)=>{
           this.popupNotOrder=false;
           flag=true;
+          this.toast.success("Ordered Product Delivered!");
           this.makeLoading=false;
         },
-        error:(err)=>{
+        error:(err:any)=>{
           this.popupNotOrder=true;
+          this.toast.info(err.error.message);
           flag=false;
           this.makeLoading=false;
         }
@@ -73,12 +72,15 @@ export class ReviewsComponent implements OnInit {
 
   addReview(): void {
 
-    if(!this.reviewController()){
-      this.toast.info("Please Order To Post your Review!");
-      return;
-    }
+
 
     if (this.newReview.rating > 0 && this.newReview.comment.trim()) {
+
+      if(!this.reviewController()){
+        // this.toast.info("Please Order To Post your Review!");
+        return;
+      }
+
       this.newReview.date = new Date().toISOString().split('T')[0];
 
       const formData = new FormData();
@@ -99,14 +101,17 @@ export class ReviewsComponent implements OnInit {
           error: (err: any) => {
             if(err.status==401)
               this.toast.error(err.error.message);
+
             else
               this.toast.error('Failed to add review');
+            this.makeLoading=false;
           }
         });
         this.makeLoading=false;
     } else {
 
       this.toast.warning('Please provide a rating and a comment');
+      this.makeLoading=false;
     }
   }
 

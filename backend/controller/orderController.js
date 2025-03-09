@@ -2,6 +2,7 @@ import Orders from '../model/orderModel.js';
 import handler from 'express-async-handler';
 import Cart from '../model/cartModel.js'
 import Product from '../model/productModel.js'
+import User from '../model/userModel.js';
 
 async function manageQuantity(cartData) {
     try {
@@ -75,6 +76,8 @@ export const Display_Order_Data=handler(async(req,res)=>{
     }
 });
 
+import { Order_Status_Mail } from './mailController.js';
+
 export const Update_Order_Data=handler(async(req,res)=>{
     console.log("Request Update Order Data -> ",req.body);
     try {
@@ -83,7 +86,10 @@ export const Update_Order_Data=handler(async(req,res)=>{
         const data=await Orders.findByIdAndUpdate(req.params.id,req.body,{new:true});
         if(!data)
             return res.status(404).json({message:"Order Data Not Found!"});
-        return res.status(200).json({message:"Order Data Updated Successfully!"});
+        const {email}=await User.findById(data.userId);
+        const {_id,userName,expectedArrival,status}=data;
+        const mailStatus=await Order_Status_Mail({email,_id,userName,expectedArrival,status});
+        return res.status(200).json({message:"Order Data Updated Successfully!",mailStatus});
     } catch (error) {
         return res.status(500).json({message:error.message});
     }

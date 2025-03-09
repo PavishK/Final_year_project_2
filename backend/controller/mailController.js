@@ -228,3 +228,51 @@ export const Order_Cancellation_Mail = expressAsyncHandler(async (req, res) => {
     return res.status(500).json({ message: "Failed to send cancellation email" });
   }
 });
+
+export const Order_Status_Mail=expressAsyncHandler(async(data)=>{
+  console.log("Request Order Status Changed! Mail ",data);
+
+  try {
+    const tunnel = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 587, // Try 465 if needed
+      secure: false,
+      auth: {
+        user: process.env.ADMIN_MAIL,
+        pass: process.env.MAIL_APP_KEY,
+      },
+    });
+  
+    const option = {
+      from: process.env.ADMIN_MAIL,
+      to: data.email,
+      subject: `Order #${data._id} - Delivery Update`,
+      html: `
+      
+            <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden; background-color: #fff; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                <div style="background-color: #f8b400; padding: 20px; text-align: center;">
+                    <h2 style="color: #fff; margin: 0; font-size: 24px;">Sri Murugan Biscuits Bakery</h2>
+                    <p style="color: #fff; margin: 5px 0; font-size: 16px;">Your trusted bakery for delicious treats</p>
+                </div>
+                <div style="padding: 20px; text-align: center;">
+                    <img src="https://thumbs.dreamstime.com/b/sketch-lord-murugan-kartikeya-outline-editable-vector-illustration-drawing-184058651.jpg?w=576" alt="Bakery Logo" style="width: 100px; border-radius: 80%; margin-bottom: 10px;">
+                    <p style="font-size: 18px;">Dear <strong>${data.userName}</strong>,</p>
+                    <p style="font-size: 16px;">We are pleased to inform you that your order <strong>#${data._id}</strong> has been updated.</p>
+                    <p style="font-size: 16px;"><strong>Delivery Status:</strong> <span style="color: #f8b400;">${data.status}</span></p>
+                    <p style="font-size: 16px;"><strong>Expected Delivery Date:</strong> ${data.expectedArrival}</p>
+                    <p style="font-size: 16px;">Thank you for choosing <strong>Sri Murugan Biscuits Bakery</strong>! We appreciate your support.</p>
+                </div>
+                <div style="background-color: #f8b400; padding: 15px; text-align: center; color: #fff; border-top: 1px solid #ddd;">
+                    <p style="margin: 0; font-size: 14px;">Need help? Contact us at <a href="mailto:smtbakery63@gmail.com" style="color: #fff; font-weight: bold;">smtbakery63@gmail.com</a></p>
+</div>
+            </div>`
+    }
+
+    await tunnel.sendMail(option);
+    return {message:"Mali Sent Successfully!"};
+    
+  } catch (error) {
+    return {message:"Unable sent Mali!"};
+  }
+
+});

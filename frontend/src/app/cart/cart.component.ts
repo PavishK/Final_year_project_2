@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 import { CartService } from '../cart.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressPopupComponent } from '../address-popup/address-popup.component';
+import { RouterManagerService } from '../router-manager.service';
 
 @Component({
   selector: 'app-cart',
@@ -53,7 +54,13 @@ export class CartComponent implements OnInit {
 
   public orderData:any;
 
-  constructor(public dialog: MatDialog, private http: HttpClient, private storage: StorageService, private toast:ToastrService, private cartService:CartService) {}
+  constructor(
+    public dialog: MatDialog,
+    private http: HttpClient,
+    private storage: StorageService,
+    private toast:ToastrService,
+    private cartService:CartService,
+    private route:RouterManagerService) {}
 
   ngOnInit(): void {
     const userData = this.storage.getData();
@@ -72,9 +79,10 @@ export class CartComponent implements OnInit {
         }
       });
       this.makeLoading=false;
-
-
-
+    }
+    else{
+      this.toast.info("Login to Continue!");
+      this.route.moveTo('/products');
     }
     this.makeLoading=true;
     this.http.get("http://localhost:8080/country-api/display-country-data").

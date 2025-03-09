@@ -51,6 +51,7 @@ export class ManageOrdersComponent implements OnInit {
   }
 
   UpdateOrderData(id: string, body: any) {
+    this.isLoading = true;
     return this.http.put(`http://localhost:8080/order-api/update-order/${id}`, body);
   }
 
@@ -76,11 +77,13 @@ export class ManageOrdersComponent implements OnInit {
           this.isSaving = false;
           //console.log("Edited Order Data:", updatedOrder);
           this.toast.success("Order updated successfully!", "Success");
+          this.isLoading = false;
         },
         error: (err) => {
           console.error("Error updating order:", err);
           this.toast.error("Failed to update order", "Error");
           this.isSaving = false;
+          this.isLoading=false;
         }
       });
     }

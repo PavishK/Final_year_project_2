@@ -67,7 +67,12 @@ export const Review_Controller=handler(async(req,res)=>{
         const data=await Order.find({userId:req.params.id});
         if(data.length==0)
             return res.status(401).json({message:"Please Order to Post Your Review"});
-        return res.status(200);
+        for(let item of data){
+            if(item.status==="Delivered")
+                return res.status(200);
+            return res.status(401).json({message:"Order should be deivered to post your review!"});
+        }
+        
         
     } catch (error) {
         return res.status(500).json({message:error.message});
