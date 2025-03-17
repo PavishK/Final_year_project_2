@@ -79,7 +79,7 @@
         <h1 class=" font-medium  text-xl">Highlights</h1>
         <ul class="font-medium text-lg flex flex-col gap-y-1 list-disc">
           <li>Type: {{productData.type}}</li>
-          <li>Price per Slice:  {{productData.price|currency:'INR'}}</li>
+          <li>Price per Piece:  {{productData.price|currency:'INR'}}</li>
           <li>{{productData.isVeg==="true"?"Vegetarian":"Non-Vegetarian"}}</li>
         </ul>
     </div>
@@ -91,7 +91,7 @@
 
   <div class="p-0 mt-2 justify-between flex items-center ">
     <h1 class=" font-medium  text-xl">In The Box</h1>
-    <p class=" font-medium text-lg "><span>{{productData.pieces}}</span> Pieces </div>
+    <p class=" font-medium text-lg "><span>{{productData.pieces}}</span> Packs </div>
   </div>
 
   </div>
