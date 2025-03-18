@@ -4,6 +4,7 @@ import { StorageService } from '../storage.service';
 import { ToastrService } from 'ngx-toastr';
 import { RouterManagerService } from '../router-manager.service';
 import jsPDF from 'jspdf';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-orders',
@@ -11,6 +12,9 @@ import jsPDF from 'jspdf';
   styleUrls: ['./orders.component.css']
 })
 export class OrdersComponent implements OnInit {
+
+  public httpUrl:string=environment.httpUrl;
+
   orders: OrderDataSchema[] = [];
   receiptData: ReceiptDataSchema | null = null;
   makeLoading: boolean = false;
@@ -35,7 +39,7 @@ export class OrdersComponent implements OnInit {
       return;
     }
 
-    this.http.get<OrderDataSchema[]>(`http://localhost:8080/order-api/get-user-order-data/${userData.id}`)
+    this.http.get<OrderDataSchema[]>(`${environment.httpUrl}order-api/get-user-order-data/${userData.id}`)
       .subscribe({
         next: (res: any) => {
           this.orders = res;
@@ -176,7 +180,7 @@ export class OrdersComponent implements OnInit {
       }
 
       this.makeLoading=true;
-      this.http.post('http://localhost:8080/order-api/send-cancellation-mail',cancelData).subscribe(
+      this.http.post(environment.httpUrl+'order-api/send-cancellation-mail',cancelData).subscribe(
         {
           next:(res)=>{
             this.toast.info("Your cancellation request has been submitted. The status will be updated shortly.");

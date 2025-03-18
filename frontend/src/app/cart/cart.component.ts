@@ -8,6 +8,7 @@ import { CartService } from '../cart.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddressPopupComponent } from '../address-popup/address-popup.component';
 import { RouterManagerService } from '../router-manager.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-cart',
@@ -23,6 +24,9 @@ import { RouterManagerService } from '../router-manager.service';
   ]
 })
 export class CartComponent implements OnInit {
+
+  public httpUrl:string=environment.httpUrl;
+
   public cartCount: number = 0;
   public makeLoading:boolean=false;
   public cartData: any[] = [];
@@ -66,7 +70,7 @@ export class CartComponent implements OnInit {
     const userData = this.storage.getData();
     if (userData && userData.id) {
       this.makeLoading=true;
-      this.http.get<any[]>(`http://localhost:8080/cart-api/display-user-cart-data/${userData.id}`).subscribe({
+      this.http.get<any[]>(`${environment.httpUrl}cart-api/display-user-cart-data/${userData.id}`).subscribe({
         next: (res) => {
           this.cartData = res || [];
           console.log(res);
@@ -85,7 +89,7 @@ export class CartComponent implements OnInit {
       this.route.moveTo('/products');
     }
     this.makeLoading=true;
-    this.http.get("http://localhost:8080/country-api/display-country-data").
+    this.http.get(environment.httpUrl+"country-api/display-country-data").
     subscribe({next:(res:any)=>{
       this.countryData=res;
       this.stateData.state=[...new Set(this.countryData.map(data=>data.state))];
@@ -102,7 +106,7 @@ export class CartComponent implements OnInit {
 
   fetchAddresses(userId: string) {
     this.makeLoading=true;
-    this.http.get(`http://localhost:8080/address-api/user/display-user-address/${userId}`)
+    this.http.get(`${environment.httpUrl}address-api/user/display-user-address/${userId}`)
       .subscribe({
         next: (res: any) => this.addresses = res.data,
         error: () => {
@@ -136,7 +140,7 @@ export class CartComponent implements OnInit {
     this.cartData.splice(index, 1);
     this.cartCount = this.cartData.length;
     this.calculateCartTotal();
-    this.http.delete(`http://localhost:8080/cart-api/delete-user-cart-data/${id}`).
+    this.http.delete(`${environment.httpUrl}cart-api/delete-user-cart-data/${id}`).
     subscribe({
       next:(res)=>{
         this.toast.success(`${name} has removed from your cart.`);
@@ -176,7 +180,7 @@ export class CartComponent implements OnInit {
 
       else{
         this.makeLoading=true;
-        this.http.post(`http://localhost:8080/country-api/get-pincode-location`,data.value).
+        this.http.post(environment.httpUrl+`country-api/get-pincode-location`,data.value).
       subscribe({
         next:(res:any)=>{
           console.log(res)
@@ -215,7 +219,7 @@ export class CartComponent implements OnInit {
 
         const data={userId:this.storage.getData().id,coupon_code:this.couponCode.toUpperCase()};
         this.makeLoading=true;
-        this.http.post("http://localhost:8080/coupon-api/apply-coupon-code",data).
+        this.http.post(environment.httpUrl+"coupon-api/apply-coupon-code",data).
         subscribe({
           next:(res:any)=>{
             this.couponHandler={error:false,msg:res.message};

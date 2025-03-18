@@ -4,6 +4,7 @@ import { StorageService } from '../storage.service';
 import { RouterManagerService } from '../router-manager.service';
 import { ToastrService } from 'ngx-toastr';
 import { Location } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-saved-address',
@@ -54,7 +55,7 @@ export class SavedAddressComponent implements OnInit {
 
   fetchAddresses(userId: string) {
     this.makeLoadind=true;
-    this.http.get(`http://localhost:8080/address-api/user/display-user-address/${userId}`)
+    this.http.get(`${environment.httpUrl}address-api/user/display-user-address/${userId}`)
       .subscribe({
         next: (res: any) => this.addresses = res.data,
         error: () => {
@@ -83,7 +84,7 @@ export class SavedAddressComponent implements OnInit {
 
       }
       this.makeLoadind=true;
-      this.http.post('http://localhost:8080/address-api/user/insert-user-address',data).
+      this.http.post(environment.httpUrl+'address-api/user/insert-user-address',data).
       subscribe({
         next:(res)=>{
           this.toast.success("Address Saved Successfully!");
@@ -135,7 +136,7 @@ export class SavedAddressComponent implements OnInit {
 
   UpdateBtn():void{
     this.makeLoadind=true;
-    this.http.put(`http://localhost:8080/address-api/user/update-user-address/${this.newAddress._id}`,this.newAddress).
+    this.http.put(`${environment.httpUrl}address-api/user/update-user-address/${this.newAddress._id}`,this.newAddress).
     subscribe({
       next:(res)=>{
         this.makeLoadind=false;
@@ -168,7 +169,7 @@ export class SavedAddressComponent implements OnInit {
   deleteAddress(id: string): void {
     this.makeLoadind=true;
     this.addresses = this.addresses.filter(ele => ele._id !== id);
-    this.http.delete(`http://localhost:8080/address-api/user/delete-user-address/${id}`).
+    this.http.delete(`${environment.httpUrl}address-api/user/delete-user-address/${id}`).
     subscribe({
       next:(res:any)=>{
         this.toast.success(res.message);
@@ -198,7 +199,7 @@ export class SavedAddressComponent implements OnInit {
 
   fetchCityStateFromPinCode() {
     this.makeLoadind=true;
-    this.http.post('http://localhost:8080/country-api/get-city-state-name', { pin: this.newAddress.pinCode })
+    this.http.post(environment.httpUrl+'country-api/get-city-state-name', { pin: this.newAddress.pinCode })
       .subscribe({
         next: (res: any) => {
           this.states = res.state;

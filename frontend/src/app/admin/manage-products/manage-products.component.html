@@ -88,7 +88,7 @@
     <h3 class="text-xl font-semibold mb-4 text-gray-700">Product List</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <div *ngFor="let product of products" class="bg-white p-4 rounded-lg shadow-md">
-        <img [src]="'http://localhost:8080'+product.src" alt="Product Image" class="w-full h-40 object-cover rounded-md">
+        <img [src]="httpUrl+product.src" alt="Product Image" class="w-full h-40 object-cover rounded-md">
         <h4 class="capitalize text-lg font-semibold mt-2 text-gray-800">{{ product.name }}</h4>
         <p class="text-sm text-gray-500">{{ product.desc }}</p>
         <p class="text-sm text-gray-500">Type: {{ product.type }}</p>

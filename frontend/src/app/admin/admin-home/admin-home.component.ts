@@ -3,6 +3,8 @@ import { Color, ScaleType } from '@swimlane/ngx-charts';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-admin-home',
   templateUrl: './admin-home.component.html',
@@ -33,7 +35,7 @@ export class AdminHomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.makeLoading=true;
-    this.http.get('http://localhost:8080/admin-api/get-count').subscribe({
+    this.http.get(environment.httpUrl+'admin-api/get-count').subscribe({
       next: (res: any) => {
         this.countData = res;
         this.stats = [

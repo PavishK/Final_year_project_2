@@ -50,7 +50,7 @@ export class CardPaymentComponent implements OnChanges {
   }
 
   InsertOrderData(paymentType: string): void {
-    this.http.post('http://localhost:8080/order-api/insert-order-data', {
+    this.http.post(environment.httpUrl+'order-api/insert-order-data', {
       ...this.paymentData.userInfo,
       ...this.paymentData.costData,
       cartData: this.paymentData.cartData,
@@ -80,7 +80,7 @@ export class CardPaymentComponent implements OnChanges {
 
 
     this.loading = true;
-    this.http.post<{ clientSecret: string }>('http://localhost:8080/payment-api/card-payment', this.paymentData)
+    this.http.post<{ clientSecret: string }>(environment.httpUrl+'payment-api/card-payment', this.paymentData)
       .subscribe(
         response => {
           this.clientSecret = response.clientSecret;

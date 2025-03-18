@@ -39,7 +39,7 @@
       <div *ngFor="let cart of cartData; let i=index" class="flex items-start justify-normal gap-x-4 border-2 border-gray-200 p-2 rounded-xl mt-4" >
 
         <div class="w-fit h-auto mobile_nav:w-36 mobile_nav:h-full object-center p-2 bg-gray-100 rounded-xl flex items-center justify-center">
-          <img [src]="'http://localhost:8080'+cart.imgSrc" class="object-cover rounded-xl h-36 w-44">
+          <img [src]="httpUrl+cart.imgSrc" class="object-cover rounded-xl h-36 w-44">
         </div>
 
         <div class="flex items-start justify-normal flex-col gap-y-2 ">

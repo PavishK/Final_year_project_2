@@ -1,8 +1,11 @@
+import { environment } from './../../environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { StorageService } from '../storage.service';
 import { ToastrService } from 'ngx-toastr';
+
+
 
 @Component({
   selector: 'app-reviews',
@@ -37,7 +40,7 @@ export class ReviewsComponent implements OnInit {
       this.newReview.userId = userData.id || '';
     }
     this.makeLoading=true;
-    this.http.get("http://localhost:8080/review-api/display-review-data")
+    this.http.get(environment.httpUrl+"review-api/display-review-data")
       .subscribe({
         next: (res: any) => {
           this.reviews = res || [];
@@ -50,7 +53,7 @@ export class ReviewsComponent implements OnInit {
   reviewController():boolean{
     var flag:boolean=false;
     this.makeLoading=true;
-    this.http.get(`http://localhost:8080/review-api/review-controller/${this.userID}`).
+    this.http.get(`${environment.httpUrl}review-api/review-controller/${this.userID}`).
     subscribe(
       {
         next:(res)=>{
@@ -90,7 +93,7 @@ export class ReviewsComponent implements OnInit {
       formData.append('details', JSON.stringify(this.newReview));
       console.log(formData.get('details'));
       this.makeLoading=true;
-      this.http.post('http://localhost:8080/review-api/insert-review-data', formData)
+      this.http.post(environment.httpUrl+'review-api/insert-review-data', formData)
         .subscribe({
           next: (res: any) => {
             const imageUrl = res.data?.imageUrl || '';
@@ -134,6 +137,6 @@ export class ReviewsComponent implements OnInit {
 
   onImageClicked(src:string):void{
     this.isImageTouched=true;
-   this.imagePath="http://localhost:8080"+src;
+   this.imagePath=environment.httpUrl+src;
   }
 }

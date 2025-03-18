@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 
 import { NgForm } from '@angular/forms';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -76,7 +77,7 @@ class ContactUs{
         this.toast.error('Name should be at least 5 characters long');
       else{
       this.makeLoad=true;
-      this.http.post("http://localhost:8080/api/contactus/send-mail",data.value)
+      this.http.post(environment.httpUrl+"api/contactus/send-mail",data.value)
       .subscribe(
         (res:any)=>{
           this.toast.success(res.message);

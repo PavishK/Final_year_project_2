@@ -1,6 +1,7 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-payment',
@@ -98,7 +99,7 @@ export class PaymentComponent implements OnInit, OnChanges {
 
   // Insert Order into Database
   InsertOrderData(paymentType: string): void {
-    this.http.post('http://localhost:8080/order-api/insert-order-data', {
+    this.http.post(environment.httpUrl+'order-api/insert-order-data', {
       ...this.paymentData.userInfo,
       ...this.paymentData.costData,
       cartData: this.paymentData.cartData,

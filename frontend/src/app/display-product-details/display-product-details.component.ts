@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { RouterManagerService } from '../router-manager.service';
 import { StorageService } from '../storage.service';
 import { CartService } from '../cart.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-display-product-details',
@@ -12,6 +13,9 @@ import { CartService } from '../cart.service';
   styleUrl: './display-product-details.component.css'
 })
 export class DisplayProductDetailsComponent implements OnInit {
+
+
+  public httpUrl:string=environment.httpUrl;
 
   public productData:any=[];
   public makeLoading:boolean=false;
@@ -60,7 +64,7 @@ export class DisplayProductDetailsComponent implements OnInit {
         }
       );
 
-        this.http.get("http://localhost:8080/product-api/list-products")
+        this.http.get(this.httpUrl+"product-api/list-products")
           .subscribe({
             next: (res: any) => {
               this.allProductData = res.data;
@@ -85,7 +89,7 @@ export class DisplayProductDetailsComponent implements OnInit {
     }
 
       public closeOrOpenStatePopup():void{
-        this.http.get("http://localhost:8080/country-api/display-country-data").
+        this.http.get(this.httpUrl+"country-api/display-country-data").
         subscribe({next:(res:any)=>{
           this.countryData=res;
         },error:(err)=>{
@@ -134,12 +138,12 @@ export class DisplayProductDetailsComponent implements OnInit {
         console.log(CartData);
 
 
-        this.http.post("http://localhost:8080/cart-api/insert-cart-data",CartData).
+        this.http.post(this.httpUrl+"cart-api/insert-cart-data",CartData).
         subscribe({
           next:(res:any)=>{
             this.toast.success(`${this.productData.name} has been successfully added to your cart.`);
 
-            this.http.get(`http://localhost:8080/cart-api/display-user-cart-data/${userId}`).
+            this.http.get(`${this.httpUrl}cart-api/display-user-cart-data/${userId}`).
     subscribe({
       next:(res:any)=>{
         this.cartService.addToCart(res.length);

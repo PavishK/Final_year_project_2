@@ -43,7 +43,7 @@
 <div  id="goToProduct" class="flex items-start justify-start gap-x-4 flex-row p-3 mobile_nav:flex-col mobile_nav:gap-y-3 mt-24 mobile_nav:mt-16">
   <div class="flex flex-col items-center justify-center">
     <div class="w-disp_img mobile_nav:w-auto">
-      <img class="h-disp_image w-disp_img mobile_nav:w-auto mobile_nav:h-96 p-1 object-cover hover:scale-105 transition ease-linear delay-100 rounded-3xl flex-1" [src]="'http://localhost:8080' + productData.src" >
+      <img class="h-disp_image w-disp_img mobile_nav:w-auto mobile_nav:h-96 p-1 object-cover hover:scale-105 transition ease-linear delay-100 rounded-3xl flex-1" [src]="httpUrl+ productData.src" >
     </div>
 
     <div class=" hover:scale-95 transition ease-linear delay-100 flex items-center justify-center flex-row w-full mt-4 gap-x-1 mobile_nav:bottom-0 mobile_nav:fixed mobile_nav:p-1 ">
@@ -118,7 +118,7 @@
       <div class="border-2  w-fit h-fit rounded-2xl border-items-color shadow-xl shadow-items-color" *ngFor="let product of randomProducts">
         <div class="flex items-start justify-start flex-col" (click)="onClickProduct(product);  this.ScrollIntoElement();">
           <div class="p-2 bg-items-color rounded-2xl">
-            <img [src]="'http://localhost:8080' + product.src" class="w-72 h-64 object-cover rounded-2xl hover:scale-105 transition ease-linear delay-75">
+            <img [src]="httpUrl + product.src" class="w-72 h-64 object-cover rounded-2xl hover:scale-105 transition ease-linear delay-75">
           </div>
           <h1 class="text-2xl font-normal capitalize pl-2">{{product.name}}</h1>
           <div class="flex items-center justify-between w-full p-1">

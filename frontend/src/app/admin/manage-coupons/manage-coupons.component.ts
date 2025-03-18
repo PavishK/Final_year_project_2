@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface Coupon {
   _id: string;
@@ -37,7 +38,7 @@ export class ManageCouponsComponent implements OnInit {
 
   fetchCoupons(): void {
     this.loading = true;
-    this.http.get<Coupon[]>('http://localhost:8080/coupon-api/get-coupon-data').subscribe(
+    this.http.get<Coupon[]>(environment.httpUrl+'coupon-api/get-coupon-data').subscribe(
       (res) => {
         this.coupons = res.map(coupon => ({
           ...coupon,
@@ -67,7 +68,7 @@ export class ManageCouponsComponent implements OnInit {
   }
 
   addCoupon(): void {
-    this.http.post<Coupon>('http://localhost:8080/coupon-api/insert-coupon-data', this.currentCoupon).subscribe(
+    this.http.post<Coupon>(environment.httpUrl+'coupon-api/insert-coupon-data', this.currentCoupon).subscribe(
       (res) => {
         this.coupons.push(res);
         this.toastr.success('Coupon added successfully!');
@@ -87,7 +88,7 @@ export class ManageCouponsComponent implements OnInit {
     this.coupons[this.selectedCouponIndex!] = { ...this.currentCoupon };
     console.log(this.currentCoupon);
 
-    this.http.put(`http://localhost:8080/coupon-api/update-coupon-data/${this.currentCoupon._id}`, this.currentCoupon)
+    this.http.put(`${environment.httpUrl}coupon-api/update-coupon-data/${this.currentCoupon._id}`, this.currentCoupon)
       .subscribe({
         next: (res) => {
           this.toastr.success('Coupon updated successfully!');
@@ -109,7 +110,7 @@ export class ManageCouponsComponent implements OnInit {
 
   deleteCoupon(coupon_code: string): void {
     this.loading = true;
-    this.http.delete(`http://localhost:8080/coupon-api/delete-coupon-data/${coupon_code}`).subscribe(
+    this.http.delete(`${environment.httpUrl}coupon-api/delete-coupon-data/${coupon_code}`).subscribe(
       () => {
         this.coupons = this.coupons.filter(coupon => coupon._id !== coupon_code);
         this.toastr.success('Coupon deleted successfully!');

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-manage-products',
@@ -9,6 +10,9 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./manage-products.component.css']
 })
 export class ManageProductsComponent implements OnInit {
+
+  public httpUrl:string=environment.httpUrl;
+
   public products: any[] = [];
   formData: any = this.getEmptyProduct();
   isEditing = false;
@@ -35,7 +39,7 @@ export class ManageProductsComponent implements OnInit {
 
   fetchProducts(): void {
     this.makeLoading = true;
-    this.http.get("http://localhost:8080/product-api/list-products")
+    this.http.get(environment.httpUrl+"product-api/list-products")
       .subscribe({
         next: (res: any) => {
           this.products = res.data;
@@ -68,7 +72,7 @@ export class ManageProductsComponent implements OnInit {
     formData.append('file', this.file);
     formData.append('details', JSON.stringify(this.formData));
 
-    this.http.post('http://localhost:8080/product-api/add-product', formData).subscribe(
+    this.http.post(environment.httpUrl+'product-api/add-product', formData).subscribe(
       (res: any) => {
         console.log('Response:', res);
         this.products.push({ ...this.formData });
@@ -102,7 +106,7 @@ export class ManageProductsComponent implements OnInit {
 
      this.formData.src;
      this.updateProduct=this.formData;
-    this.http.put(`http://localhost:8080/product-api/update-product/${this.formData._id}`,this.updateProduct).
+    this.http.put(`${environment.httpUrl}product-api/update-product/${this.formData._id}`,this.updateProduct).
     subscribe(
       {
         next:(res)=>{
@@ -121,7 +125,7 @@ export class ManageProductsComponent implements OnInit {
   deleteProduct(product: any) {
     this.products = this.products.filter(p => p !== product);
     this.makeLoading = true;
-    this.http.delete(`http://localhost:8080/product-api/delete-product/${product._id}`)
+    this.http.delete(`${environment.httpUrl}product-api/delete-product/${product._id}`)
       .subscribe({
         next: (res: any) => {
           this.makeLoading = false;

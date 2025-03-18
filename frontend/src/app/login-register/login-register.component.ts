@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { StorageService } from '../storage.service';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-login-register',
   templateUrl: './login-register.component.html',
@@ -30,7 +31,7 @@ export class LoginRegisterComponent {
 
     if(data.valid){
       this.setLoading=true;
-      this.http.post("http://localhost:8080/api/user/login",data.value,{withCredentials:true})
+      this.http.post(environment.httpUrl+"api/user/login",data.value,{withCredentials:true})
       .subscribe(
         (res:any)=>{
           this.setLoading=false;
@@ -52,7 +53,7 @@ export class LoginRegisterComponent {
   registerHandler(data:NgForm):void{
     if(data.valid){
       this.setLoading=true;
-      this.http.post("http://localhost:8080/api/user/register",data.value,{withCredentials:true})
+      this.http.post(environment.httpUrl+"api/user/register",data.value,{withCredentials:true})
       .subscribe(
         (res:any)=>{
           this.setLoading=false;

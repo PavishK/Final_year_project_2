@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-manage-orders',
@@ -29,7 +30,7 @@ export class ManageOrdersComponent implements OnInit {
 
   fetchOrders() {
     this.isLoading = true;
-    this.http.get<Order[]>("http://localhost:8080/order-api/order-data").subscribe({
+    this.http.get<Order[]>(environment.httpUrl+"order-api/order-data").subscribe({
       next: (res) => {
         this.orders = res;
         this.isLoading = false;
@@ -52,7 +53,7 @@ export class ManageOrdersComponent implements OnInit {
 
   UpdateOrderData(id: string, body: any) {
     this.isLoading = true;
-    return this.http.put(`http://localhost:8080/order-api/update-order/${id}`, body);
+    return this.http.put(environment.httpUrl+`order-api/update-order/${id}`, body);
   }
 
   saveChanges() {

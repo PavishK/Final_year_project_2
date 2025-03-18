@@ -3,6 +3,7 @@ import { StorageService } from '../storage.service';
 import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { RouterManagerService } from '../router-manager.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-edit-profile',
@@ -42,7 +43,7 @@ export class EditProfileComponent implements OnInit {
 
     if (UserData.id) {
       this.makeLoading=true;
-      this.http.get(`http://localhost:8080/api/edit-profile/${UserData.id}`).subscribe({
+      this.http.get(`${environment.httpUrl}api/edit-profile/${UserData.id}`).subscribe({
         next: (res: any) => {
           this.profile = res.userData;
           this.id = UserData.id;
@@ -83,7 +84,7 @@ export class EditProfileComponent implements OnInit {
     }
     else{
       this.makeLoading=true;
-      this.http.post(`http://localhost:8080/country-api/valid-pincode`,{pin:this.profile.pin_code}).
+      this.http.post(`${environment.httpUrl}country-api/valid-pincode`,{pin:this.profile.pin_code}).
       subscribe({
         next:(res)=>{
           this.toast.success("Valid PIN Code");
@@ -111,7 +112,7 @@ export class EditProfileComponent implements OnInit {
 
   forgotPassword() {
     this.makeLoading=true;
-    this.http.post('http://localhost:8080/api/forgot-password/send-otp',{email:this.profile.email}).
+    this.http.post(environment.httpUrl+'api/forgot-password/send-otp',{email:this.profile.email}).
     subscribe({
       next:(res:any)=>{
         this.toast.success("OTP sent to your email");
@@ -137,7 +138,7 @@ export class EditProfileComponent implements OnInit {
   updateUserData(): void {
     if (this.validateInput()) {
       this.makeLoading=true;
-      this.http.put(`http://localhost:8080/api/user-profile-update/${this.id}`, this.profile).subscribe({
+      this.http.put(`${environment.httpUrl}api/user-profile-update/${this.id}`, this.profile).subscribe({
         next: (res: any) => {
           this.toast.success(res.message);
           this.showUpdateConfirmPopup = false;
@@ -197,7 +198,7 @@ export class EditProfileComponent implements OnInit {
       return;
     }
     this.makeLoading=true;
-    this.http.put('http://localhost:8080/api/user-password-update',{email:this.profile.email,password:this.newPassword}).
+    this.http.put(environment.httpUrl+'api/user-password-update',{email:this.profile.email,password:this.newPassword}).
     subscribe({
       next:(res:any)=>{
         this.toast.success(res.message);

@@ -4,6 +4,8 @@ import { RouterManagerService } from '../../router-manager.service';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
@@ -36,7 +38,7 @@ export class AdminPanelComponent implements OnInit {
 
       const VerifyAdmin=()=>{
         this.makeLoading=true;
-        this.http.post("http://localhost:8080/admin-api/check-admin",this.AdminData).
+        this.http.post(environment.httpUrl+"admin-api/check-admin",this.AdminData).
         subscribe(
           {
             next:(res:any)=>{

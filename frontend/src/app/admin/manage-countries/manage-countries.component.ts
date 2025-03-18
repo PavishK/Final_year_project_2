@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 
 interface State {
   _id: string;
@@ -30,7 +31,7 @@ export class ManageCountriesComponent implements OnInit {
 
   fetchStates(): void {
     this.makeLoading=true;
-    this.http.get<State[]>('http://localhost:8080/country-api/display-country-data')
+    this.http.get<State[]>(environment.httpUrl+'country-api/display-country-data')
       .subscribe({
         next: (res) => this.states = res,
         error: () => this.toastr.error('Unable to get states!')
@@ -47,7 +48,7 @@ export class ManageCountriesComponent implements OnInit {
     if (this.editMode && this.selectedStateIndex !== null) {
 
       this.makeLoading=true;
-      this.http.put(`http://localhost:8080/country-api/update-state-data/${this.currentState._id}`,this.currentState).
+      this.http.put(`${environment.httpUrl}country-api/update-state-data/${this.currentState._id}`,this.currentState).
       subscribe({
         next:(res)=>{
           this.makeLoading=false;
@@ -62,7 +63,7 @@ export class ManageCountriesComponent implements OnInit {
       this.states[this.selectedStateIndex] = { ...this.currentState };
     } else {
       this.makeLoading=true;
-      this.http.post('http://localhost:8080/country-api/insert-country-data', this.currentState)
+      this.http.post(environment.httpUrl+'country-api/insert-country-data', this.currentState)
         .subscribe({
           next: () => {
             this.states.push({ ...this.currentState });
@@ -86,7 +87,7 @@ export class ManageCountriesComponent implements OnInit {
 
   deleteState(id: string, name: string): void {
     this.makeLoading=true;
-    this.http.delete(`http://localhost:8080/country-api/delete-state-data/${id}`)
+    this.http.delete(`${environment.httpUrl}country-api/delete-state-data/${id}`)
       .subscribe({
         next: () => {
           this.makeLoading=false;

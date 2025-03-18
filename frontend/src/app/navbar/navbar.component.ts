@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { RouterManagerService } from '../router-manager.service';
 import { CartService } from '../cart.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-navbar',
@@ -84,7 +85,7 @@ export class NavbarComponent implements OnInit {
     this.cartCount=count;
   });
 
-  this.http.get(`http://localhost:8080/cart-api/display-user-cart-data/${this.userData.id}`).
+  this.http.get(`${environment.httpUrl}cart-api/display-user-cart-data/${this.userData.id}`).
     subscribe({
       next:(res:any)=>{
         this.cartCount=res.length;
@@ -97,7 +98,7 @@ export class NavbarComponent implements OnInit {
   }
 
   private sessionCheck():void{
-    this.http.get("http://localhost:8080/api/session-protector",{withCredentials:true})
+    this.http.get(environment.httpUrl+"api/session-protector",{withCredentials:true})
     .subscribe(
       (res:any)=>{
 

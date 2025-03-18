@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { ToastrService } from 'ngx-toastr';
 import { ProductCountService } from '../product-count.service';
 import { RouterManagerService } from '../router-manager.service';
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'] // Corrected from 'styleUrl' to 'styleUrls'
 })
 export class ProductsComponent implements OnInit {
+
+  public httpUrl:string=environment.httpUrl;
 
   public makeLoading: boolean = false;
   public products: ProductSchema[] = [];
@@ -35,7 +38,7 @@ export class ProductsComponent implements OnInit {
   constructor(private http: HttpClient, private toast:ToastrService, private countItems:ProductCountService, private route:RouterManagerService) { }
 
   ngOnInit(): void {
-    this.http.get("http://localhost:8080/product-api/list-products")
+    this.http.get(this.httpUrl+"product-api/list-products")
       .subscribe({
         next: (res: any) => {
           this.products = res.data;
