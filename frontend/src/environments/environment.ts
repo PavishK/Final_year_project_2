@@ -5,5 +5,5 @@ export const environment = {
   enableDebug: true,
   StripePublicKey:"pk_test_51QxMYX4GITP5kPk7eCuCIMW5ZwjUWQKXc8wdgkXycxMkkbyAVQHUya3iJdgi57Cbs98vgDGGL9bV7jrLz4SHO7jI00EhbrnbDw",
   key:"ZeroTwo",
-  httpUrl:"http://localhost:8080/",
+  httpUrl:"https://smt-server-kdt0.onrender.com/",
 };
