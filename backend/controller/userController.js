@@ -2,7 +2,6 @@ import User from '../model/userModel.js';
 import expressasynchandler from 'express-async-handler';
 import { Encrypt_Password, Match_Password } from '../middleware/passwordMiddleware.js';
 import { Generate_Token, Verify_Token } from '../middleware/jwtMiddleware.js';
-import { hashSync } from 'bcrypt';
 
 const cookiesConfig={httpOnly:true,secure:false,maxAge:3 * 60 * 60 * 1000, signed:true};
 

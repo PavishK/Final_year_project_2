@@ -3,7 +3,6 @@ import nodemailer from 'nodemailer';
 import { fp_otp, gen_password } from "../middleware/generateOTP.js";
 import User from '../model/userModel.js';
 import { Encrypt_Password } from "../middleware/passwordMiddleware.js";
-import { hash } from "bcrypt";
 
 
   

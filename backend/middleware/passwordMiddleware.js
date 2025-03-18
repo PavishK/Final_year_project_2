@@ -1,4 +1,5 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
+
 
 
 export const Encrypt_Password=async(password)=>{
