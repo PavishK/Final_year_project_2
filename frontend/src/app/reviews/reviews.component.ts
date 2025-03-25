@@ -21,6 +21,9 @@ import { ToastrService } from 'ngx-toastr';
   ]
 })
 export class ReviewsComponent implements OnInit {
+
+  public httpUrl:string=environment.httpUrl;
+
   reviews: any[] = [];
   newReview = { name: '', userId: '', rating: 0, comment: '', date: '', image: '' };
   file: File | null = null;

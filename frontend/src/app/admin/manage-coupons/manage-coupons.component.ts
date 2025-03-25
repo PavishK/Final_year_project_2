@@ -125,6 +125,7 @@ export class ManageCouponsComponent implements OnInit {
     this.currentCoupon = this.getEmptyCoupon();
     this.editMode = false;
     this.selectedCouponIndex = null;
+    window.location.reload();
   }
 
   validateCoupon(): boolean {

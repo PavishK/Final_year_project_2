@@ -77,6 +77,7 @@ export class ManageProductsComponent implements OnInit {
         console.log('Response:', res);
         this.products.push({ ...this.formData });
         this.toastr.success('Product added successfully!', 'Success');
+        setTimeout(()=>window.location.reload(),300);
       },
       (err: any) => {
         console.error('Error:', err.error.message);
@@ -114,6 +115,7 @@ export class ManageProductsComponent implements OnInit {
           this.toastr.info('Product updated successfully!', 'Updated');
           this.formData = this.getEmptyProduct();
           this.isEditing = false;
+          window.location.reload();
         },
         error:(err)=>{
           console.log(err);

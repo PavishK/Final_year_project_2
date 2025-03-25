@@ -104,6 +104,7 @@ export class ManageCountriesComponent implements OnInit {
     this.currentState = this.getEmptyState();
     this.editMode = false;
     this.selectedStateIndex = null;
+    window.location.reload();
   }
 
   private getEmptyState(): State {

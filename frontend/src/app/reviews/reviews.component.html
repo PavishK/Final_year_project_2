@@ -8,7 +8,7 @@
          [@fadeInAnimation]="i"
          class="mt-6 p-6 bg-white rounded-lg shadow-lg flex flex-col sm:flex-row items-start sm:items-center transition-all duration-500">
       <div class="w-24 h-24 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
-        <img *ngIf="review.image" [src]="'http://localhost:8080'+review.image" class="object-contain" alt="User Image" class="w-full h-full object-cover" (click)="onImageClicked(review.image)">
+        <img *ngIf="review.image" [src]="httpUrl+review.image" class="object-contain" alt="User Image" class="w-full h-full object-cover" (click)="onImageClicked(review.image)">
       </div>
       <div class="ml-0 sm:ml-6 mt-4 sm:mt-0">
         <p class="text-md text-gray-600">{{ review.date }}</p>
